@@ -3,7 +3,7 @@ using Xunit;
 
 namespace XIntegrationTest
 {
-    public class UnitTest1
+    public class IntegrationTest
     {
         [Fact]
         public void Test1()
