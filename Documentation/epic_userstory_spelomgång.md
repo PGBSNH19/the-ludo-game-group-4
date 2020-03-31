@@ -60,4 +60,37 @@ Micael föreslår att för att starta spelomgången, är det mest rättvist om a
 
 ## Substory
 
-När en spelare slår en etta så kan spelaren gå ut med en spelpjäs på spelbrädet men om de slår en sexa så får spelaren välja om de vill placera ut två spelpjäser på spelarens startposition eller en spelpjäs på spelarens sjätte position. Om de däremot slår 2,3,4,5 så går spelturen över till nästa spelare.
+Micael slår en sexa, så han får välja att flytta ut två spelpjäser på ruta ett eller en på ruta sex. "Vilket är bäst?" tänker Micael. Efter att ha ha gjort ett exceldiagram med tårtbitar och analyserat slutresultatet i en av Microsofts quantumdatorer, är valet givet. Micael väljer att flytta en av spelpjäserna till ruta sex.
+
+Details: 
+
+När en spelare slår en etta så kan spelaren gå ut med en spelpjäs på spelbrädet.
+
+Om spelaren slår en sexa så får denne välja om de vill placera ut två spelpjäser på spelarens startposition eller en spelpjäs på spelarens sjätte position. 
+
+Om spelaren däremot slår 2,3,4,5 så går spelturen över till nästa spelare.
+
+## Substory
+
+Samir får en trea och väljer att flytta fram pjäsen tre steg. ”Attans, en trea! Aja, bättre än en etta”, tänker Samir. Sedan är det Pontus tur att slå tärningen.
+
+### Details
+
+·     Ett normalt tärningsslag som randomiserar 1-6
+
+·     En spelpjäs som kan flyttas 3 rutor fram, ergo 3 positioner fram på det universal koordinatsystemet.
+
+·     Spelpjäsen flyttas på det lokala koordinatsystemet.
+
+·     Efter en spelare kastat tärningen och flyttat spelpjäsen, skall det bli nästa spelares tur att kasta tärningen.
+
+## Substory
+
+Pontus slår tärningarna som visar en sexa. Han väljer att flytta en av sina pjäser sex steg. Sedan slår han en fyra och flyttar samma pjäs fyra steg till
+
+### Details
+
+·     En spelare slår en sexa får denne slå om efter att ha flyttat sin spelpjäs.
+
+·     Spelaren måste flytta samma spelpjäs.
+
