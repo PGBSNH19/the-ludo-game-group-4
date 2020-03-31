@@ -4,7 +4,6 @@ Player
 | -------------- | ------------- |
 | Name           | GameBoard     |
 | Color          | GamePiece     |
-| Dice           |               |
 | HighScore      |               |
 
 GamePiece
@@ -22,3 +21,12 @@ GameBoard
 | PiecePosition  | Player        |
 | PlayerTurn     | GamePiece     |
 | Winner         |               |
+
+Dice
+
+| Responsibility | Collaborators |
+| -------------- | ------------- |
+| Roll           | Player        |
+|                | GamePiece     |
+|                |               |
+
