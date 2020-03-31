@@ -4,7 +4,7 @@ Som spelare vill jag kunna njuta av en spelomgång av Fia med knuff med mina vä
 
  
 
-## Story - förberedelsefas av en spelomgång
+## Story - Förberedelsefas av en spelomgång
 
 Innan vi kan spela, måste allt förberedas. Spelplanen skall vara redo och alla spelare skall vara redo att börja. 
 
@@ -57,3 +57,7 @@ Micael föreslår att för att starta spelomgången, är det mest rättvist om a
 ·     Om fler än en spelare får samma högst tal, kastas tärningen om mellan dessa två tills någon får högre än den andre.
 
 ·     Den som sitter medsols/medurs av personen som börjar blir nästa spelare och så vidare.
+
+## Substory
+
+När en spelare slår en etta så kan spelaren gå ut med en spelpjäs på spelbrädet men om de slår en sexa så får spelaren välja om de vill placera ut två spelpjäser på spelarens startposition eller en spelpjäs på spelarens sjätte position. Om de däremot slår 2,3,4,5 så går spelturen över till nästa spelare.
