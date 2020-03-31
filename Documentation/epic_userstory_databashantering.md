@@ -1,7 +1,7 @@
 # Epic – Databashantering
 
 Som spelare, vill jag kunna ladda och spara mitt spel 
- 
+
 
 ## Story
 
@@ -33,6 +33,6 @@ Micael är 36 år och gillar att spela, men när som helst kan bli avbruten av s
 
 ### Details
 
-·     Spara spel i intervall varje gång efter att alla spelare hunnit slå en omgång
+·     Spara/uppdatera spel i intervall varje gång efter att alla spelare hunnit slå en omgång
 
 ·     Val att kunna ladda senast sparade spel vid start av program
