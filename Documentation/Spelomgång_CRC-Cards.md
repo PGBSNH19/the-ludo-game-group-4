@@ -5,14 +5,15 @@ Player
 | Name           | GameBoard     |
 | Color          | GamePiece     |
 | Dice           |               |
+| HighScore      |               |
 
 GamePiece
 
-| Responsibility | Collaborators |
-| -------------- | ------------- |
-| PieceMovement  | Player        |
-|                | GameBoard     |
-|                |               |
+| Responsibility  | Collaborators |
+| --------------- | ------------- |
+| PieceMovement   | Player        |
+| PieceKnockedOut | GameBoard     |
+| PieceFinished   |               |
 
 GameBoard
 
@@ -20,5 +21,4 @@ GameBoard
 | -------------- | ------------- |
 | PiecePosition  | Player        |
 | PlayerTurn     | GamePiece     |
-|                |               |
-
+| Winner         |               |
