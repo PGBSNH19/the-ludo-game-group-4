@@ -40,6 +40,8 @@ Micael gillar ordning och reda. Därför skall alla spelare ha placerat ut sina 
 
 \-------------------------------------------------------------------------------------------------------------------------------------
 
+-------------------------------------------------------------------------------------------------------------------------------------
+
 ## Story – Starta spelomgången
 
 Nu när alla är redo, är det dags att starta. Men vem skall börja? Det blir en hätsk diskussion bland spelarna. Pontus säger att han skall börja, eftersom han vunnit flest gånger. Samir vill börja eftersom han har flest vänner (enligt han själv). Så hur kan vi komma igång med spelomgången undrar Pontus och Samir?
