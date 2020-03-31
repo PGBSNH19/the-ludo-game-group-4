@@ -56,4 +56,4 @@ Micael föreslår att för att starta spelomgången, är det mest rättvist om a
 
 ·     Om fler än en spelare får samma högst tal, kastas tärningen om mellan dessa två tills någon får högre än den andre.
 
- 
+·     Den som sitter medsols/medurs av personen som börjar blir nästa spelare och så vidare.
