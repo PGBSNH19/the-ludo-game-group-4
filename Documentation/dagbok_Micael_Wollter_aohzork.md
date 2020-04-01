@@ -10,3 +10,6 @@ Tagit oss an projektbeskrivningen och startat med en övergripande flowchart fö
 
 Har tillsammans med gruppen Samir och Pontus skapat lowlevel flowchart för databashantering samt Initieringsfas inför spelstart. Även uppdaterat med några nya userstories i userstory spelomgång
 
+2020-04-01
+
+Har skrivit klart samtliga userstories. Lagt upp egen förkortad version av spelregler.
