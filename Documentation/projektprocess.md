@@ -18,3 +18,14 @@ Vi kände att göra på det här viset och denna ordning, gav ett naturligt flö
 
 **<u>I korthet processen:</u>**
 *Flowchart (Highlevel) -> Userstories -> Flowchart (Lowlevel) -> CRC-Cards -> Koda -> Iterera dokumentation -> koda os*v.
+
+## Genomförandefasen
+
+** Nedan löper kontinuerliga uppdateringar för projektets status, samlat över en eller flera dagar. Datum indikerar då senaste uppdatering skett för att på så vis får spårbarhet i projektet.
+
+**[Update 1 - 2020-04-01]**
+
+Flowcaharts Lolevel är klara såväl som CRC-cards (första version) för samtliga delar såväl som databasdesign. Databasdesignen gjordes i MSSMS och utifrån den blir det lättare att bygga databasen mha Code First.
+
+Vi har initialt delat upp arbetet i olika ansvarsområden och påbörjat kodning.
+

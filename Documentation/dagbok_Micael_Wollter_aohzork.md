@@ -12,4 +12,6 @@ Har tillsammans med gruppen Samir och Pontus skapat lowlevel flowchart för data
 
 2020-04-01
 
-Har skrivit klart samtliga userstories. Lagt upp egen förkortad version av spelregler.
+[natt]Har skrivit klart samtliga userstories. Lagt upp egen förkortad version av spelregler.
+
+[dag] Gemensam genomgång av att göra klart CRC-Cards och databasdesign. Delat upp i ansvarsområden och påbörjat kodning.
