@@ -28,7 +28,7 @@ GameBoard
 | --------------------------- | ------------- |
 | PiecePosition               | Player        |
 | PlayerTurn                  | GamePiece     |
-| bool PositionOccupied       |               |
+| bool PositionOccupied       | Database      |
 | AmountPiece in center       |               |
 | Winner                      |               |
 | PieceKnockedOut             |               |
