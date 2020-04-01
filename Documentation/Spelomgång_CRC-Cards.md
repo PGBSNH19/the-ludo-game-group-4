@@ -1,32 +1,48 @@
 Player
 
+| Responsibility        | Collaborators |
+| --------------------- | ------------- |
+| string Name           | GameBoard     |
+| int/enum/string Color | GamePiece     |
+| bool WinGame          | Database      |
+
+PlayerProfile
+
 | Responsibility | Collaborators |
 | -------------- | ------------- |
-| Name           | GameBoard     |
-| Color          | GamePiece     |
-| HighScore      |               |
+| string Name    | Player        |
+| int Wins       | Database      |
+|                |               |
 
 GamePiece
 
-| Responsibility  | Collaborators |
-| --------------- | ------------- |
-| PieceMovement   | Player        |
-| PieceKnockedOut | GameBoard     |
-| PieceFinished   |               |
+| Responsibility     | Collaborators |
+| ------------------ | ------------- |
+| int LocalPosition  | Player        |
+| bool PieceFinished | GameBoard     |
+|                    | Database      |
 
 GameBoard
 
-| Responsibility | Collaborators |
-| -------------- | ------------- |
-| PiecePosition  | Player        |
-| PlayerTurn     | GamePiece     |
-| Winner         |               |
+| Responsibility              | Collaborators |
+| --------------------------- | ------------- |
+| PiecePosition               | Player        |
+| PlayerTurn                  | GamePiece     |
+| bool PositionOccupied       | Database      |
+| AmountPiece in center       |               |
+| Winner                      |               |
+| PieceKnockedOut             |               |
+| int CoordinateOuterPosition |               |
+| int CoordinateInnerPosition |               |
+| FirstTurnInGame             |               |
+| RollSix                     |               |
+| MovePiece                   |               |
 
 Dice
 
 | Responsibility | Collaborators |
 | -------------- | ------------- |
-| Roll           | Player        |
-|                | GamePiece     |
+| int DiceNumber | Player        |
+| Roll()         | GamePiece     |
 |                |               |
 
