@@ -6,5 +6,21 @@ namespace LudoGame
 {
     class Menu
     {
+        static string options;
+
+        static int Display()
+        {
+
+            return;
+        }
+
+        //ShowHighscore
+        //LoadGAME
+        //QUIT
+        //NEW GAME
+        //CONTINUE
+        //Back
+
+        
     }
 }
