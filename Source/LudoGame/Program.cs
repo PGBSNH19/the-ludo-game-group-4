@@ -8,7 +8,8 @@ namespace LudoGame
     {
         static void Main(string[] args)
         {
-         
+
+            DataContext d = new DataContext();
 
             Menu.Display();
 
