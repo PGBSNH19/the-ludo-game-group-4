@@ -15,3 +15,4 @@ namespace LudoGameEngine
         public string Color { get; set; }
         public int PieceID { get; set; }
     }
+}
