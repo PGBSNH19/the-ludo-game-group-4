@@ -7,12 +7,16 @@ namespace LudoGameEngine
     public class GameBoard
     {
         IList<BoardCoordinates> CoordinateOuterPosition = new List<BoardCoordinates>();
+
+        private void MovePiece()
+        {
+
+        }
     }
 
     public class BoardCoordinates
     {
         public bool IsOccupied { get; set; }
-        public string Color { get; set; }
-        public int PieceID { get; set; }
+        
     }
 }

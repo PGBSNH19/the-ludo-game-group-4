@@ -20,7 +20,7 @@ namespace LudoGameEngine
 
         private void InitializeLocalPositions()
         {
-            for(int i = 0; i < 46; i++)
+            for(int i = 0; i <= 45; i++)
             {
                 if(i !=0)
                     LocalCoordinatePositions.Add(false);
