@@ -9,7 +9,7 @@ namespace LudoGame
 {
     class Menu
     {
-        private static string[] options = 
+        private static readonly string[] options = 
         {
             "NEW GAME",
             "CONTINUE (Last saved game)",
@@ -63,7 +63,7 @@ namespace LudoGame
 
             while (key != ConsoleKey.Enter)
             {
-                for(int i = 0; i < options.Length; i++)
+                for(int i = 0; i < option.Length; i++)
                 {
                     
                     if(i == selectedIndex)
@@ -72,7 +72,7 @@ namespace LudoGame
                         Console.ForegroundColor = ConsoleColor.White;
                     }
 
-                    Console.WriteLine(options[i]);
+                    Console.WriteLine(option[i]);
                     Console.ResetColor();
                 }
 
@@ -81,14 +81,14 @@ namespace LudoGame
                 if (key == ConsoleKey.DownArrow)
                 {
                     selectedIndex++;
-                    if (selectedIndex == options.Length)
+                    if (selectedIndex == option.Length)
                         selectedIndex = 0;
                 }
                 else if(key == ConsoleKey.UpArrow)
                 {
                     selectedIndex--;
                     if (selectedIndex == -1)
-                        selectedIndex = options.Length - 1;
+                        selectedIndex = option.Length - 1;
                 }
 
                 Console.Clear();
