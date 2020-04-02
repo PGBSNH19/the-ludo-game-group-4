@@ -18,5 +18,15 @@ namespace XUnitTest
             Assert.IsType(expected, diceNumber);
             return diceNumber;
         }
+
+        [Fact]
+        public void DiceRoll_IntValueBetweenOneAndSix()
+        {
+            Random number = new Random();
+
+            int diceNumber = number.Next(1, 7);
+
+            Assert.True(diceNumber > 0 && diceNumber < 7);
+        }
     }
 }
