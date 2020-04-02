@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LudoGameEngine
 {
-    interface IGameSession
+    public interface IGameSession
     {
         IGameSession InintializeSession();
         IGameSession SetPlayerAmount();
