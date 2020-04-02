@@ -37,6 +37,8 @@ namespace LudoGame
                          SetPlayerPositions().
                          SaveState().
                          StartGame();
+
+                    GameBoard gb = new GameBoard(gs);
                     break;
                 case 1:
                     ContinueLastSavedGame();

@@ -6,11 +6,18 @@ namespace LudoGameEngine
 {
     class GamePlayer
     {
-
+        public int GamePlayerID { get; set; }
+        public string Color { get; set; }
+        public string Name { get; set; }
 
         IList<GamePiece> pieces = new List<GamePiece>();
 
-        public GamePlayer(int id, string color)
+        public GamePlayer(int id, string color, string name)
+        {
+            this.GamePlayerID = id;
+            this.Color = color;
+            this.Name = name;
+        }
 
         private void InitializePiece()
         {

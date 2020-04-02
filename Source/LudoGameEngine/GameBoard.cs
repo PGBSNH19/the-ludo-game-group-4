@@ -8,6 +8,11 @@ namespace LudoGameEngine
     {
         IList<BoardCoordinates> CoordinateOuterPosition = new List<BoardCoordinates>();
 
+        public GameBoard(IGameSession)
+        {
+
+        }
+
         private void MovePiece()
         {
 

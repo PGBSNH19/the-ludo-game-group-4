@@ -6,7 +6,7 @@ namespace LudoGameEngine
 {
     public class GamePiece
     {
-        public int GamePieceID { get; set; }
+        public int PieceID { get; set; }
         public int CurrentPos { get; set; } = 0;
         public int LocalStartPos { get; set; } = 0;
         public bool PieceFinished { get; set; }
@@ -15,7 +15,7 @@ namespace LudoGameEngine
 
         public GamePiece(int id)
         {
-            this.GamePieceID = id;
+            this.PieceID = id;
         }
 
         private void InitializeLocalPositions()
