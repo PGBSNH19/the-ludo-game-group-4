@@ -28,15 +28,15 @@ namespace LudoGame
             switch (selected)
             {
                 case 0:
-                   //GameSession gs = new GameSession().
-                   //     ///InintializeSession().
-                   //     SetPlayerAmount().
-                   //     SetPlayerName()
-                   //     .GetPlayerProfile().
-                   //     ChoosePlayerColor().
-                   //     SetPlayerPositions().
-                   //     SaveState().
-                   //     StartGame();
+                    IGameSession gs = new GameSession().
+                         InintializeSession().
+                         SetPlayerAmount().
+                         SetPlayerName()
+                         .GetPlayerProfile().
+                         ChoosePlayerColor().
+                         SetPlayerPositions().
+                         SaveState().
+                         StartGame();
                     break;
                 case 1:
                     ContinueLastSavedGame();

@@ -20,7 +20,15 @@ namespace LudoGameEngine
         public int PlayerAmount { get; set; }
         public string PlayerName { get; set; }
         public IList<string> PlayerNames = new List<string>();
-        public IList<string> Color = new List<string>();
+        public IList<string> Colors = new List<string>();
+
+        public enum Color
+        {
+            Red,
+            Blue,
+            Green,
+            Yellow
+        }
 
         public IGameSession InintializeSession()
         {
@@ -49,7 +57,7 @@ namespace LudoGameEngine
         }
         public IGameSession GetPlayerProfile() 
         {
-            
+            //get from database, check names if exists, else create new
             return this;
         }
         public IGameSession ChoosePlayerColor()
@@ -62,10 +70,12 @@ namespace LudoGameEngine
         }
         public IGameSession SaveState()
         {
+            //Save initial to database
             return this;
         }
         public  IGameSession StartGame()
         {
+            //call a new board
             return this;
         }
     }
