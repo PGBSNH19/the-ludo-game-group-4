@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LudoGameEngine
 {
-    class GamePlayer
+    public class GamePlayer
     {
         public int GamePlayerID { get; set; }
         public string Color { get; set; }

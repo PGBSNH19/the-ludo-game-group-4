@@ -16,6 +16,8 @@ namespace LudoGameEngine
         IGameSession SetPlayerPositions();
         IGameSession SaveState();
         IGameSession StartGame();
+        int GetPlayerAmount();
+        IList<string> GetPlayerNames();
     }
     public class GameSession: IGameSession
     {
@@ -88,6 +90,16 @@ namespace LudoGameEngine
         {
             //call a new board
             return this;
+        }
+
+        public int GetPlayerAmount()
+        {
+            return PlayerAmount;
+        }
+
+        public IList<string> GetPlayerNames()
+        {
+            return PlayerNames;
         }
     }
 }
