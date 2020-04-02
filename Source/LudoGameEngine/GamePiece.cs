@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LudoGameEngine
 {
-    class GamePiece
+    public class GamePiece
     {
     }
 }
