@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
+using LudoGameEngine;
+
 
 namespace LudoGame
 {
@@ -26,15 +28,15 @@ namespace LudoGame
             switch (selected)
             {
                 case 0:
-                    //GameSession.
-                    //    InintializeSession().
-                    //    SetPlayerAmount().
-                    //    SetPlayerName()
-                    //    .GetPlayerProfile().
-                    //    ChoosePlayerColor().
-                    //    SetPlayerPositions().
-                    //    SaveState().
-                    //    StartGame();
+                   //GameSession gs = new GameSession().
+                   //     ///InintializeSession().
+                   //     SetPlayerAmount().
+                   //     SetPlayerName()
+                   //     .GetPlayerProfile().
+                   //     ChoosePlayerColor().
+                   //     SetPlayerPositions().
+                   //     SaveState().
+                   //     StartGame();
                     break;
                 case 1:
                     ContinueLastSavedGame();
