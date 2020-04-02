@@ -8,6 +8,10 @@ namespace LudoGameEngine
 {
     public class DataContext : DbContext
     {
+        public DbSet<Player> Player { get; set; }
+        public DbSet<GameSession> Session { get; set; }
+        public DbSet<Player> Piece { get; set; }
+
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
             var configuration = new ConfigurationBuilder()
