@@ -21,18 +21,10 @@ namespace LudoGameEngine
     }
     public class GameSession: IGameSession
     {
-        [Key]
-        public int SessionID { get; set; }
-        [Required(ErrorMessage ="Required")]
-        public bool GameFinished { get; set; }
-        public string Winner { get; set; }
-        [NotMapped]
+      
         public int PlayerAmount { get; set; }
-        [NotMapped]
         public string PlayerName { get; set; }
-        [NotMapped]
         public IList<string> PlayerNames = new List<string>();
-        [NotMapped]
         public IList<string> Colors = new List<string>();
 
         public enum Color

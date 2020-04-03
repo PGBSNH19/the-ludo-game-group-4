@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LudoGameEngine.Models;
+using System;
 using System.ComponentModel.DataAnnotations;
 
 namespace LudoGameEngine
@@ -15,6 +16,6 @@ namespace LudoGameEngine
         public string Color { get; set; }
         public int WinCount { get; set; }
         [Required(ErrorMessage ="Session ID is Required")]
-        public GameSession GameSessionID { get; set; }
+        public Session SessionId { get; set; }
     }
 }

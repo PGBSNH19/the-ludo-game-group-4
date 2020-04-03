@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using LudoGameEngine.Models;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
@@ -9,8 +10,8 @@ namespace LudoGameEngine
     public class DataContext : DbContext
     {
         public DbSet<Player> Player { get; set; }
-        public DbSet<GameSession> Session { get; set; }
-        public DbSet<GamePiece> Piece { get; set; }
+        public DbSet<Session> Session { get; set; }
+        public DbSet<Piece> Piece { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder builder)
         {
