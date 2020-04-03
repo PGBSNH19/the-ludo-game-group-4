@@ -34,7 +34,7 @@ namespace LudoGame
                          SetSessionData().
                          //.GetPlayerProfile().
                          //ChoosePlayerColor().
-                         SetPlayerPositions().
+                         //SetPlayerPositions().
                          SaveState().
                          StartGame();
 

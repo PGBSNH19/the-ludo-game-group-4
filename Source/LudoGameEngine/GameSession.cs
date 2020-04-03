@@ -13,11 +13,11 @@ namespace LudoGameEngine
         IGameSession SetSessionData();
         //IGameSession GetPlayerProfile();
        // IGameSession ChoosePlayerColor();
-        IGameSession SetPlayerPositions();
+        //IGameSession SetPlayerPositions();
         IGameSession SaveState();
         IGameSession StartGame();
         int GetPlayerAmount();
-        IList<string> GetPlayerNames();
+        IList<Tuple<int, string, string>> GetSessionData();
     }
     public class GameSession: IGameSession
     {
@@ -98,9 +98,9 @@ namespace LudoGameEngine
             return PlayerAmount;
         }
 
-        public IList<string> GetPlayerNames()
+        public IList<Tuple<int, string, string>> GetSessionData()
         {
-            return PlayerNames;
+            return SessionPlayerData;
         }
     }
 }
