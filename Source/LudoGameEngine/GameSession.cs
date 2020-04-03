@@ -10,9 +10,9 @@ namespace LudoGameEngine
     {
         IGameSession InintializeSession();
         IGameSession SetPlayerAmount();
-        IGameSession SetPlayerName();
-        IGameSession GetPlayerProfile();
-        IGameSession ChoosePlayerColor();
+        IGameSession SetSessionData();
+        //IGameSession GetPlayerProfile();
+       // IGameSession ChoosePlayerColor();
         IGameSession SetPlayerPositions();
         IGameSession SaveState();
         IGameSession StartGame();
@@ -26,6 +26,8 @@ namespace LudoGameEngine
         public string PlayerName { get; set; }
         public IList<string> PlayerNames = new List<string>();
         public IList<string> Colors = new List<string>();
+
+        public IList<Tuple<int, string, string>> SessionPlayerData = new List<Tuple<int, string, string>>();
 
         public enum Color
         {
@@ -48,7 +50,7 @@ namespace LudoGameEngine
 
             return this;
         }
-        public IGameSession SetPlayerName()
+        public IGameSession SetSessionData()
         {
             Console.WriteLine("Please type in your names");
 
@@ -56,23 +58,30 @@ namespace LudoGameEngine
             {
                 Console.Write($"Name player {i}: ");
                 PlayerName = Console.ReadLine();
-                PlayerNames.Add(PlayerName);
+
+                //ersätt detta med menyoptions som med piltagenter. Måste skapa en ui-utilityclass
+                Console.WriteLine("Choose Color: Red, Blue, Green, Yellow");
+                string color = Console.ReadLine();
+
+                SessionPlayerData.Add(Tuple.Create(i, PlayerName, color));
             }
+
             return this;
         }
-        public IGameSession GetPlayerProfile() 
-        {
-            //get from database, check names if exists, else create new
-            return this;
-        }
-        public IGameSession ChoosePlayerColor()
-        {
-            return this;
-        }
-        public IGameSession SetPlayerPositions()
-        {
-            return this;
-        }
+        ///*public IGameSession GetPlayerProfile() 
+        //{
+        //    //get from database, check names if exists, else create new
+        //    return this;
+        //}
+        //public IGameSession ChoosePlayerColor()
+        //{
+
+        //    return this;
+        //}
+        //public IGameSession SetPlayerPositions()
+        //{
+        //    return this;
+        //}
         public IGameSession SaveState()
         {
             //Save initial to database

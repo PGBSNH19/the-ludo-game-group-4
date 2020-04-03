@@ -31,9 +31,9 @@ namespace LudoGame
                     IGameSession gs = new GameSession().
                          InintializeSession().
                          SetPlayerAmount().
-                         SetPlayerName()
-                         .GetPlayerProfile().
-                         ChoosePlayerColor().
+                         SetSessionData().
+                         //.GetPlayerProfile().
+                         //ChoosePlayerColor().
                          SetPlayerPositions().
                          SaveState().
                          StartGame();
