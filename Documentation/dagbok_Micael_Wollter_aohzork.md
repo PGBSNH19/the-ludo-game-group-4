@@ -20,7 +20,9 @@ Har tillsammans med gruppen Samir och Pontus skapat lowlevel flowchart för data
 
 Gjort Fluent API för GameSession samt påbörjat GameBoard, GamePlayer och GamePiece klasser.
 
-2020-04-03
+2020-04-03 to 2020-04-04
 
 Fortsatt justering av GameSession samt GameBoard, GamePlayer & GamePice hur de skall hänga ihop med varandra och hämta data. Även påbörjat arbetet av koordinatsystemet för GamePiece samt GameBoard.
+
+Skapat diceklass,  lagt till metoder i GameBoard. Gjort Unit Test på Gameboard
 
