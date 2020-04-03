@@ -41,7 +41,7 @@ namespace LudoGameEngine
 
         }
 
-        private int SetColorStartPositon(string color)
+        public int SetColorStartPositon(string color)
         {
             //foreach(var gp in gamePlayers)
             //{
