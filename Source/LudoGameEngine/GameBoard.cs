@@ -9,6 +9,7 @@ namespace LudoGameEngine
     {
         public IList<BoardCoordinates> CoordinateOuterPosition = new List<BoardCoordinates>();
         public IList<GamePlayer> gamePlayers = new List<GamePlayer>();
+        private int playerAmnt = 0;
         private string winner { get; set; } = "";
         private int playerTurn;
 
@@ -47,7 +48,7 @@ namespace LudoGameEngine
         public void InitializeGame()
         {
             //players
-            int playerAmnt = gs.GetPlayerAmount();
+            playerAmnt = gs.GetPlayerAmount();
             IList<Tuple<int, string, string>> sessionData = gs.GetSessionData();
 
             for(int i = 1; i <= playerAmnt; i++)
@@ -70,23 +71,51 @@ namespace LudoGameEngine
             }
 
             var playerStart = playersThrow.OrderByDescending(x => x.Value).First();
-            return playerStart.Value;
+            return playerStart.Key;
         }
 
         //work in progress
         private void SetPlayOrder(int id, IList<GamePlayer> gp)
-        {
-            
-            var color = gp.Where(c => c.GamePlayerID == id).Select(c => c.Color).FirstOrDefault();
+        {  
+            var firstColor = gp.Where(c => c.GamePlayerID == id).Select(c => c.Color).FirstOrDefault();
+            var currentColor = firstColor;
+            var nextColor = "";
 
-            var values = Enum.GetValues(typeof(ColorOrder));
-            var order = new List<int>();
-            
+            var values = Enum.GetNames(typeof(ColorOrder));
+            int index = Array.IndexOf(values, currentColor);
 
-            var gpID = gp.Where(g => g.Color == color).Select(g => g.GamePlayerID).FirstOrDefault();
-            order.Add(gpID);
+            var newOrder = new List<GamePlayer>();
 
-            
+            for (int i = 0; i < playerAmnt; i++)      
+            {
+                for(int y = 0; y < gp.Count; y++)
+                {
+                    index = Array.IndexOf(values, currentColor);
+                    if (index != values.Length)
+                    {
+                        nextColor = values[index + 1];
+                    }
+                    else
+                    {
+                        index = 0;
+                    }
+
+                    if(currentColor == gp[y].Color)
+                        newOrder.Add(gp[y]);
+
+                    currentColor = nextColor;
+                }
+                
+                    
+                //var gpID = gp.Where(g => g.Color == currentColor).Select(g => g).FirstOrDefault();
+                var gpID = gp.FirstOrDefault(g => g.Color == currentColor);
+                //newOrder.Add(gpID);
+                //currentColor = nextColor;
+            }
+
+                       
+            //var gpID = gp.Where(g => g.Color == currentColor).Select(g => g.GamePlayerID).FirstOrDefault();
+                   
         }
 
         private void MovePiece()
@@ -97,7 +126,6 @@ namespace LudoGameEngine
         public int SetColorStartPositon(string color)
         {
             int startPos = 0;
-            //string playerColor = color;
 
             if (color == "Red")
                 startPos = 1;  //ev. 0 om man räknar från index 0
