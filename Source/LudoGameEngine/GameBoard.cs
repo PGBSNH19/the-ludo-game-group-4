@@ -10,11 +10,19 @@ namespace LudoGameEngine
         public IList<BoardCoordinates> CoordinateOuterPosition = new List<BoardCoordinates>();
         public IList<GamePlayer> gamePlayers = new List<GamePlayer>();
         private string winner { get; set; } = "";
-        private int playerTurn = 0;
+        private int playerTurn;
 
         public IGameSession gs;
         public Dice dice = new Dice();
-        
+
+        public enum ColorOrder
+        {
+            Red,    //0
+            Blue,   //1
+            Green,  //2
+            Yellow  //3
+        }
+
 
         public GameBoard(IGameSession gameSession)
         {
@@ -26,7 +34,6 @@ namespace LudoGameEngine
         {            
             InitializeGame();
             
-
             while (winner != "")
             {
                 //all the gameplay here
@@ -49,14 +56,14 @@ namespace LudoGameEngine
                 gamePlayers[i].GlobalStartPos = SetColorStartPositon(gamePlayers[i].Color);
             }
             
-            playerTurn = DecidePlayerTurns(playerAmnt);
+            playerTurn = DecidePlayerStart(playerAmnt);
         }
 
-        public int DecidePlayerTurns(int pAmount)
+        private int DecidePlayerStart(int pAmount)
         {
-            int playerAmnt = gs.GetPlayerAmount();
+            
             IDictionary<int, int> playersThrow = new Dictionary<int, int>();
-            for(int i = 1; i <= playerAmnt; i++)
+            for(int i = 1; i <= pAmount; i++)
             {
                 int dValue = dice.RollDice();
                 playersThrow.Add(i, dValue);
@@ -66,6 +73,22 @@ namespace LudoGameEngine
             return playerStart.Value;
         }
 
+        //work in progress
+        private void SetPlayOrder(int id, IList<GamePlayer> gp)
+        {
+            
+            var color = gp.Where(c => c.GamePlayerID == id).Select(c => c.Color).FirstOrDefault();
+
+            var values = Enum.GetValues(typeof(ColorOrder));
+            var order = new List<int>();
+            
+
+            var gpID = gp.Where(g => g.Color == color).Select(g => g.GamePlayerID).FirstOrDefault();
+            order.Add(gpID);
+
+            
+        }
+
         private void MovePiece()
         {
 
@@ -73,17 +96,6 @@ namespace LudoGameEngine
 
         public int SetColorStartPositon(string color)
         {
-            //foreach(var gp in gamePlayers)
-            //{
-            //    if (gp.Color == "Red")
-            //        gp.GlobalStartPos = 1;  //ev. 0 om man räknar från index 0
-            //    else if(gp.Color == "Blue")
-            //        gp.GlobalStartPos = 11;  //ev. 10 om man räknar från index 0
-            //    else if (gp.Color == "Green")
-            //        gp.GlobalStartPos = 21;  //ev. 20 om man räknar från index 0
-            //    else if (gp.Color == "Yellow")
-            //        gp.GlobalStartPos = 31;  //ev. 30 om man räknar från index 0
-            //}
             int startPos = 0;
             //string playerColor = color;
 
