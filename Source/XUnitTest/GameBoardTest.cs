@@ -57,9 +57,9 @@ namespace XUnitTest
             int playerID = 1;
 
             //Act
-           gp = gb.SetPlayOrder(playerID, gp);
+            gp = gb.SetPlayOrder(playerID, gp);
             //Assert
-            Assert.Equal(gpExpected, gpp);
+            Assert.Equal(gpExpected, gp);
 
         }
 

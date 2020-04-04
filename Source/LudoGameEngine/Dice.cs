@@ -6,7 +6,7 @@ namespace LudoGameEngine
 {
     public class Dice
     {
-        public int RollDice()
+        public int Roll()
         {
             Random rnd = new Random();
             return rnd.Next(0, 7);

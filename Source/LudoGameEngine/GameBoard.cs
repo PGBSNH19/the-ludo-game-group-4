@@ -36,17 +36,84 @@ namespace LudoGameEngine
         public void GameLoop()
         {            
             InitializeGame();
-            GamePlayers = SetPlayOrder(playerTurn, GamePlayers);
+            
             while (winner != "")
             {
                 //all the gameplay here
+                for(int i = 1; i <= gamePlayerAmnt; i++)
+                {                                      
+                    //dialogue code here
+                    //gfx code here
+                    //player menu code here
+                    int steps = dice.Roll();
+
+                    //dialogue code here 
+                    //gfx code here
+                    //int selected = input;     //select from menu
+                    bool canMove = false;
+                    for(int y = 0; y < 4; y++)
+                    {
+                        if (GamePlayers[i].Pieces[y].CurrentPos != GamePlayers[i].Pieces[y].LocalStartPos)
+                        {
+                            canMove = true;
+                            return;
+                        }      
+                    }
+
+                    if(canMove == true)
+                    {
+                        GamePlayers[i].Pieces[selected].CurrentPos += MovePiece(steps);
+                    }
+                    
+
+
+
+
+                    for (int y = 0; y < 4; y ++)
+                    {
+                        if (GamePlayers[i].Pieces[y].PieceInGoal == true)
+                        {
+                            winner = GamePlayers[i].Name;
+                        }
+                    }
+                       
+                }
                 
 
 
             }
 
         }
+        //GAMEPLAY
+        private int MovePiece(int steps)
+        {
+            RollOne(steps);
+            RollSix(steps);
 
+            return steps;
+        }
+
+        private void CheckCollision()
+        {
+
+        }
+
+        private void KnockOut()
+        {
+
+        }
+
+        private void RollOne(int steps)
+        {
+
+        }
+
+        private void RollSix(int steps)
+        {
+
+        }
+
+        //INITIALIZATION
         public void InitializeGame()
         {
             //players
@@ -60,6 +127,7 @@ namespace LudoGameEngine
             }
             
             playerTurn = DecidePlayerStart(GamePlayers.Count);
+            GamePlayers = SetPlayOrder(playerTurn, GamePlayers);
         }
 
         private int DecidePlayerStart(int pAmount)
@@ -68,7 +136,7 @@ namespace LudoGameEngine
             IDictionary<int, int> playersThrow = new Dictionary<int, int>();
             for(int i = 1; i <= pAmount; i++)
             {
-                int dValue = dice.RollDice();
+                int dValue = dice.Roll();
                 playersThrow.Add(i, dValue);
             }
 
@@ -80,17 +148,15 @@ namespace LudoGameEngine
         public IList<GamePlayer> SetPlayOrder(int id, IList<GamePlayer> gp)
         {  
             var currentColor = gp.Where(c => c.GamePlayerID == id).Select(c => c.Color).FirstOrDefault();
-            
+            var nextColor = "";
+
             var newOrder = new List<GamePlayer>();
             
             var gPID = gp.Where(g => g.Color == currentColor).Select(g => g).FirstOrDefault();
             newOrder.Add(gPID);
             gp.Remove(gPID);
 
-            var nextColor = "";
-
             var values = Enum.GetNames(typeof(ColorOrder));
-
             int index = Array.IndexOf(values, currentColor);
 
             for(int i = 0; i < gp.Count; i++)
@@ -115,11 +181,6 @@ namespace LudoGameEngine
             }
 
             return newOrder;
-        }
-
-        private void MovePiece()
-        {
-
         }
 
         public int SetColorStartPositon(string color)
