@@ -8,12 +8,14 @@ namespace LudoGameEngine
     public class GameBoard
     {
         public IList<BoardCoordinates> CoordinateOuterPosition = new List<BoardCoordinates>();
-        public IList<GamePlayer> gamePlayers = new List<GamePlayer>();
-        private int playerAmnt = 0;
+        public IList<GamePlayer> GamePlayers = new List<GamePlayer>();
+
+        private int gamePlayerAmnt = 0;
         private string winner { get; set; } = "";
         private int playerTurn;
 
         public IGameSession gs;
+
         public Dice dice = new Dice();
 
         public enum ColorOrder
@@ -34,7 +36,7 @@ namespace LudoGameEngine
         public void GameLoop()
         {            
             InitializeGame();
-            
+            GamePlayers = SetPlayOrder(playerTurn, GamePlayers);
             while (winner != "")
             {
                 //all the gameplay here
@@ -48,16 +50,16 @@ namespace LudoGameEngine
         public void InitializeGame()
         {
             //players
-            playerAmnt = gs.GetPlayerAmount();
+            gamePlayerAmnt = gs.GetPlayerAmount();
             IList<Tuple<int, string, string>> sessionData = gs.GetSessionData();
 
-            for(int i = 1; i <= playerAmnt; i++)
+            for(int i = 1; i <= gamePlayerAmnt; i++)
             {
-                gamePlayers.Add(new GamePlayer(sessionData[i].Item1,sessionData[i].Item2, sessionData[i].Item3));
-                gamePlayers[i].GlobalStartPos = SetColorStartPositon(gamePlayers[i].Color);
+                GamePlayers.Add(new GamePlayer(sessionData[i].Item1,sessionData[i].Item2, sessionData[i].Item3));
+                GamePlayers[i].GlobalStartPos = SetColorStartPositon(GamePlayers[i].Color);
             }
             
-            playerTurn = DecidePlayerStart(playerAmnt);
+            playerTurn = DecidePlayerStart(GamePlayers.Count);
         }
 
         private int DecidePlayerStart(int pAmount)
@@ -75,47 +77,44 @@ namespace LudoGameEngine
         }
 
         //work in progress
-        private void SetPlayOrder(int id, IList<GamePlayer> gp)
+        public IList<GamePlayer> SetPlayOrder(int id, IList<GamePlayer> gp)
         {  
-            var firstColor = gp.Where(c => c.GamePlayerID == id).Select(c => c.Color).FirstOrDefault();
-            var currentColor = firstColor;
+            var currentColor = gp.Where(c => c.GamePlayerID == id).Select(c => c.Color).FirstOrDefault();
+            
+            var newOrder = new List<GamePlayer>();
+            
+            var gPID = gp.Where(g => g.Color == currentColor).Select(g => g).FirstOrDefault();
+            newOrder.Add(gPID);
+            gp.Remove(gPID);
+
             var nextColor = "";
 
             var values = Enum.GetNames(typeof(ColorOrder));
+
             int index = Array.IndexOf(values, currentColor);
 
-            var newOrder = new List<GamePlayer>();
-
-            for (int i = 0; i < playerAmnt; i++)      
+            for(int i = 0; i < gp.Count; i++)
             {
-                for(int y = 0; y < gp.Count; y++)
+                while (currentColor != gp[i].Color)
                 {
                     index = Array.IndexOf(values, currentColor);
                     if (index != values.Length)
                     {
-                        nextColor = values[index + 1];
-                    }
-                    else
-                    {
-                        index = 0;
-                    }
+                        index++;
+                        if (index == values.Length)
+                            index = 0;
 
-                    if(currentColor == gp[y].Color)
-                        newOrder.Add(gp[y]);
+                        nextColor = values[index];                        
+                    }
 
                     currentColor = nextColor;
                 }
-                
-                    
-                //var gpID = gp.Where(g => g.Color == currentColor).Select(g => g).FirstOrDefault();
-                var gpID = gp.FirstOrDefault(g => g.Color == currentColor);
-                //newOrder.Add(gpID);
-                //currentColor = nextColor;
+
+                gPID = gp.Where(g => g.Color == currentColor).Select(g => g).FirstOrDefault();
+                newOrder.Add(gPID);
             }
 
-                       
-            //var gpID = gp.Where(g => g.Color == currentColor).Select(g => g.GamePlayerID).FirstOrDefault();
-                   
+            return newOrder;
         }
 
         private void MovePiece()
