@@ -26,6 +26,10 @@ Fortsatt justering av GameSession samt GameBoard, GamePlayer & GamePice hur de s
 
 Skapat diceklass,  lagt till metoder i GameBoard. Gjort Unit Test på Gameboard
 
-2020-04-04
+2020-04-05
 
 Jobbat med en turodningsmetod som bestämmer vilken ordning spelarna skall spela (medsols), beroende på vilken färg som börjar slå. Gjort unit-test, samt påbörjat gameplay
+
+2020-04-06
+
+Refakturerat gameplay. Gjort metoder kring regler då spelare slår 1-5. Kvarstår 6

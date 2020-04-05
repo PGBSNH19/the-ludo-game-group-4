@@ -11,11 +11,12 @@ namespace LudoGameEngine
         public int LocalStartPos { get; set; } = 0;
         public bool PieceInGoal { get; set; } = false;
 
-        IList<bool> LocalCoordinatePositions = new List<bool>();
+        public IList<bool> LocalCoordinatePositions = new List<bool>();
 
         public GamePiece(int id)
         {
             this.PieceID = id;
+            InitializeLocalPositions();
         }
 
         private void InitializeLocalPositions()
