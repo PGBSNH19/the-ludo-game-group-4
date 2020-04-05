@@ -39,6 +39,8 @@ namespace LudoGame
                          StartGame();
 
                     GameBoard gb = new GameBoard(gs);
+                    gb.GameLoop();
+
                     break;
                 case 1:
                     ContinueLastSavedGame();

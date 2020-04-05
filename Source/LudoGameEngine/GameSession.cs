@@ -47,7 +47,13 @@ namespace LudoGameEngine
         {
             Console.Write("How many players will play?: ");
             PlayerAmount = int.Parse(Console.ReadLine());
-
+            while (PlayerAmount <2 || PlayerAmount > 4)
+            {
+                Console.WriteLine("Sorry. You have to be at least two and maximum four players to play");
+                Console.Write("How many players will play?: ");
+                PlayerAmount = int.Parse(Console.ReadLine());
+            }
+            
             return this;
         }
         public IGameSession SetSessionData()

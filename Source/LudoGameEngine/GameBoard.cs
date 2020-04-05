@@ -37,16 +37,18 @@ namespace LudoGameEngine
         {            
             InitializeGame();
             
-            while (winner != "")
+            while (winner == "")
             {
                 //all the gameplay here
-                for(int i = 1; i <= gamePlayerAmnt; i++)
-                {                                      
+                for(int i = 0; i < gamePlayerAmnt; i++)
+                {
                     //dialogue code here
+                    Console.WriteLine($"Player {playerTurn} please roll the dice: ");
+                    
                     //gfx code here
                     //player menu code here
                     int steps = dice.Roll();
-
+                    Console.WriteLine("Dice rolled: "+ steps);
                     //dialogue code here 
                     //gfx code here
                     //int selected = input;     //select from menu
@@ -57,18 +59,30 @@ namespace LudoGameEngine
                         {
                             canMove = true;
                             return;
-                        }      
+                        }
+                        else
+                        {
+                            Console.WriteLine("Sorry you cannot move any pieces");
+                        }
                     }
+
+                    Console.WriteLine("Select piece to move: 1, 2, 3, 4");
+                    Console.Write("Piece selected: ");
+                    int selected = int.Parse(Console.ReadLine());
 
                     if(canMove == true)
                     {
-                        GamePlayers[i].Pieces[selected].CurrentPos += MovePiece(steps);
+                        var piece = GamePlayers[i].Pieces.Where(s => s.PieceID == selected).FirstOrDefault();                        
+                        int gpindex = GamePlayers[i].Pieces.IndexOf(piece);
+                        GamePlayers[i].Pieces[gpindex].CurrentPos += MovePiece(steps);
+                        
+
                     }
-                    
+                        
 
 
 
-
+                    //behövs fixas till så  alla spelares pjäser skall vara piece in goal
                     for (int y = 0; y < 4; y ++)
                     {
                         if (GamePlayers[i].Pieces[y].PieceInGoal == true)
@@ -120,7 +134,7 @@ namespace LudoGameEngine
             gamePlayerAmnt = gs.GetPlayerAmount();
             IList<Tuple<int, string, string>> sessionData = gs.GetSessionData();
 
-            for(int i = 1; i <= gamePlayerAmnt; i++)
+            for(int i = 0; i < gamePlayerAmnt; i++)
             {
                 GamePlayers.Add(new GamePlayer(sessionData[i].Item1,sessionData[i].Item2, sessionData[i].Item3));
                 GamePlayers[i].GlobalStartPos = SetColorStartPositon(GamePlayers[i].Color);
@@ -150,8 +164,9 @@ namespace LudoGameEngine
             var currentColor = gp.Where(c => c.GamePlayerID == id).Select(c => c.Color).FirstOrDefault();
             var nextColor = "";
 
+            //var newOrder = new List<GamePlayer>();
             var newOrder = new List<GamePlayer>();
-            
+
             var gPID = gp.Where(g => g.Color == currentColor).Select(g => g).FirstOrDefault();
             newOrder.Add(gPID);
             gp.Remove(gPID);

@@ -18,6 +18,7 @@ namespace LudoGameEngine
             this.GamePlayerID = id;
             this.Name = name;
             this.Color = color;
+            InitializePiece();
         }
 
         private void InitializePiece()
