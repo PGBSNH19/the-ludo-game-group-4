@@ -126,8 +126,8 @@ namespace LudoGameEngine
         //GAMEPLAY
         private int MovePiece(int steps)
         {
-            RollOne(steps);
-            RollSix(steps);
+            //RollOne(steps);
+            //RollSix(steps);
 
             return steps;
         }
