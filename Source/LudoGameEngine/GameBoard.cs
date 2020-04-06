@@ -61,11 +61,11 @@ namespace LudoGameEngine
                             //check collission
                             break;
                         case 6:
-                            RollSix(diceVal);
+                            RollSix(diceVal, i);
                             //check collission
                             break;
                         default:
-                            RollRegular(diceVal);
+                            RollRegular(diceVal, i);
                             //check collission
                             break;
                     }
@@ -165,7 +165,17 @@ namespace LudoGameEngine
 
         private void RollSix(int stepsToMove, int playerIndex)
         {
+            var moveTwoPieces = GamePlayers[playerIndex].Pieces.Where(s => s.CurrentPos == 0);
+            if(moveTwoPieces.Count() >= 2)
+            {
 
+                //Visa meny istället
+                Console.WriteLine("move 2 pieces");
+                Console.WriteLine("Please enter ID for first piece:");
+                int id1 = int.Parse(Console.ReadLine());
+                Console.WriteLine("Please enter ID for second piece:");
+                int id2 = int.Parse(Console.ReadLine());
+            }
         }
 
         private int RollRegular(int stepsToMove, int playerIndex)
@@ -211,7 +221,8 @@ namespace LudoGameEngine
             playerTurn = DecidePlayerStart(GamePlayers.Count);
             GamePlayers = SetPlayOrder(playerTurn, GamePlayers);
         }
-
+       
+        //work in progress
         private int DecidePlayerStart(int pAmount)
         {
             
@@ -226,13 +237,12 @@ namespace LudoGameEngine
             return playerStart.Key;
         }
 
-        //work in progress
+        
         public IList<GamePlayer> SetPlayOrder(int id, IList<GamePlayer> gp)
         {  
             var currentColor = gp.Where(c => c.GamePlayerID == id).Select(c => c.Color).FirstOrDefault();
             var nextColor = "";
 
-            //var newOrder = new List<GamePlayer>();
             var newOrder = new List<GamePlayer>();
 
             var gPID = gp.Where(g => g.Color == currentColor).Select(g => g).FirstOrDefault();
