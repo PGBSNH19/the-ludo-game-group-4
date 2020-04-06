@@ -57,24 +57,25 @@ namespace LudoGameEngine
                     //var pID = GamePlayers[i].GamePlayerID;
                     //gfx code here
                     //player menu code here
-                    int diceVal = dice.Roll();
-                    Console.WriteLine("Dice rolled: "+ diceVal);
+                    //int diceValue = dice.Roll();
+                    int diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");
+                    Console.WriteLine("Dice rolled: "+ diceValue);
                     int movePieceInGlobalIndex;
 
-                    switch (diceVal)
+                    switch (diceValue)
                     {
                         case 1:                            
-                            movePieceInGlobalIndex = RollOne(diceVal, i);
+                            movePieceInGlobalIndex = RollOne(diceValue, i);
                             CoordinateOuterPosition[movePieceInGlobalIndex].IsOccupied = true;
                             CoordinateOuterPosition[movePieceInGlobalIndex].OccupiedPlayerID = GamePlayers[i].GamePlayerID;
                             CheckCollision(GamePlayers[i].GamePlayerID, movePieceInGlobalIndex);
                             break;
                         case 6:
-                            RollSix(diceVal, i);
+                            RollSix(diceValue, i);
                            // CheckCollision(GamePlayers[i].GamePlayerID, movePieceInGlobalIndex);
                             break;
                         default:
-                            movePieceInGlobalIndex = RollRegular(diceVal, i);
+                            movePieceInGlobalIndex = RollRegular(diceValue, i);
                             CoordinateOuterPosition[movePieceInGlobalIndex].IsOccupied = true;
                             CoordinateOuterPosition[movePieceInGlobalIndex].OccupiedPlayerID = GamePlayers[i].GamePlayerID;
                             CheckCollision(GamePlayers[i].GamePlayerID, movePieceInGlobalIndex);
@@ -156,6 +157,9 @@ namespace LudoGameEngine
         {
             //dialoge here
             Console.WriteLine("Choose a piece to move: ");
+            //string[] pieces = GamePlayers[playerIndex].Pieces.Select(p => p.PieceID);
+            CreateInteractable.OptionMenu(true, );
+
             foreach (var p in GamePlayers[playerIndex].Pieces)
             {
                 Console.Write($"PieceID: {p.PieceID} ");
