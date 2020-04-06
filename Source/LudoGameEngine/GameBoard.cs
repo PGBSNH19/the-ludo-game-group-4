@@ -1,10 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections;
 using System.Text;
 using System.Linq;
 
 namespace LudoGameEngine
 {
+    public class BoardCoordinate
+    {
+        public bool IsOccupied { get; set; }
+        public int BoardPosition { get; set; }
+        public int OccupiedPlayerID { get; set; }
+    }
+
     public class GameBoard
     {
         public IList<BoardCoordinate> CoordinateOuterPosition = new List<BoardCoordinate>();
@@ -40,7 +48,7 @@ namespace LudoGameEngine
             while (winner == "")
             {
                 //all the gameplay here
-                for(int i = 0; i < GamePlayers.Count; i++)
+                for(int i = 0; i < gamePlayerAmnt; i++)
                 {
                     //DrawGraphics
 
@@ -59,70 +67,32 @@ namespace LudoGameEngine
                             movePieceInGlobalIndex = RollOne(diceVal, i);
                             CoordinateOuterPosition[movePieceInGlobalIndex].IsOccupied = true;
                             CoordinateOuterPosition[movePieceInGlobalIndex].OccupiedPlayerID = GamePlayers[i].GamePlayerID;
-                            //check collission
+                            CheckCollision(GamePlayers[i].GamePlayerID, movePieceInGlobalIndex);
                             break;
                         case 6:
                             RollSix(diceVal, i);
-                            //check collission
+                           // CheckCollision(GamePlayers[i].GamePlayerID, movePieceInGlobalIndex);
                             break;
                         default:
                             movePieceInGlobalIndex = RollRegular(diceVal, i);
                             CoordinateOuterPosition[movePieceInGlobalIndex].IsOccupied = true;
                             CoordinateOuterPosition[movePieceInGlobalIndex].OccupiedPlayerID = GamePlayers[i].GamePlayerID;
-                            //check collission
+                            CheckCollision(GamePlayers[i].GamePlayerID, movePieceInGlobalIndex);
                             break;
                     }
 
-                    //DrawGraphics
+                    for(int y = 0; y < 4; y++)
+                    {
+                        if(GamePlayers[i].Pieces[y].CurrentPos == 44)
+                        {
+                            GamePlayers[i].Pieces[y].PieceInGoal = true;
+                        }
+                    }
 
-
-                    //dialogue code here 
-                    //gfx code here
-                    //int selected = input;     //select from menu
-                    //bool canMove = false;
-                    //for(int y = 0; y < 4; y++)
-                    //{
-                    //    if (GamePlayers[i].Pieces[y].CurrentPos != GamePlayers[i].Pieces[y].LocalStartPos || steps == 6 || steps == 1)
-                    //    {
-                    //        canMove = true;                           
-                    //    }
-                    //    else
-                    //    {
-                    //        Console.WriteLine("Sorry you cannot move any pieces");
-                    //    }
-                    //}
-
-
-
-                    //if(canMove == true)
-                    //{
-                    //    Console.WriteLine("Select piece to move: 1, 2, 3, 4");
-                    //    Console.Write("Piece selected: ");
-                    //    int selected = int.Parse(Console.ReadLine());
-
-                    //    var piece = GamePlayers[i].Pieces.Where(s => s.PieceID == selected).FirstOrDefault();                        
-                    //    int gpindex = GamePlayers[i].Pieces.IndexOf(piece);
-                    //    GamePlayers[i].Pieces[gpindex].CurrentPos += MovePiece(diceVal);
-
-
-                    //}
-
-
-
-
-                    //behövs fixas till så  alla spelares pjäser skall vara piece in goal
-                    //for (int y = 0; y < 4; y ++)
-                    //{
-                    //    if (GamePlayers[i].Pieces[y].PieceInGoal == true)
-                    //    {
-                    //        winner = GamePlayers[i].Name;
-                    //    }
-                    //}
+                    var allPiecesFinished = GamePlayers[i].Pieces.All(p => p.PieceInGoal == true);
 
                 }
                 
-
-
             }
 
         }
@@ -139,21 +109,22 @@ namespace LudoGameEngine
         {
             if(CoordinateOuterPosition[globalPositionIndex].IsOccupied == true)
             {               
-                var OtherPlayerID = CoordinateOuterPosition[globalPositionIndex].OccupiedPlayerID;
-                var CurrentPlayerID = GamePlayers[playerIndex].GamePlayerID;
+                var otherPlayerID = CoordinateOuterPosition[globalPositionIndex].OccupiedPlayerID;
+                var currentPlayerID = GamePlayers[playerIndex].GamePlayerID;
 
 
 
                 //måste ha metod som hanterar om piece tex gul piece är 0
-                if (OtherPlayerID != CurrentPlayerID)
+                if (otherPlayerID != currentPlayerID)
                 {
-                    KnockOut(OtherPlayerID, globalPositionIndex);
+                    KnockOut(otherPlayerID, globalPositionIndex);
                     CoordinateOuterPosition[globalPositionIndex].IsOccupied = true;
-                    CoordinateOuterPosition[globalPositionIndex].OccupiedPlayerID = CurrentPlayerID;
-                }                    
-                else if(CurrentPlayerID == CurrentPlayerID)
+                    CoordinateOuterPosition[globalPositionIndex].OccupiedPlayerID = currentPlayerID;
+                }
+                //fixa
+                else if(otherPlayerID == currentPlayerID)
                 {
-                    //MoveBehind();
+                    MoveBehind(currentPlayerID, globalPositionIndex);
                 }                   
             }
         }
@@ -169,21 +140,26 @@ namespace LudoGameEngine
             GamePlayers[playerIndex].Pieces[opponentPieceIndex].CurrentPos = 0;
         }
 
-        private void MoveBehind(int playerID, int localPosition)
+        private void MoveBehind(int playerID, int toLocalPosition)
         {
+            int localPosition = toLocalPosition++;
+            var player = GamePlayers.Where(p => p.GamePlayerID == playerID).FirstOrDefault();
+            int playerIndex = GamePlayers.IndexOf(player);
+            var opponentPiece = GamePlayers[playerIndex].Pieces.Where(p => p.CurrentPos == localPosition).FirstOrDefault();
+            int opponentPieceIndex = GamePlayers[playerIndex].Pieces.IndexOf(opponentPiece);
 
+            if(localPosition !=1)
+                GamePlayers[playerIndex].Pieces[opponentPieceIndex].CurrentPos = localPosition-1;
         }
 
         private int RollOne(int stepsToMove, int playerIndex)
         {
             //dialoge here
-            foreach(var p in GamePlayers[playerIndex].Pieces)
+            Console.WriteLine("Choose a piece to move: ");
+            foreach (var p in GamePlayers[playerIndex].Pieces)
             {
-                Console.Write($"Choose a piece to move: PieceID: {p.PieceID} ");
+                Console.Write($"PieceID: {p.PieceID} ");
             }
-            Console.WriteLine(" ");
-
-            
             int id = int.Parse(Console.ReadLine());
 
             var piece = GamePlayers[playerIndex].Pieces.Where(s => s.PieceID == id).FirstOrDefault();
@@ -243,6 +219,10 @@ namespace LudoGameEngine
                 else if(choice == 1)
                 {
                     Console.WriteLine("Choose a piece to move");
+                    foreach (var p in moveTwoPieces)
+                    {
+                        Console.Write($"{p.PieceID} ");
+                    }
                     int id = int.Parse(Console.ReadLine());
 
                     var piece = GamePlayers[playerIndex].Pieces.Where(s => s.PieceID == id).FirstOrDefault();
@@ -272,12 +252,13 @@ namespace LudoGameEngine
 
             if (piecesToMove.Count() != 0)
             {
+                Console.WriteLine("Choose a piece to move: ");
                 foreach (var p in piecesToMove)
                 {
-                    Console.WriteLine("Avaliable pieces to move:");
+                    
                     Console.Write($"ID:{p.PieceID} ");
                 }
-                Console.WriteLine("\n\rChoose a piece to move: ");
+               
                 int id = int.Parse(Console.ReadLine());
 
                 var piece = GamePlayers[playerIndex].Pieces.Where(s => s.PieceID == id).FirstOrDefault();
@@ -335,8 +316,7 @@ namespace LudoGameEngine
             var playerStart = playersThrow.OrderByDescending(x => x.Value).First();
             return playerStart.Key;
         }
-
-        
+       
         public IList<GamePlayer> SetPlayOrder(int id, IList<GamePlayer> gp)
         {  
             var currentColor = gp.Where(c => c.GamePlayerID == id).Select(c => c.Color).FirstOrDefault();
@@ -390,12 +370,5 @@ namespace LudoGameEngine
 
            return startPos;
         }
-    }
-
-    public class BoardCoordinate
-    {
-        public bool IsOccupied { get; set; }
-        public int BoardPosition { get; set; }
-        public int OccupiedPlayerID { get; set; }
     }
 }
