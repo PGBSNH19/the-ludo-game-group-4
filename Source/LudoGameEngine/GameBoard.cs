@@ -289,7 +289,7 @@ namespace LudoGameEngine
             else if (color == "Yellow")
                 startPos = 31;  //ev. 30 om man räknar från index 0
 
-            return startPos;
+           return startPos;
         }
     }
 
