@@ -24,7 +24,8 @@ namespace LudoGame
         {
             playerProfiles = LoadHighScoreAsync().Result;
 
-            int selected = MenuOptions(options);
+            //int selected = MenuOptions(options);
+            int selected = CreateInteractable.OptionMenu(false, options);
             switch (selected)
             {
                 case 0:
@@ -39,6 +40,8 @@ namespace LudoGame
                          StartGame();
 
                     GameBoard gb = new GameBoard(gs);
+                    gb.GameLoop();
+
                     break;
                 case 1:
                     ContinueLastSavedGame();

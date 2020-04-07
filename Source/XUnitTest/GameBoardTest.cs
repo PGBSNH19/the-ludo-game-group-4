@@ -36,5 +36,33 @@ namespace XUnitTest
             Assert.Equal(expectedValue, actualValue);
         }
 
+        [Fact]
+        public void SetPlayOrder_P1BlueP2Yellow_ExpectBlueYellow()
+        {
+            //Arrange
+            IGameSession gs = new GameSession();
+            GameBoard gb = new GameBoard(gs);
+            IList<GamePlayer> gp = new List<GamePlayer>()
+            {
+                new GamePlayer(2, "kalle", "Yellow"),
+                new GamePlayer(1, "Laban", "Blue")
+            };
+
+            IList<GamePlayer> gpExpected = new List<GamePlayer>()
+            {
+                new GamePlayer(1, "Laban", "Blue"),
+                new GamePlayer(2, "kalle", "Yellow")
+            };
+
+            int playerID = 1;
+
+            //Act
+            gp = gb.SetPlayOrder(playerID, gp);
+            //Assert
+            Assert.Equal(gpExpected, gp);
+
+        }
+
+
     }
 }

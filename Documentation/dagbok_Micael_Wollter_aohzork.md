@@ -26,3 +26,16 @@ Fortsatt justering av GameSession samt GameBoard, GamePlayer & GamePice hur de s
 
 Skapat diceklass,  lagt till metoder i GameBoard. Gjort Unit Test på Gameboard
 
+2020-04-05
+
+Jobbat med en turodningsmetod som bestämmer vilken ordning spelarna skall spela (medsols), beroende på vilken färg som börjar slå. Gjort unit-test, samt påbörjat gameplay
+
+2020-04-06
+
+Refakturerat gameplay. Gjort metoder kring regler då spelare slår 1-5. Kvarstår 6
+
+2020-04-07
+
+Klar med 6ans nummer, och kollissioner. Tror det kommer bli ett par buggar här och där, men det blir lättare att upptäcka dem när drawing klass och meny klass är på plats som kommer att hjälpa till UI. Menyklassen är fixad, så nu går det att anropa olika menyer som visas  horisontellt eller vertikalt på olika val spelaren får göra i spelet.
+
+Påbörjat DrawUI

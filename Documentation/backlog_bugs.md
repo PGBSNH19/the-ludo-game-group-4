@@ -4,4 +4,8 @@ Här skrivs buggar och ev. saknad funktionalitet ner. När de är klara markeras
 
 ======================================================================
 
-Välja färg, upptagen färg skall försvinna
+Huvudmeny- Välja färg, upptagen färg skall försvinna
+
+GameBoard - int DecidePlayerStart(int pAmount): saknas kod för att kontrollera att flera spelare slår samma högsta siffra på tärningen och måste slå om tills någon vinner.
+
+GameBoard - gameloop, efter en spelare flyttat pjäs, och den  loopar igenom igen, verkar det som att samma spelare får slå igen.
