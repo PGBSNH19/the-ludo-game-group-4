@@ -4,7 +4,7 @@ using System.Text;
 
 namespace LudoGameEngine
 {
-    public class DrawUX
+    public class DrawUI
     {
         private string piecePath = @"GFX/piece.txt";
         private string pieceBoardPath = @"GFX/pieceBoardItems.txt";
@@ -32,10 +32,6 @@ namespace LudoGameEngine
         //}
 
         //static string Draw
-        static void DrawAt(string gfx, int posX, int posY)
-        {
-
-        }
         public static void DrawAt(int posX, int posY)
         {
             Console.SetCursorPosition(posX, posY);

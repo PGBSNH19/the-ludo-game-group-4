@@ -12,13 +12,13 @@ namespace LudoGame
         static void Main(string[] args)
         {
             //just for testing ui
-            IList<string> red1 = DrawUX.PlayerPieceBoard("red");
+            IList<string> red1 = DrawUI.PlayerPieceBoard("red");
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             string s = "▲";
             Console.WriteLine(s);
             string b = "▲";
             Console.WriteLine(b);
-            DrawUX.DrawAt(4, 0);
+            DrawUI.DrawAt(4, 0);
             Console.WriteLine(b);
             red1[0] = "(▲)";
             red1[43] = " ▲ ";
