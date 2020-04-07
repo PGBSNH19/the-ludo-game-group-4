@@ -62,6 +62,7 @@ namespace LudoGameEngine
                     Console.WriteLine("Dice rolled: "+ diceValue);
                     int movePieceInGlobalIndex;
 
+
                     switch (diceValue)
                     {
                         case 1:                            
@@ -71,7 +72,13 @@ namespace LudoGameEngine
                             CheckCollision(GamePlayers[i].GamePlayerID, movePieceInGlobalIndex);
                             break;
                         case 6:
-                            RollSix(diceValue, i);
+                            while(diceValue == 6)
+                            {
+                                RollSix(diceValue, i);
+                                diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");
+                            }
+                            
+
                            // CheckCollision(GamePlayers[i].GamePlayerID, movePieceInGlobalIndex);
                             break;
                         default:
@@ -80,6 +87,11 @@ namespace LudoGameEngine
                             CoordinateOuterPosition[movePieceInGlobalIndex].OccupiedPlayerID = GamePlayers[i].GamePlayerID;
                             CheckCollision(GamePlayers[i].GamePlayerID, movePieceInGlobalIndex);
                             break;
+                    }
+
+                    while(diceValue == 6)
+                    {
+                        diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");
                     }
 
                     for(int y = 0; y < 4; y++)

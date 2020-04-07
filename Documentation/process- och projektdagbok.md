@@ -27,5 +27,16 @@ Vi kände att göra på det här viset och denna ordning, gav ett naturligt flö
 
 Flowcaharts Lolevel är klara såväl som CRC-cards (första version) för samtliga delar såväl som databasdesign. Databasdesignen gjordes i MSSMS och utifrån den blir det lättare att bygga databasen mha Code First.
 
-Vi har initialt delat upp arbetet i olika ansvarsområden och påbörjat kodning.
+Vi har initialt delat upp arbetet i olika ansvarsområden och påbörjat kodning. Micael generellt, gameplay och startmeny, Pontus Unit-test och Samir databashantering.
 
+**[Update 2 - 2020-04-06]**
+
+Mycket har hänt sedan senaste uppdateringen. Meny till större delen gjord, väntar på databashanteringen som skall bli klar innan resterande delar, såsom Highscore och Loadgame kan bli klara. Grovt gameplay (programmeringsmässigt) från början till slut är klart. En hel del debugging samt UnitTester av metoder och behövs, eftersom det fortfarande saknas något slags grafiskt gränssnitt (svårt att bara skriva ut olika positioner på skärmen och hålla reda på dem till fullo). 
+
+Det har även visat sig vara svårt att hitta på Unittester utifrån planeringen, då metoder på exakt funktionalitet att testa inte funnits tillgänglig. Nu finns dock de flesta metoderna, redo att kunna testas både med Unit-test, såväl som med Functional och Integrationtest även om det behöver refraktureras delar av koden.
+
+En hjälpklass (CreateInteractable) har skapats som abstraherar och simulerar optionmenyer och ensamma "knappar" för att få någon form av interaktivitet av spelaren utan att denne skall behöva skriva kommandon genom Console.Readline(). Ytterligare en klass: DrawUX kommer att skapas för att kunna få grafik till spelet. När denna också är implementerad kommer det lättare lättare att kunna följa spelflödet och hålla reda på vad som händer i spelet och att det fungerar korrekt.
+
+För övrigt har vi ungefär så gott som hållit och arbetat utefter våra flowcharts, CRC-cards samt Userstories även om viss funktionalitet och metoder kanske flyttats till andra klasser.
+
+Det ser dock ut att bli tight med presentationen och få klart spelet samt testerna i en tillfredställande kvalitet som följer projektbeskrivningen, så vi kommer troligtvis få gå in i varandras ansvarsområden och stötta upp. 
