@@ -78,8 +78,7 @@ namespace LudoGameEngine
                                 diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");
                             }
                             
-
-                           // CheckCollision(GamePlayers[i].GamePlayerID, movePieceInGlobalIndex);
+                            // CheckCollision(GamePlayers[i].GamePlayerID, movePieceInGlobalIndex);
                             break;
                         default:
                             movePieceInGlobalIndex = RollRegular(diceValue, i);
@@ -170,7 +169,7 @@ namespace LudoGameEngine
             //dialoge here
             Console.WriteLine("Choose a piece to move: ");
             //string[] pieces = GamePlayers[playerIndex].Pieces.Select(p => p.PieceID);
-            CreateInteractable.OptionMenu(true, );
+            //CreateInteractable.OptionMenu(true, );
 
             foreach (var p in GamePlayers[playerIndex].Pieces)
             {

@@ -35,7 +35,7 @@ Mycket har hänt sedan senaste uppdateringen. Meny till större delen gjord, vä
 
 Det har även visat sig vara svårt att hitta på Unittester utifrån planeringen, då metoder på exakt funktionalitet att testa inte funnits tillgänglig. Nu finns dock de flesta metoderna, redo att kunna testas både med Unit-test, såväl som med Functional och Integrationtest även om det behöver refraktureras delar av koden.
 
-En hjälpklass (CreateInteractable) har skapats som abstraherar och simulerar optionmenyer och ensamma "knappar" för att få någon form av interaktivitet av spelaren utan att denne skall behöva skriva kommandon genom Console.Readline(). Ytterligare en klass: DrawUX kommer att skapas för att kunna få grafik till spelet. När denna också är implementerad kommer det lättare lättare att kunna följa spelflödet och hålla reda på vad som händer i spelet och att det fungerar korrekt.
+En hjälpklass (CreateInteractable) har skapats som abstraherar och simulerar optionmenyer och ensamma "knappar" för att få någon form av interaktivitet av spelaren utan att denne skall behöva skriva kommandon genom Console.Readline(). Ytterligare en klass: DrawUI kommer att skapas för att kunna få grafik till spelet. När denna också är implementerad kommer det lättare lättare att kunna följa spelflödet och hålla reda på vad som händer i spelet och att det fungerar korrekt.
 
 För övrigt har vi ungefär så gott som hållit och arbetat utefter våra flowcharts, CRC-cards samt Userstories även om viss funktionalitet och metoder kanske flyttats till andra klasser.
 
