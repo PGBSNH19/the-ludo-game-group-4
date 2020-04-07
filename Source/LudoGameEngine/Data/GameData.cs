@@ -122,7 +122,7 @@ namespace LudoGameEngine.Data
             catch (Exception)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("OBS, Player could not save in database\n");
+                Console.WriteLine("OBS, Player could not save in database.}\nMake sure to create new game session \n");
                 Console.ResetColor();
             }
         }
