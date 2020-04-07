@@ -1,5 +1,6 @@
 ﻿using LudoGameEngine.Models;
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace LudoGameEngine
@@ -11,11 +12,12 @@ namespace LudoGameEngine
         [Required(ErrorMessage ="Required")]
         [StringLength (25, MinimumLength =3, ErrorMessage ="Invalid name length")]
         public string Name { get; set; }
-        [Required(ErrorMessage = "Required")]
-        [StringLength(25, MinimumLength = 3, ErrorMessage = "Invalid color length")]
-        public string Color { get; set; }
-        public int WinCount { get; set; }
-        [Required(ErrorMessage ="Session ID is Required")]
-        public Session SessionId { get; set; }
+        public IList<PlayerPiece> PlayerPiece { get; set; }
+        public IList<PlayerSession> PlayerSession { get; set; }
+
+
+        //public int WinCount { get; set; }
+        //public int SessionId { get; set; }
+        // public Session SessionRef { get; set; }
     }
 }

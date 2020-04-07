@@ -9,8 +9,9 @@ namespace LudoGameEngine.Models
     {
         [Key]
         public int SessionID { get; set; }
-        [Required(ErrorMessage = "Required")]
+        public string SessionName { get; set; }
         public bool GameFinished { get; set; }
         public string Winner { get; set; }
+        public IList<PlayerSession> PlayerPiece { get; set; }
     }
 }

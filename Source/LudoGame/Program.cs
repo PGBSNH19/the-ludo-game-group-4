@@ -1,6 +1,8 @@
 ﻿using LudoGameEngine;
+using LudoGameEngine.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace LudoGame
 {
@@ -9,11 +11,51 @@ namespace LudoGame
         static void Main(string[] args)
         {
 
-            DataContext d = new DataContext();
+            GameData d = new GameData();
 
-            Menu.Display();
+            //metod return unfinished Game from database
+            foreach (var i in d.LoadGame())
+            {
+                //Console.WriteLine($"Session Name: {i.SessionName}\tPlayerName: {i.PlayerName}\tColor: {i.Color}\tPiece ID: {i.PieceID}\tPosition{i.Position}");
+            }
 
-            Console.ReadKey();
+            //setting winner of session   (sessionName, gameFinished, WinnerName)
+            //d.updateWinner("session2", false, "Samir");
+
+            //remove everything from all tables from database, we can remove this method,
+            d.RemoveEverything();
+
+            //Update position of piece (sessionName, playerName, pieceID(1-4), new position)
+            //d.UpdatePiecePosition("session2", "samir", 2, 22);
+
+            
+            //create session (name,GameFinished? WinnerName?. method must calls before inserteachPlayer()
+            d.InsertSessionData("session1", true, "micael");
+
+
+            //code bellow create player with their piece and color. 
+            Console.WriteLine("Enter amount of player");
+            int amountPlayer = int.Parse(Console.ReadLine());
+            for (int i = 1; i <= amountPlayer; i++)
+            {
+                Console.WriteLine($"Enter player {i} name");
+                string name = Console.ReadLine();
+                Console.WriteLine($"Enter player {i} color");
+                string color = Console.ReadLine();
+                //amount of player, name, color
+                d.InsertEachPlayerData(i, name, color);
+            }
+
+
+            //shows the recent added players and session
+            d.ShowData();
+
+            //this method show the high score players
+            //d.ShowHighScore();
+
+    
+            Console.ReadKey();  
         }
     }
 }
+        
