@@ -24,3 +24,9 @@ använder linq för att joina tabeller och sedan hämta all data för ett spel för a
 skickar datan som list object, har testat listarray och Tuple men det som funkade bäst var list av typen object.
 idag gjorde lite felhantering och snyggat till koden, nu är allt färdig och ska pusha upp
 
+2020-04-08
+har försökt att skapa en lista med objekt för att lagra varje personens pjäss i det. och sedan tänkte gör context.addrange(mylist);
+men det blv fel eftersom jag har join tabell på många ställe och många foreign key är beroende av andra primary key.  
+därför blev det fel
+
+man jag har gjort ett försök i alla fall. om jag hade lyckats med den programmet kunde snabbas mycket mer än det är nu. eftersom nu den sparar varje pjäss separat. därför det blir många context.saveChanges();  det tar mycket tid att spara varje pjäss separat.

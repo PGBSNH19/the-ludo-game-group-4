@@ -66,7 +66,7 @@ namespace LudoGameEngine.Data
                         Console.ForegroundColor = ConsoleColor.Blue;
                         Console.WriteLine($"Giving Piece: {j}");
                         Console.ResetColor();
-                        InsertPieceData(id: j, position: 0, pieceFinished: false);
+                        InsertPieceData(id: j, position: 0);
                     }
                 }
                 if (currentPlayer == 2)
@@ -77,7 +77,7 @@ namespace LudoGameEngine.Data
                         Console.ForegroundColor = ConsoleColor.Blue;
                         Console.WriteLine($"Giving Piece: {j}");
                         Console.ResetColor();
-                        InsertPieceData(id: j, position: 0, pieceFinished: false);
+                        InsertPieceData(id: j, position: 0);
                     }
                 }
                 if (currentPlayer == 3)
@@ -88,7 +88,7 @@ namespace LudoGameEngine.Data
                         Console.ForegroundColor = ConsoleColor.Blue;
                         Console.WriteLine($"Giving Piece: {j}");
                         Console.ResetColor();
-                        InsertPieceData(id: j, position: 0, pieceFinished: false);
+                        InsertPieceData(id: j, position: 0);
                     }
                 }
                 if (currentPlayer == 4)
@@ -99,7 +99,7 @@ namespace LudoGameEngine.Data
                         Console.ForegroundColor = ConsoleColor.Blue;
                         Console.WriteLine($"Giving Piece: {j}");
                         Console.ResetColor();
-                        InsertPieceData(id: j, position: 0, pieceFinished: false);
+                        InsertPieceData(id: j, position: 0);
                     }
                 }
             }
@@ -140,7 +140,7 @@ namespace LudoGameEngine.Data
             }
         }
 
-        public void InsertPieceData(int id, int position = 0, bool pieceFinished = false)
+        public void InsertPieceData(int id, int position = 0)
         {
             try
             {
@@ -156,7 +156,6 @@ namespace LudoGameEngine.Data
                 {
                     PlayerId = PlayerId,
                     PieceId = p.PieceID,
-                    PieceFinished = pieceFinished
                 };
                 Context.PlayerPiece.Add(playerP);
                 Context.SaveChanges();
@@ -229,7 +228,6 @@ namespace LudoGameEngine.Data
                 Console.WriteLine("OBS, Failed to read data from database\n");
                 Console.ResetColor();
             }
-
         }
         public void RemoveEverything()
         {

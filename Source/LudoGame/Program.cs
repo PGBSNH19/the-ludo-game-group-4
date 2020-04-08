@@ -62,10 +62,10 @@ namespace LudoGame
             //d.UpdatePiecePosition("session2", "samir", 2, 22);
 
 
-/*
+
 
             //create session (name,GameFinished? WinnerName?. method must calls before inserteachPlayer()
-             d.InsertSessionData("session3", false, "");
+             d.InsertSessionData("session6", false, "");
 
             
                 //code bellow create player with their piece and color. 
@@ -88,7 +88,7 @@ namespace LudoGame
                 //d.ShowHighScore();
 
    
-       */ 
+        
 
             Console.ReadKey();
             red1[45] = " ▲ ";
