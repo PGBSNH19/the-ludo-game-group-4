@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using System.Text;
 using Xunit;
 using LudoGameEngine;
-using System.Linq;
-using static LudoGameEngine.GameBoard;
 
 namespace XUnitTest
 {
@@ -18,49 +16,53 @@ namespace XUnitTest
         public void SetColorStartPositon_InputColor_ReturnCorrectBoardPosition(string color)
         {
             //Arrange
-            int startPosition = 0;
-            IGameSession gameSession = new GameSession();
-            GameBoard gameBoard = new GameBoard(gameSession);
+            int expectedValue = 0;
+            IGameSession gs = new GameSession();
+            GameBoard gameBoard = new GameBoard(gs);
 
             if (color == "Red")
-                startPosition = 1;  //ev. 0 om man räknar från index 0
+                expectedValue = 1;  //ev. 0 om man räknar från index 0
             else if (color == "Blue")
-                startPosition = 11;  //ev. 10 om man räknar från index 0
+                expectedValue = 11;  //ev. 10 om man räknar från index 0
             else if (color == "Green")
-                startPosition = 21;  //ev. 20 om man räknar från index 0
+                expectedValue = 21;  //ev. 20 om man räknar från index 0
             else if (color == "Yellow")
-                startPosition = 31;  //ev. 30 om man räknar från index 0
+                expectedValue = 31;  //ev. 30 om man räknar från index 0
 
             //Act
             int actualValue = gameBoard.SetColorStartPositon(color);
-            int expectedValue = startPosition;
 
             //Assert
             Assert.Equal(expectedValue, actualValue);
         }
 
         [Fact]
-        public void SetPlayOrder_P1BlueP2YellowP3GreenP4Red_ExpectedOrderRedBlueGreenYellow()
+        public void SetPlayOrder_P1BlueP2Yellow_ExpectBlueYellow()
         {
             //Arrange
-            GameBoard gameBoard = new GameBoard(new GameSession());
-            IList<GamePlayer> gamePlayers = new List<GamePlayer>()
+            IGameSession gs = new GameSession();
+            GameBoard gb = new GameBoard(gs);
+            IList<GamePlayer> gp = new List<GamePlayer>()
             {
-                new GamePlayer(2, "Kalle", "Yellow"),
-                new GamePlayer(1, "Laban", "Blue"),
-                new GamePlayer(3, "Urban", "Green"),
-                new GamePlayer(4, "Linus", "Red")
+                new GamePlayer(2, "kalle", "Yellow"),
+                new GamePlayer(1, "Laban", "Blue")
             };
 
-            //Act
-            var result = gameBoard.SetPlayOrder(gamePlayers[3].GamePlayerID, gamePlayers);
+            IList<GamePlayer> gpExpected = new List<GamePlayer>()
+            {
+                new GamePlayer(1, "Laban", "Blue"),
+                new GamePlayer(2, "kalle", "Yellow")
+            };
 
+            int playerID = 1;
+
+            //Act
+            gp = gb.SetPlayOrder(playerID, gp);
             //Assert
-            Assert.Equal(4, result.Count);
-            Assert.Equal("Red", result[0].Color);
-            Assert.Equal("Yellow", result[1].Color);
-            Assert.Equal("Blue", result[2].Color);
-            Assert.Equal("Green", result[3].Color);
+            Assert.Equal(gpExpected, gp);
+
         }
+
+
     }
 }

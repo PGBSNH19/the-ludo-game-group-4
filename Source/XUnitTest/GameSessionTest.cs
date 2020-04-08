@@ -17,7 +17,7 @@ namespace XUnitTest
                 PlayerAmount = input
             };
 
-            Assert.Equal(input, gameSession.PlayerAmount);
+            Assert.True(gameSession.PlayerAmount > 1 && gameSession.PlayerAmount < 5);
         }
 
         [Theory]
@@ -42,9 +42,7 @@ namespace XUnitTest
                 PlayerName = input
             };
 
-            bool valid = string.IsNullOrWhiteSpace(gameSession.PlayerName) == false;
-
-            Assert.True(valid);
+            Assert.False(string.IsNullOrWhiteSpace(gameSession.PlayerName));
         }
 
         [Theory]
@@ -57,9 +55,7 @@ namespace XUnitTest
                 PlayerName = input
             };
 
-            bool notValid = string.IsNullOrWhiteSpace(gameSession.PlayerName) == true;
-
-            Assert.True(notValid);
+            Assert.True(string.IsNullOrWhiteSpace(gameSession.PlayerName));
         }
     }
 }
