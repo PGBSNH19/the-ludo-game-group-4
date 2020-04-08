@@ -17,19 +17,32 @@ namespace LudoGameEngine.Data
         {
             try
             {
-                Session session = new Session
-                {
-                    SessionName = SessionName,
-                    GameFinished = finished,
-                    Winner = winner,
-                };
+                var sName = Context.Session
+                    .Where(x=> x.SessionName==SessionName)
+                    .Select(x => x.SessionName).FirstOrDefault();
 
-                Context.Session.Add(session);
-                Context.SaveChanges();
-                SessionId = session.SessionID;
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine($"New Session [ {SessionName} ] Created Successfully\n");
-                Console.ResetColor();
+                if (sName!=SessionName)
+                {
+                    Session session = new Session
+                    {
+                        SessionName = SessionName,
+                        GameFinished = finished,
+                        Winner = winner,
+                    };
+
+                    Context.Session.Add(session);
+                    Context.SaveChanges();
+                    SessionId = session.SessionID;
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"New Session [ {SessionName} ] Created Successfully\n");
+                    Console.ResetColor();
+                }
+                else
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("OBS, Session Creation Failed, Name is busy\n");
+                    Console.ResetColor();
+                }
             }
             catch (Exception)
             {
@@ -234,7 +247,7 @@ namespace LudoGameEngine.Data
                    .Where(p => p.PieceID > 0);
                 Context.RemoveRange(piece);
                 Context.SaveChanges();
-                Console.ForegroundColor = ConsoleColor.Green;
+                Console.ForegroundColor = ConsoleColor.Yellow;
                 Console.WriteLine("OBS, data removed from database\n");
                 Console.ResetColor();
             }
@@ -287,7 +300,7 @@ namespace LudoGameEngine.Data
             }
         }
 
-        public void updateWinner(string sessionName, bool gFinished, string winnerName)
+        public void UpdateWinner(string sessionName, bool gFinished, string winnerName)
         {
             try
             {
@@ -301,19 +314,31 @@ namespace LudoGameEngine.Data
                     Context.SaveChanges();
                 }
 
+                var player = (from s in Context.Session
+                        join ps in Context.PlayerSession
+                        on s.SessionID equals ps.SessionId
+                        join p in Context.Player
+                        on ps.PlayerId equals p.PlayerID
+                        where s.SessionID == ps.SessionId && s.SessionName==sessionName && p.Name==winnerName
+                        select new { s.Winner, p.Name}).FirstOrDefault();
+               
                 var setWinner = Context.Session
-                    .Where(x => x.GameFinished == true && x.SessionName == sessionName)
+                    .Where(x => x.GameFinished == true)
                     .FirstOrDefault();
-                setWinner.Winner = winnerName;
-                Context.SaveChanges();
-                Console.ForegroundColor = ConsoleColor.Green;
-                Console.WriteLine("Position Updated Successfully\n");
-                Console.ResetColor();
+
+                if (player.Name !=null)
+                {
+                    setWinner.Winner = winnerName;
+                    Context.SaveChanges();
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine($"Congratulation your wining {winnerName.ToUpper()}\n");
+                    Console.ResetColor();
+                }
             }
             catch (Exception)
             {
                 Console.ForegroundColor = ConsoleColor.Red;
-                Console.WriteLine("Player Name Not Found In this Session \n");
+                Console.WriteLine("OBS, could not update data \n");
                 Console.ResetColor();
             }
         }
@@ -327,7 +352,7 @@ namespace LudoGameEngine.Data
             public int Position { get; set; }
         }
 
-        public List<MyGameData> LoadGame()
+        public List<MyGameData> LoadGame(string sName)
         {
             try
             {
@@ -341,7 +366,7 @@ namespace LudoGameEngine.Data
                             on pl.PlayerID equals pp.PlayerId
                             join p in Context.Piece
                             on pp.PieceId equals p.PieceID
-                            where s.GameFinished == false && p.PlayerPieceID == 4
+                            where s.GameFinished == false && p.PlayerPieceID == 4 && s.SessionName==sName
                             select new
                             {
                                 sessionName = s.SessionName,
@@ -351,6 +376,13 @@ namespace LudoGameEngine.Data
                                 pieceID = p.PlayerPieceID
                             }).ToList();
 
+                if (data.Count()==0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.WriteLine("OBS, There is no unfinished game available \n");
+                    Console.ResetColor();
+                }
+                else
                 foreach (var item in data)
                 {
                     MyGameData m = new MyGameData()
