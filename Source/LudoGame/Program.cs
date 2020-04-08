@@ -12,18 +12,23 @@ namespace LudoGame
         static void Main(string[] args)
         {
             ////just for testing ui
-            //IList<string> red1 = DrawUI.PlayerPieceBoard("red");
-            //Console.OutputEncoding = System.Text.Encoding.UTF8;
+            IList<string> red1 = DrawUI.PlayerPieceBoard("Yellow");
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
             //string s = "▲";
             //Console.WriteLine(s);
             //string b = "▲";
             //Console.WriteLine(b);
             //DrawUI.DrawAt(4, 0);
             //Console.WriteLine(b);
-            //red1[0] = "(▲)";
-            //red1[43] = " ▲ ";
-            //red1[7] = " ▲ ";
-            //for (int i = 0; i <red1.Count; i++)
+            red1[0] = "(▲)";
+            red1[43] = " ▲ ";
+            red1[45] = " ▲ ";
+            red1 = DrawUI.DrawPieceBoard("red", red1);
+
+            //for (int i = 0; i < red1.Count; i++)
+            //    Console.Write(red1[i]);
+            //for (int i = 0; i < red1.Count; i++)
+            //    Console.Write(red1[i]);
             //{
             //    if (i == 0 || i >= 40 && i <= 44)
             //    {
@@ -87,7 +92,7 @@ namespace LudoGame
             ////this method show the high score players
             ////d.ShowHighScore();
 
-            Menu.Display();
+            //Menu.Display();
             Console.ReadKey();  
         }
     }
