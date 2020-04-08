@@ -42,7 +42,8 @@ namespace LudoGameEngine
 
         //this loop runs the game
         public void GameLoop()
-        {            
+        {
+            
             InitializeGame();
             
             while (winner == "")
@@ -50,18 +51,15 @@ namespace LudoGameEngine
                 //all the gameplay here
                 for(int i = 0; i < gamePlayerAmnt; i++)
                 {
-                    //DrawGraphics
-
-                    //dialogue code here
+                    //position for dialogue
+                    DrawGFX.SetDrawPosition(0, 6);
                     Console.WriteLine($"Player {GamePlayers[i].GamePlayerID} {GamePlayers[i].Name} please roll the dice: ");
-                    //var pID = GamePlayers[i].GamePlayerID;
-                    //gfx code here
-                    //player menu code here
-                    //int diceValue = dice.Roll();
+
+                    //position for dice btn
+                    DrawGFX.SetDrawPosition(0, 8);
                     int diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");
                     Console.WriteLine("Dice rolled: "+ diceValue);
                     int movePieceInGlobalIndex;
-
 
                     switch (diceValue)
                     {
@@ -88,12 +86,26 @@ namespace LudoGameEngine
                             break;
                     }
 
+
                     while(diceValue == 6)
                     {
+                        DrawGFX.SetDrawPosition(0, 8);
                         diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");
                     }
 
-                    for(int y = 0; y < 4; y++)
+                    //positon for Game Board Title
+                    DrawGFX.SetDrawPosition(0, 9);
+                    Console.WriteLine("GAME BOARD");
+                    
+                    //var commonGameBoard = DrawGFX.CommonGameBoard();
+
+                    //position for Game Board
+                    DrawGFX.SetDrawPosition(0, 12);
+                    var commonGameBoard = DrawGFX.CommonGameBoard();
+
+
+
+                    for (int y = 0; y < 4; y++)
                     {
                         if(GamePlayers[i].Pieces[y].CurrentPos == 44)
                         {
@@ -375,13 +387,13 @@ namespace LudoGameEngine
             int startPos = 0;
 
             if (color == "Red")
-                startPos = 1;  //ev. 0 om man räknar från index 0
+                startPos = 0;  //ev. 0 om man räknar från index 0
             else if (color == "Blue")
-                startPos = 11;  //ev. 10 om man räknar från index 0
+                startPos = 10;  //ev. 10 om man räknar från index 0
             else if (color == "Green")
-                startPos = 21;  //ev. 20 om man räknar från index 0
+                startPos = 20;  //ev. 20 om man räknar från index 0
             else if (color == "Yellow")
-                startPos = 31;  //ev. 30 om man räknar från index 0
+                startPos = 30;  //ev. 30 om man räknar från index 0
 
            return startPos;
         }

@@ -4,10 +4,12 @@ using System.Text;
 
 namespace LudoGameEngine
 {
-    public class DrawUI
+    public class DrawGFX
     {
-        private static string pieceBoardItem = "(#)";
-        public static string piece = "▲";
+        public static string defaultGameBoardItem = "(x)";
+        public static string defaultPieceBoardItem = "(#)";
+        public static string pieceOnBoard = " ▲ ";
+        public static string pieceInNest = "(▲)";
 
         public static void SetDrawPosition(int posX, int posY)
         {
@@ -20,7 +22,7 @@ namespace LudoGameEngine
 
             for(int i = 0; i < 46; i++)
             {
-                tmpList.Add(pieceBoardItem);               
+                tmpList.Add(defaultPieceBoardItem);               
             }
 
             tmpList = DrawPieceBoard(color, tmpList);
@@ -55,6 +57,60 @@ namespace LudoGameEngine
             return playerPieceBoard;
         }
 
+        public static IList<string> CommonGameBoard()
+        {
+            IList<string> tmpList = new List<string>();
+
+            for (int i = 0; i < 40; i++)
+            {
+                tmpList.Add(defaultGameBoardItem);
+            }
+
+            tmpList = DrawGameBoard(tmpList);
+
+            return tmpList;
+        }
+        public static IList<string> DrawGameBoard(IList<string> commonGameBoard)
+        {
+            for (int i = 0; i < commonGameBoard.Count; i++)
+            {
+                if (i == 0)
+                {
+                    Console.ForegroundColor = ConsoleColor.Red;
+                    Console.Write(commonGameBoard[i]);
+                }
+                else if (i == 10)
+                {
+                    Console.ForegroundColor = ConsoleColor.Blue;
+                    Console.Write(commonGameBoard[i]);
+                }
+                else if (i == 20)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.Write(commonGameBoard[i]);
+                }
+                else if (i == 30)
+                {
+                    Console.ForegroundColor = ConsoleColor.Yellow;
+                    Console.Write(commonGameBoard[i]);
+                }
+                else if (i == commonGameBoard.Count - 1)
+                {
+                    Console.WriteLine(commonGameBoard[i]);
+                }
+                else
+                {
+                    Console.ResetColor();
+                    Console.Write(commonGameBoard[i]);
+                }
+            }
+            Console.ResetColor();
+
+            return commonGameBoard;
+        }
+
+       
+
         private static ConsoleColor BrushColor(string color)
         {
             var brushColor = new ConsoleColor();
@@ -78,11 +134,6 @@ namespace LudoGameEngine
 
             return brushColor;
         }
-
-        //public static void moveuipiece(int id, int steps, IList<string> playerpieceboard)
-        //{
-
-        //}
 
 
         static void bottombuttonsposition()
