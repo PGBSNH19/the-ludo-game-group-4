@@ -6,10 +6,21 @@ namespace LudoGameEngine
 {
     public class Dice
     {
+        private Random random;
+
+        public Dice()
+        {
+            this.random = new Random();
+        }
+
+        public Dice(Random rnd)
+        {
+            this.random = rnd;
+        }
+
         public int Roll()
         {
-            Random rnd = new Random();
-            return rnd.Next(1, 7);
+            return random.Next(1, 7);
         }
     }
 }

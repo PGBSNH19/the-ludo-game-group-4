@@ -37,6 +37,11 @@ namespace LudoGameEngine
             Yellow
         }
 
+        public bool IsPlayerNameValid()
+        {
+            return !string.IsNullOrWhiteSpace(PlayerName);
+        }
+
         public IGameSession InintializeSession()
         {
             GameSession gameSession = new GameSession();
