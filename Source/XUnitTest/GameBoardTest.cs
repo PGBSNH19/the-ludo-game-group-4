@@ -29,8 +29,8 @@ namespace XUnitTest
         public void SetPlayOrder_P1BlueP2YellowP3RedP4Green_ExpectedPlayingOrderBlueGreenYellowRed()
         {
             //Arrange
-            GameBoard gb = new GameBoard(new GameSession());
-            IList<GamePlayer> gp = new List<GamePlayer>()
+            GameBoard gameBoard = new GameBoard(new GameSession());
+            IList<GamePlayer> gamePlayers = new List<GamePlayer>()
             {
                 new GamePlayer(1, "Laban", "Blue"),
                 new GamePlayer(3, "John", "Green"),
@@ -39,13 +39,13 @@ namespace XUnitTest
             };
 
             //Act
-            gp = gb.SetPlayOrder(gp[0].GamePlayerID, gp);
+            var result = gameBoard.SetPlayOrder(gamePlayers[0].GamePlayerID, gamePlayers);
 
             //Assert
-            Assert.Equal("Blue", gp[0].Color);
-            Assert.Equal("Green", gp[1].Color);
-            Assert.Equal("Yellow", gp[2].Color);
-            Assert.Equal("Red", gp[3].Color);
+            Assert.Equal("Blue", result[0].Color);
+            Assert.Equal("Green", result[1].Color);
+            Assert.Equal("Yellow", result[2].Color);
+            Assert.Equal("Red", result[3].Color);
         }
     }
 }
