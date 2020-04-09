@@ -43,9 +43,19 @@ namespace LudoGameEngine
         //this loop runs the game
         public void GameLoop()
         {
-            
+            Console.Clear();
             InitializeGame();
+
             
+            playerTurn = DecidePlayerStart(GamePlayers.Count);
+            
+            DrawGFX.SetDrawPosition(0, 0);
+            Console.WriteLine($"Player : {playerTurn} got the highest number and therefore start ");
+
+            GamePlayers = SetPlayOrder(playerTurn, GamePlayers);
+
+            //Console.Clear();
+
             while (winner == "")
             {
                 //all the gameplay here
@@ -53,7 +63,7 @@ namespace LudoGameEngine
                 {
                     //position for dialogue
                     DrawGFX.SetDrawPosition(0, 6);
-                    Console.WriteLine($"Player {GamePlayers[i].GamePlayerID} {GamePlayers[i].Name} please roll the dice: ");
+                    Console.WriteLine($"Player [{GamePlayers[i].Color}] {GamePlayers[i].GamePlayerID} {GamePlayers[i].Name} please roll the dice: ");
 
                     //position for dice btn
                     DrawGFX.SetDrawPosition(0, 8);
@@ -317,8 +327,7 @@ namespace LudoGameEngine
                 GamePlayers[i].GlobalStartPos = SetColorStartPositon(GamePlayers[i].Color);
             }
             
-            playerTurn = DecidePlayerStart(GamePlayers.Count);
-            GamePlayers = SetPlayOrder(playerTurn, GamePlayers);
+            
         }
 
         private void InitializeBoardCoordinates()
@@ -331,17 +340,33 @@ namespace LudoGameEngine
        
         //work in progress
         private int DecidePlayerStart(int pAmount)
-        {
-            
+        {            
             IDictionary<int, int> playersThrow = new Dictionary<int, int>();
             for(int i = 1; i <= pAmount; i++)
             {
-                int dValue = dice.Roll();
-                playersThrow.Add(i, dValue);
+
+                DrawGFX.SetDrawPosition(0, 0);
+                Console.WriteLine("Decide which player starts by rolling the dice. Highest number wins");
+                
+                DrawGFX.SetDrawPosition(0, 2);
+                Console.WriteLine($"Player {i} please roll the dice:");
+
+                DrawGFX.SetDrawPosition(0, 8);
+                int diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");
+                
+                DrawGFX.SetDrawPosition(0, 4);
+                Console.WriteLine($"Player {i} rolls: {diceValue}");
+
+                playersThrow.Add(i, diceValue);
             }
 
             var playerStart = playersThrow.OrderByDescending(x => x.Value).First();
             return playerStart.Key;
+        }
+
+        private void PlayerStartUI()
+        {
+
         }
        
         public IList<GamePlayer> SetPlayOrder(int id, IList<GamePlayer> gp)
