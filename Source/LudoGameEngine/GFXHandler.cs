@@ -36,6 +36,21 @@ namespace LudoGameEngine
             Console.SetCursorPosition(posX, posY);
         }
 
+        public static void EraseDrawContent(int posX, int posY)
+        {
+            Console.SetCursorPosition(posX, posY);
+            Console.Write(new string(' ', Console.WindowWidth));
+        }
+
+        public static void EraseDrawContentRange(int posX, int startPosY, int endPosY)
+        {
+            for(int i = startPosY; i <= endPosY; i++)
+            {
+                Console.SetCursorPosition(posX, i);
+                Console.Write(new string(' ', Console.WindowWidth));
+            }
+        }
+
         public static IList<string> CreateBoard(int boardLength, BoardGFXItem boardGFXItem)
         {
             string item = "";
