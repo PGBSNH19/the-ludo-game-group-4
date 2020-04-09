@@ -4,7 +4,7 @@ using System.Text;
 using Xunit;
 using LudoGameEngine;
 
-namespace XUnitTest
+namespace UnitTest
 {
     public class GameBoardTest
     {

@@ -1,9 +1,9 @@
 using LudoGameEngine;
 using System;
 using Xunit;
-using XUnitTest.Fake;
+using UnitTest.Fake;
 
-namespace XUnitTest
+namespace UnitTest
 {
     public class DiceTest
     {

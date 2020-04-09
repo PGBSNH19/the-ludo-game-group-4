@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace XUnitTest.Fake
+namespace UnitTest.Fake
 {
     public class RandomStub : Random
     {

@@ -2,7 +2,7 @@
 using System;
 using Xunit;
 
-namespace XUnitTest
+namespace UnitTest
 {
     public class GameSessionTest
     {
