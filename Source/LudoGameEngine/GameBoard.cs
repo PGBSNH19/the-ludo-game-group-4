@@ -110,6 +110,9 @@ namespace LudoGameEngine
                     var commonGameBoard = DrawGFX.CreateBoard(40,BoardGFXItem.GameBoardGFX);
                     commonGameBoard = DrawGFX.RenderGameBoard(commonGameBoard);
 
+
+                    //REFACTORING NEEDED
+
                     //playerPieceBoards and playerpieces                                        
                     //IList<IList<string>> playerBoards = new List<IList<string>>();
 
@@ -131,32 +134,32 @@ namespace LudoGameEngine
 
                     //position piece board 1
                     DrawGFX.SetDrawPosition(0, 22);
-                    var playerBoard1 = DrawGFX.CreateBoard(46, BoardGFXItem.PieceBoardGFX);
-                    playerBoard1[piece1.CurrentPos] = ChangePlayerPieceGFXByPosition(piece1.CurrentPos);
+                    var playerBoard1 = DrawGFX.CreateBoard(45, BoardGFXItem.PieceBoardGFX);
+                    playerBoard1[piece1.CurrentPos] = UpdatePlayerPieceGFXByPosition(piece1.CurrentPos);
                     
                     Console.Write(new string("[Piece 1]: ").PadRight(10));
                     playerBoard1 = DrawGFX.RenderPieceBoard(GamePlayers[i].Color, playerBoard1);
 
                     //position piece board 2
                     DrawGFX.SetDrawPosition(0, 25);
-                    var playerBoard2 = DrawGFX.CreateBoard(46, BoardGFXItem.PieceBoardGFX);
-                    playerBoard2[piece2.CurrentPos] = ChangePlayerPieceGFXByPosition(piece2.CurrentPos);
+                    var playerBoard2 = DrawGFX.CreateBoard(45, BoardGFXItem.PieceBoardGFX);
+                    playerBoard2[piece2.CurrentPos] = UpdatePlayerPieceGFXByPosition(piece2.CurrentPos);
                     
                     Console.Write(new string("[Piece 2]: ").PadRight(10));
                     playerBoard2 = DrawGFX.RenderPieceBoard(GamePlayers[i].Color, playerBoard2);
 
                     //position piece board 3
                     DrawGFX.SetDrawPosition(0, 28);
-                    var playerBoard3 = DrawGFX.CreateBoard(46, BoardGFXItem.PieceBoardGFX);
-                    playerBoard3[piece3.CurrentPos] = ChangePlayerPieceGFXByPosition(piece3.CurrentPos);
+                    var playerBoard3 = DrawGFX.CreateBoard(45, BoardGFXItem.PieceBoardGFX);
+                    playerBoard3[piece3.CurrentPos] = UpdatePlayerPieceGFXByPosition(piece3.CurrentPos);
 
                     Console.Write(new string("[Piece 3]: ").PadRight(10));
                     playerBoard3 = DrawGFX.RenderPieceBoard(GamePlayers[i].Color, playerBoard3);
 
                     //position piece board 4
                     DrawGFX.SetDrawPosition(0, 31);
-                    var playerBoard4 = DrawGFX.CreateBoard(46, BoardGFXItem.PieceBoardGFX);
-                    playerBoard4[piece4.CurrentPos] = ChangePlayerPieceGFXByPosition(piece4.CurrentPos);
+                    var playerBoard4 = DrawGFX.CreateBoard(45, BoardGFXItem.PieceBoardGFX);
+                    playerBoard4[piece4.CurrentPos] = UpdatePlayerPieceGFXByPosition(piece4.CurrentPos);
 
                     Console.Write(new string("[Piece 4]: ").PadRight(10));
                     playerBoard4 = DrawGFX.RenderPieceBoard(GamePlayers[i].Color, playerBoard4);
@@ -174,6 +177,7 @@ namespace LudoGameEngine
                     //playerBoards[0].IndexOf(piece1.CurrentPos);
 
                     //position for dice btn
+                    
                     DrawGFX.SetDrawPosition(0, 8);
                     int diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");                   
 
@@ -186,8 +190,16 @@ namespace LudoGameEngine
 
                     switch (diceValue)
                     {
-                        case 1:                            
-                            movePieceInGlobalIndex = RollOne(diceValue, i);
+                        case 1:
+                            DrawGFX.SetDrawPosition(0, 2);
+                            Console.WriteLine("Choose a piece to move");
+
+                            IList<string> options = CreatePieceBtnOptions(true, i);
+                            int selectedPiece = (1 + CreateInteractable.OptionMenu(true, options));
+                            
+                            var piece = GamePlayers[i].Pieces.Where(s => s.PieceID == selectedPiece).FirstOrDefault();
+
+                            movePieceInGlobalIndex = RollOne(diceValue, i, selectedPiece);
                             CoordinateOuterPosition[movePieceInGlobalIndex].IsOccupied = true;
                             CoordinateOuterPosition[movePieceInGlobalIndex].OccupiedPlayerID = GamePlayers[i].GamePlayerID;
                             CheckCollision(GamePlayers[i].GamePlayerID, movePieceInGlobalIndex);
@@ -217,10 +229,7 @@ namespace LudoGameEngine
                     }
 
                     
-
-
-
-                    for (int y = 0; y < 4; y++)
+                    /*for (int y = 0; y < 4; y++)
                     {
                         if(GamePlayers[i].Pieces[y].CurrentPos == 44)
                         {
@@ -228,7 +237,7 @@ namespace LudoGameEngine
                         }
                     }
 
-                    var allPiecesFinished = GamePlayers[i].Pieces.All(p => p.PieceInGoal == true);
+                    var allPiecesFinished = GamePlayers[i].Pieces.All(p => p.PieceInGoal == true);*/
 
                 }
                 
@@ -237,7 +246,7 @@ namespace LudoGameEngine
         }
         //GAMEPLAY
 
-        private string ChangePlayerPieceGFXByPosition(int position)
+        private string UpdatePlayerPieceGFXByPosition(int position)
         {
             string pieceGFX = DrawGFX.PieceInNest;
             if(position != 0)
@@ -255,6 +264,11 @@ namespace LudoGameEngine
             //RollSix(steps);
 
             return steps;
+        }
+
+        private int GetPieceIndex(int playerIndex, GamePiece piece)
+        {
+            return GamePlayers[playerIndex].Pieces.IndexOf(piece);
         }
 
         private void CheckCollision(int globalPositionIndex, int playerIndex)
@@ -304,24 +318,14 @@ namespace LudoGameEngine
                 GamePlayers[playerIndex].Pieces[opponentPieceIndex].CurrentPos = localPosition-1;
         }
 
-        private int RollOne(int stepsToMove, int playerIndex)
+        private int RollOne(int stepsToMove, int playerIndex, int id)
         {
-            //dialoge here
-            Console.WriteLine("Choose a piece to move: ");
-            //string[] pieces = GamePlayers[playerIndex].Pieces.Select(p => p.PieceID);
-            //CreateInteractable.OptionMenu(true, );
+            //var piece = GamePlayers[playerIndex].Pieces.Where(s => s.PieceID == id).FirstOrDefault();
 
-            foreach (var p in GamePlayers[playerIndex].Pieces)
-            {
-                Console.Write($"PieceID: {p.PieceID} ");
-            }
-            int id = int.Parse(Console.ReadLine());
-
-            var piece = GamePlayers[playerIndex].Pieces.Where(s => s.PieceID == id).FirstOrDefault();
             int pieceIndex = GamePlayers[playerIndex].Pieces.IndexOf(piece);
             int currentPos = GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos;
             GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentPos] = false;
-            GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos += MovePiece(stepsToMove);
+            GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos += stepsToMove;
             GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentPos] = true;
 
             int convertToGlobalPosIndex = (GamePlayers[playerIndex].GlobalStartPos) + (GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos--);
@@ -331,6 +335,34 @@ namespace LudoGameEngine
             //CheckCollission
             //Draw Graphics
         }
+
+        private int UpdateLocalPiecePosition(int playerIndex, GamePiece piece, int stepsToMove)
+        {
+            int pieceIndex = GetPieceIndex(playerIndex, piece);
+            int currentPos = GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos;
+
+            GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentPos] = false;
+            GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos += stepsToMove;
+            GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentPos] = true;
+
+            return currentPos;
+        }
+
+        private void UpdateGlobalPiecePosition(int stepsToMove, int index)
+        {
+            
+            
+            
+            //var piece = GamePlayers[i].Pieces.Where(s => s.PieceID == selectedPiece).FirstOrDefault();
+
+            //movePieceInGlobalIndex = RollOne(diceValue, i, selectedPiece);
+            //CoordinateOuterPosition[movePieceInGlobalIndex].IsOccupied = true;
+            //CoordinateOuterPosition[movePieceInGlobalIndex].OccupiedPlayerID = GamePlayers[i].GamePlayerID;
+            //CheckCollision(GamePlayers[i].GamePlayerID, movePieceInGlobalIndex);
+        }
+
+        
+        //private void UpdateGlobalPiecePosition()
 
         private void RollSix(int stepsToMove, int playerIndex)
         {
@@ -395,6 +427,22 @@ namespace LudoGameEngine
             }
 
 
+        }
+
+        private IList<string> CreatePieceBtnOptions(bool displayInNest, int index)
+        {
+            IList<string> pieceOptions = new List<string>();
+            var pieces = GamePlayers[index].Pieces.Where(p =>  p.CurrentPos != p.GoalPos).Select(p => p.PieceID);
+
+            if (displayInNest == false)                
+                pieces = GamePlayers[index].Pieces.Where(p => p.CurrentPos != p.LocalStartPos || p.CurrentPos != p.GoalPos).Select(p => p.PieceID);
+
+            foreach (var id in pieces)
+            {
+                pieceOptions.Add($"Piece {id}");
+            }
+
+            return pieceOptions;
         }
 
         private int RollRegular(int stepsToMove, int playerIndex)

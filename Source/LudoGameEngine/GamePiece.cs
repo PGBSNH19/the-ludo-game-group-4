@@ -6,9 +6,10 @@ namespace LudoGameEngine
 {
     public class GamePiece
     {
-        public int PieceID { get; set; }
+        public int PieceID { get; private set; }
         public int CurrentPos { get; set; } = 0;
-        public int LocalStartPos { get; set; } = 0;
+        public int LocalStartPos { get; } = 0;
+        public int GoalPos { get; } = 45;
         public bool PieceInGoal { get; set; } = false;
 
         public IList<bool> LocalCoordinatePositions = new List<bool>();

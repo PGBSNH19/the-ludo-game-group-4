@@ -58,48 +58,48 @@ namespace LudoGame
             }
         }
 
-        static int MenuOptions(string[] option)
-        {
-            int selectedIndex = 0;
+        //static int MenuOptions(string[] option)
+        //{
+        //    int selectedIndex = 0;
 
-            Console.CursorVisible = false;
+        //    Console.CursorVisible = false;
 
-            ConsoleKey? key = null;
+        //    ConsoleKey? key = null;
 
-            while (key != ConsoleKey.Enter)
-            {
-                for(int i = 0; i < option.Length; i++)
-                {
+        //    while (key != ConsoleKey.Enter)
+        //    {
+        //        for(int i = 0; i < option.Length; i++)
+        //        {
                     
-                    if(i == selectedIndex)
-                    {
-                        Console.BackgroundColor = ConsoleColor.DarkBlue;
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
+        //            if(i == selectedIndex)
+        //            {
+        //                Console.BackgroundColor = ConsoleColor.DarkBlue;
+        //                Console.ForegroundColor = ConsoleColor.White;
+        //            }
 
-                    Console.WriteLine(option[i]);
-                    Console.ResetColor();
-                }
+        //            Console.WriteLine(option[i]);
+        //            Console.ResetColor();
+        //        }
 
-                key = Console.ReadKey().Key;
+        //        key = Console.ReadKey().Key;
 
-                if (key == ConsoleKey.DownArrow)
-                {
-                    selectedIndex++;
-                    if (selectedIndex == option.Length)
-                        selectedIndex = 0;
-                }
-                else if(key == ConsoleKey.UpArrow)
-                {
-                    selectedIndex--;
-                    if (selectedIndex == -1)
-                        selectedIndex = option.Length - 1;
-                }
+        //        if (key == ConsoleKey.DownArrow)
+        //        {
+        //            selectedIndex++;
+        //            if (selectedIndex == option.Length)
+        //                selectedIndex = 0;
+        //        }
+        //        else if(key == ConsoleKey.UpArrow)
+        //        {
+        //            selectedIndex--;
+        //            if (selectedIndex == -1)
+        //                selectedIndex = option.Length - 1;
+        //        }
 
-                Console.Clear();
-            }
-            return selectedIndex;
-        }
+        //        Console.Clear();
+        //    }
+        //    return selectedIndex;
+        //}
 
         static void ContinueLastSavedGame()
         {
