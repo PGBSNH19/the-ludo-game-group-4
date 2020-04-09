@@ -9,10 +9,10 @@ namespace XUnitTest
     public class GameBoardTest
     {
         [Theory]
-        [InlineData("Red", 1)]
-        [InlineData("Blue", 11)]
-        [InlineData("Green", 21)]
-        [InlineData("Yellow", 31)]
+        [InlineData("Red", 0)]
+        [InlineData("Blue", 10)]
+        [InlineData("Green", 20)]
+        [InlineData("Yellow", 30)]
         public void SetColorStartPositon_InputColor_ExpectedBoardPosition(string color, int expectedBoardPosition)
         {
             //Arrange
@@ -25,36 +25,27 @@ namespace XUnitTest
             Assert.Equal(expectedBoardPosition, actualValue);
         }
 
-
-
         [Fact]
-        public void SetPlayOrder_P1BlueP2Yellow_ExpectBlueYellow()
+        public void SetPlayOrder_P1BlueP2YellowP3RedP4Green_ExpectedPlayingOrderBlueGreenYellowRed()
         {
             //Arrange
-            IGameSession gs = new GameSession();
-            GameBoard gb = new GameBoard(gs);
+            GameBoard gb = new GameBoard(new GameSession());
             IList<GamePlayer> gp = new List<GamePlayer>()
             {
-                new GamePlayer(2, "kalle", "Yellow"),
-                new GamePlayer(1, "Laban", "Blue")
-            };
-
-            IList<GamePlayer> gpExpected = new List<GamePlayer>()
-            {
                 new GamePlayer(1, "Laban", "Blue"),
-                new GamePlayer(2, "kalle", "Yellow")
+                new GamePlayer(3, "John", "Green"),
+                new GamePlayer(2, "Kalle", "Yellow"),
+                new GamePlayer(4, "Johan", "Red")
             };
-
-            int playerID = 1;
 
             //Act
-            gp = gb.SetPlayOrder(playerID, gp);
+            gp = gb.SetPlayOrder(gp[0].GamePlayerID, gp);
 
             //Assert
-            Assert.Equal(gpExpected, gp);
-
+            Assert.Equal("Blue", gp[0].Color);
+            Assert.Equal("Green", gp[1].Color);
+            Assert.Equal("Yellow", gp[2].Color);
+            Assert.Equal("Red", gp[3].Color);
         }
-
-
     }
 }
