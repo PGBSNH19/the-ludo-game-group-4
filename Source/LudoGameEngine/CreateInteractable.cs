@@ -8,15 +8,12 @@ namespace LudoGameEngine
     {
         public static int SingleButton(Func<int> methodName, string buttonText)
         {
-            int valueToReturn = 0;
             Console.CursorVisible = false;
             ConsoleKey? key = null;
 
             Console.BackgroundColor = ConsoleColor.DarkBlue;
             Console.ForegroundColor = ConsoleColor.White;
-            Console.WriteLine("");
             Console.WriteLine("  " + buttonText + "  ");
-            Console.WriteLine("");
             Console.ResetColor();
 
             while (key != ConsoleKey.Enter)
@@ -24,10 +21,8 @@ namespace LudoGameEngine
                 key = Console.ReadKey().Key;
             }
 
-            valueToReturn = methodName();
-
             Console.Clear();
-            return valueToReturn;
+            return methodName();
         }
 
         public static int OptionMenu(bool horizontal, string[] option)

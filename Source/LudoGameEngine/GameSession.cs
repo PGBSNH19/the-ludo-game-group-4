@@ -11,9 +11,6 @@ namespace LudoGameEngine
         IGameSession InintializeSession();
         IGameSession SetPlayerAmount();
         IGameSession SetSessionData();
-        //IGameSession GetPlayerProfile();
-       // IGameSession ChoosePlayerColor();
-        //IGameSession SetPlayerPositions();
         IGameSession SaveState();
         IGameSession StartGame();
         int GetPlayerAmount();

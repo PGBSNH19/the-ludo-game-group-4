@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Collections;
 using System.Text;
 using System.Linq;
+using System.Threading.Tasks;
+using System.Threading;
 
 namespace LudoGameEngine
 {
@@ -21,6 +23,7 @@ namespace LudoGameEngine
         private int gamePlayerAmnt = 0;
         private string winner { get; set; } = "";
         private int playerTurn;
+        private ConsoleColor textColor;
 
         public IGameSession gs;
 
@@ -34,6 +37,8 @@ namespace LudoGameEngine
             Yellow  //3
         }
 
+       
+
 
         public GameBoard(IGameSession gameSession)
         {
@@ -44,31 +49,139 @@ namespace LudoGameEngine
         public void GameLoop()
         {
             Console.Clear();
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            
             InitializeGame();
 
-            
-            playerTurn = DecidePlayerStart(GamePlayers.Count);
-            
+            //decide which player start
+            IDictionary<int, int> playersRoll = new Dictionary<int, int>();
+            for (int i = 1; i <= gamePlayerAmnt; i++)
+            {
+                DrawGFX.SetDrawPosition(0, 0);
+                Console.WriteLine("Decide which player starts by rolling the dice. Highest number wins");
+
+                DrawGFX.SetDrawPosition(0, 2);
+                Console.WriteLine($"Player {i} please roll the dice. Press[ENTER] to roll");
+
+                DrawGFX.SetDrawPosition(0, 8);
+                int diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");
+
+                DrawGFX.SetDrawPosition(0, 4);
+                Console.WriteLine($"Player {i} rolls: {diceValue}");
+
+                playersRoll.Add(i, diceValue);
+            }         
+
+            int playerIDStart = DecidePlayerStart(playersRoll);
+
             DrawGFX.SetDrawPosition(0, 0);
-            Console.WriteLine($"Player : {playerTurn} got the highest number and therefore start ");
+            Console.WriteLine($"Player {playerIDStart} got the highest number and therefore start. Press[ENTER] to continue ");
+            
+            GamePlayers = SetPlayOrder(playerIDStart, GamePlayers);
 
-            GamePlayers = SetPlayOrder(playerTurn, GamePlayers);
+            Console.ReadKey();
 
-            //Console.Clear();
+            Console.Clear();
 
+
+            //continue gameloop until winner
             while (winner == "")
             {
                 //all the gameplay here
                 for(int i = 0; i < gamePlayerAmnt; i++)
-                {
+                { 
+                    DrawGFX.SetDrawPosition(0, 0);
+                    Console.WriteLine("May the best player win!");
+
                     //position for dialogue
-                    DrawGFX.SetDrawPosition(0, 6);
-                    Console.WriteLine($"Player [{GamePlayers[i].Color}] {GamePlayers[i].GamePlayerID} {GamePlayers[i].Name} please roll the dice: ");
+                    DrawGFX.SetDrawPosition(0, 2);
+                    Console.WriteLine($"[{GamePlayers[i].Color}] Player {GamePlayers[i].GamePlayerID} {GamePlayers[i].Name} please roll the dice: ");
+
+                    //position for consoledivider
+                    DrawGFX.SetDrawPosition(0, 10);
+                    Console.Write("\r\n" + new string('=', Console.WindowWidth) + "\r\n");
+
+                    //positon for Game Board Title
+                    DrawGFX.SetDrawPosition(0, 12);
+                    Console.WriteLine("GAME BOARD");
+
+                    //position for Game Board
+                    DrawGFX.SetDrawPosition(0, 15);
+                    var commonGameBoard = DrawGFX.CreateBoard(40,BoardGFXItem.GameBoardGFX);
+                    commonGameBoard = DrawGFX.RenderGameBoard(commonGameBoard);
+
+                    //playerPieceBoards and playerpieces                                        
+                    //IList<IList<string>> playerBoards = new List<IList<string>>();
+
+                    //player pieces
+                    var piece1 = GamePlayers[i].Pieces.Where(s => s.PieceID == 1).FirstOrDefault();
+                    var piece2 = GamePlayers[i].Pieces.Where(s => s.PieceID == 2).FirstOrDefault();
+                    var piece3 = GamePlayers[i].Pieces.Where(s => s.PieceID == 3).FirstOrDefault();
+                    var piece4 = GamePlayers[i].Pieces.Where(s => s.PieceID == 4).FirstOrDefault();
+
+                    //position for playerboard header
+                    DrawGFX.SetDrawPosition(0, 19);
+                    textColor = DrawGFX.BrushColor(GamePlayers[i].Color);
+                    Console.ForegroundColor = textColor;
+                    Console.WriteLine("PLAYER BOARD");       
+                    Console.Write(new string($"Player {GamePlayers[i].GamePlayerID}: {GamePlayers[i].Name}").PadRight(30));
+                    Console.Write(new string("▲ = Player pice").PadRight(25));
+                    Console.WriteLine("(▲) = Piece in Nest");
+                    Console.ResetColor();
+
+                    //position piece board 1
+                    DrawGFX.SetDrawPosition(0, 22);
+                    var playerBoard1 = DrawGFX.CreateBoard(46, BoardGFXItem.PieceBoardGFX);
+                    playerBoard1[piece1.CurrentPos] = ChangePlayerPieceGFXByPosition(piece1.CurrentPos);
+                    
+                    Console.Write(new string("[Piece 1]: ").PadRight(10));
+                    playerBoard1 = DrawGFX.RenderPieceBoard(GamePlayers[i].Color, playerBoard1);
+
+                    //position piece board 2
+                    DrawGFX.SetDrawPosition(0, 25);
+                    var playerBoard2 = DrawGFX.CreateBoard(46, BoardGFXItem.PieceBoardGFX);
+                    playerBoard2[piece2.CurrentPos] = ChangePlayerPieceGFXByPosition(piece2.CurrentPos);
+                    
+                    Console.Write(new string("[Piece 2]: ").PadRight(10));
+                    playerBoard2 = DrawGFX.RenderPieceBoard(GamePlayers[i].Color, playerBoard2);
+
+                    //position piece board 3
+                    DrawGFX.SetDrawPosition(0, 28);
+                    var playerBoard3 = DrawGFX.CreateBoard(46, BoardGFXItem.PieceBoardGFX);
+                    playerBoard3[piece3.CurrentPos] = ChangePlayerPieceGFXByPosition(piece3.CurrentPos);
+
+                    Console.Write(new string("[Piece 3]: ").PadRight(10));
+                    playerBoard3 = DrawGFX.RenderPieceBoard(GamePlayers[i].Color, playerBoard3);
+
+                    //position piece board 4
+                    DrawGFX.SetDrawPosition(0, 31);
+                    var playerBoard4 = DrawGFX.CreateBoard(46, BoardGFXItem.PieceBoardGFX);
+                    playerBoard4[piece4.CurrentPos] = ChangePlayerPieceGFXByPosition(piece4.CurrentPos);
+
+                    Console.Write(new string("[Piece 4]: ").PadRight(10));
+                    playerBoard4 = DrawGFX.RenderPieceBoard(GamePlayers[i].Color, playerBoard4);
+
+
+                    //int newPosition = 17;
+                    //for (int y = 0; y < 4; y++)
+                    //{
+                    //    newPosition += 3;
+                    //    DrawGFX.SetDrawPosition(0, newPosition);
+                    //    playerBoards.Add(DrawGFX.PlayerPieceBoard(GamePlayers[i].Color));                        
+                    //}
+
+                    ////position out pieces in the playerboards
+                    //playerBoards[0].IndexOf(piece1.CurrentPos);
 
                     //position for dice btn
                     DrawGFX.SetDrawPosition(0, 8);
-                    int diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");
+                    int diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");                   
+
+                    //position for dice roll text
+                    DrawGFX.SetDrawPosition(0, 4);
                     Console.WriteLine("Dice rolled: "+ diceValue);
+
+                    
                     int movePieceInGlobalIndex;
 
                     switch (diceValue)
@@ -103,15 +216,7 @@ namespace LudoGameEngine
                         diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");
                     }
 
-                    //positon for Game Board Title
-                    DrawGFX.SetDrawPosition(0, 9);
-                    Console.WriteLine("GAME BOARD");
                     
-                    //var commonGameBoard = DrawGFX.CommonGameBoard();
-
-                    //position for Game Board
-                    DrawGFX.SetDrawPosition(0, 12);
-                    var commonGameBoard = DrawGFX.CommonGameBoard();
 
 
 
@@ -131,6 +236,19 @@ namespace LudoGameEngine
 
         }
         //GAMEPLAY
+
+        private string ChangePlayerPieceGFXByPosition(int position)
+        {
+            string pieceGFX = DrawGFX.PieceInNest;
+            if(position != 0)
+            {
+                pieceGFX = DrawGFX.PieceOnBoard;
+            }
+
+            return pieceGFX;
+
+        }
+
         private int MovePiece(int steps)
         {
             //RollOne(steps);
@@ -338,37 +456,12 @@ namespace LudoGameEngine
             }
         }
        
-        //work in progress
-        private int DecidePlayerStart(int pAmount)
-        {            
-            IDictionary<int, int> playersThrow = new Dictionary<int, int>();
-            for(int i = 1; i <= pAmount; i++)
-            {
-
-                DrawGFX.SetDrawPosition(0, 0);
-                Console.WriteLine("Decide which player starts by rolling the dice. Highest number wins");
-                
-                DrawGFX.SetDrawPosition(0, 2);
-                Console.WriteLine($"Player {i} please roll the dice:");
-
-                DrawGFX.SetDrawPosition(0, 8);
-                int diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");
-                
-                DrawGFX.SetDrawPosition(0, 4);
-                Console.WriteLine($"Player {i} rolls: {diceValue}");
-
-                playersThrow.Add(i, diceValue);
-            }
-
-            var playerStart = playersThrow.OrderByDescending(x => x.Value).First();
+        private int DecidePlayerStart(IDictionary<int,int> playersRoll)
+        {               
+            var playerStart = playersRoll.OrderByDescending(x => x.Value).First();
             return playerStart.Key;
         }
 
-        private void PlayerStartUI()
-        {
-
-        }
-       
         public IList<GamePlayer> SetPlayOrder(int id, IList<GamePlayer> gp)
         {  
             var currentColor = gp.Where(c => c.GamePlayerID == id).Select(c => c.Color).FirstOrDefault();

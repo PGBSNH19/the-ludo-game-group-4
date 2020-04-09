@@ -25,6 +25,8 @@ namespace XUnitTest
             Assert.Equal(expectedBoardPosition, actualValue);
         }
 
+
+
         [Fact]
         public void SetPlayOrder_P1BlueP2Yellow_ExpectBlueYellow()
         {

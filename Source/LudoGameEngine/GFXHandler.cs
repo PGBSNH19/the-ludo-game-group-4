@@ -4,35 +4,59 @@ using System.Text;
 
 namespace LudoGameEngine
 {
+    public enum BoardGFXItem
+    {
+        GameBoardGFX,
+        PieceBoardGFX
+    }
+
+    public enum PieceGFXItem
+    {
+        PieceOnBBoard,
+        PieceInNest
+    }
+
+    public enum GameColors
+    {
+        Red,
+        Blue,
+        Green,
+        Yellow
+    }
+
     public class DrawGFX
     {
-        public static string defaultGameBoardItem = "(x)";
-        public static string defaultPieceBoardItem = "(#)";
-        public static string pieceOnBoard = " ▲ ";
-        public static string pieceInNest = "(▲)";
+        public static string GameBoardItem { get; } = "(x)";
+        public static string PieceBoardItem { get; } = "(#)";
+        public static string PieceOnBoard { get; } = " ▲ ";
+        public static string PieceInNest { get; } = "(▲)";
 
         public static void SetDrawPosition(int posX, int posY)
         {
             Console.SetCursorPosition(posX, posY);
         }
 
-        public static IList<string> PlayerPieceBoard(string color)
+        public static IList<string> CreateBoard(int boardLength, BoardGFXItem boardGFXItem)
         {
-            IList<string> tmpList= new List<string>();
+            string item = "";
 
-            for(int i = 0; i < 46; i++)
+            if (boardGFXItem == BoardGFXItem.GameBoardGFX)
+                item = GameBoardItem;
+            else if (boardGFXItem == BoardGFXItem.PieceBoardGFX)
+                item = PieceBoardItem;
+
+            IList<string> tmp = new List<string>();
+            for(int i = 0; i < boardLength; i++)
             {
-                tmpList.Add(defaultPieceBoardItem);               
+                tmp.Add(item);
             }
 
-            tmpList = DrawPieceBoard(color, tmpList);
-
-            return tmpList;
+            return tmp;
         }
 
-        public static IList<string> DrawPieceBoard(string color, IList<string> playerPieceBoard)
+        public static IList<string> RenderPieceBoard(string playerColor, IList<string> playerPieceBoard)
         {
-            var boardColor = BrushColor(color);
+            var boardColor = BrushColor(playerColor);
 
             for (int i = 0; i < playerPieceBoard.Count; i++)
             {
@@ -57,20 +81,7 @@ namespace LudoGameEngine
             return playerPieceBoard;
         }
 
-        public static IList<string> CommonGameBoard()
-        {
-            IList<string> tmpList = new List<string>();
-
-            for (int i = 0; i < 40; i++)
-            {
-                tmpList.Add(defaultGameBoardItem);
-            }
-
-            tmpList = DrawGameBoard(tmpList);
-
-            return tmpList;
-        }
-        public static IList<string> DrawGameBoard(IList<string> commonGameBoard)
+        public static IList<string> RenderGameBoard(IList<string> commonGameBoard)
         {
             for (int i = 0; i < commonGameBoard.Count; i++)
             {
@@ -109,9 +120,7 @@ namespace LudoGameEngine
             return commonGameBoard;
         }
 
-       
-
-        private static ConsoleColor BrushColor(string color)
+        public static ConsoleColor BrushColor(string color)
         {
             var brushColor = new ConsoleColor();
 
@@ -136,15 +145,34 @@ namespace LudoGameEngine
         }
 
 
+        //private static ConsoleColor BrushColor(GameColors gameColor)
+        //{
+        //    var brushColor = new ConsoleColor();
+
+        //    if (gameColor == GameColors.Red)
+        //    {
+        //        brushColor = ConsoleColor.Red;
+        //    }
+        //    else if (gameColor == GameColors.Blue)
+        //    {
+        //        brushColor = ConsoleColor.Blue;
+        //    }
+        //    else if (gameColor == GameColors.Green)
+        //    {
+        //        brushColor = ConsoleColor.Green;
+        //    }
+        //    else if (gameColor == GameColors.Yellow)
+        //    {
+        //        brushColor = ConsoleColor.Yellow;
+        //    }
+
+        //    return brushColor;
+        //}
+
+
         static void bottombuttonsposition()
         {
 
-        }
-
-        static void drawbluepiece()
-        {
-
-        }
-        
+        }        
     }
 }
