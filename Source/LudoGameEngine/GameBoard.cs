@@ -26,6 +26,9 @@ namespace LudoGameEngine
         private ConsoleColor textColor;
 
         public IGameSession gs;
+
+        public string SessionName { get; set; } = "";
+
         public bool NewGame { get; set; }
 
         public Dice dice = new Dice();
@@ -39,6 +42,7 @@ namespace LudoGameEngine
         //this loop runs the game
         public void GameLoop()
         {
+            if(NewGame)
             Console.Clear();
             Console.OutputEncoding = System.Text.Encoding.UTF8;
             
