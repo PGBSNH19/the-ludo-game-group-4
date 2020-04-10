@@ -32,9 +32,7 @@ namespace LudoGame
             ////Update position of piece (sessionName, playerName, pieceID(1-4), new position)
             ////d.UpdatePiecePosition("session2", "samir", 2, 22);
 
-
-
-
+                      
             ////create session (name,GameFinished? WinnerName?. method must calls before inserteachPlayer()
              //d.InsertSessionData("session10", false, "");
 
@@ -57,6 +55,9 @@ namespace LudoGame
 
             //    //this method show the high score players
             //    //d.ShowHighScore();
+
+
+
 
 
             //GameData d = new GameData();
@@ -102,7 +103,11 @@ namespace LudoGame
             ////d.ShowHighScore();
 
             Menu.Display();
-            Console.ReadKey();  
+            Console.ReadKey();
+
+            GameBoard gb = new GameBoard(new GameSession());
+            
+            
         }
     }
 }

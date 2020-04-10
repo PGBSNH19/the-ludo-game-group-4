@@ -424,6 +424,8 @@ namespace LudoGameEngine
                     GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentPos] = true;
 
                     int convertToGlobalPosIndex = (GamePlayers[playerIndex].GlobalStartPos) + (GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos--);
+                    if (convertToGlobalPosIndex > CoordinateOuterPosition.Count)
+                        convertToGlobalPosIndex -= (1 - CoordinateOuterPosition.Count);
                     CoordinateOuterPosition[convertToGlobalPosIndex].IsOccupied = true;
                     CoordinateOuterPosition[convertToGlobalPosIndex].OccupiedPlayerID = GamePlayers[playerIndex].GamePlayerID;
                 }
