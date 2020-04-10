@@ -39,7 +39,7 @@ namespace LudoGame
                          SaveState().
                          StartGame();
 
-                    GameBoard gb = new GameBoard(gs);
+                    GameBoard gb = new GameBoard(gs, true);
                     gb.GameLoop();
 
                     break;
