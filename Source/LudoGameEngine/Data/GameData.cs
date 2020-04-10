@@ -344,6 +344,7 @@ namespace LudoGameEngine.Data
 
         public class MyGameData
         {
+            public int PlayerID { get; set; }
             public string SessionName { get; set; }
             public string PlayerName { get; set; }
             public string Color { get; set; }
@@ -368,6 +369,7 @@ namespace LudoGameEngine.Data
                             where s.GameFinished == false && p.PlayerPieceID == 4 && s.SessionName==sName
                             select new
                             {
+                                playerId= pl.PlayerID,
                                 sessionName = s.SessionName,
                                 playerName = pl.Name,
                                 color = ps.Color,
@@ -386,6 +388,7 @@ namespace LudoGameEngine.Data
                 {
                     MyGameData m = new MyGameData()
                     {
+                        PlayerID=item.playerId,
                         SessionName = item.sessionName,
                         PlayerName = item.playerName,
                         Color = item.color,

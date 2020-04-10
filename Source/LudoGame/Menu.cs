@@ -88,16 +88,32 @@ namespace LudoGame
             Console.WriteLine("Please Enter the session name");
             string sessioName = Console.ReadLine();
             List<string> playerAmount = new List<string>();
+            string sessionN = "";
 
+
+            GameBoard game = new GameBoard(new GameSession(), false);
+            int index = 0;
             foreach (var i in Data.LoadGame(sessioName))
             {
                 playerAmount.Add(i.PlayerName);
-                Console.WriteLine($"Session Name: {i.SessionName}\tPlayerName: {i.PlayerName}\tColor: {i.Color}\tPiece ID: {i.PieceID}\tPosition {i.Position}");
+                sessionN = i.SessionName;
+
+                game.GamePlayers[index].GamePlayerID = 0;
+                game.GamePlayers[index].Name = i.PlayerName;
+                game.GamePlayers[index].Color = i.Color;
+                game.GamePlayers[index].GlobalStartPos = i.Position;
+
+
+                Console.WriteLine($"Player ID: {i.PlayerID} Session Name: {i.SessionName}\tPlayerName: {i.PlayerName}\t" +
+                    $"Color: {i.Color}\tPiece ID: {i.PieceID}\tPosition {i.Position}");
+                index++;
             }
 
-              GameBoard game = new GameBoard(new GameSession(), false);
-              game.gamePlayerAmnt = playerAmount.Count;
-              game.GameLoop();
+            game.gamePlayerAmnt = playerAmount.Count;
+            game.SessionName = sessionN;
+            game.GameLoop();
+
+
             BackButton();
             ReturnToMenu();
         }
