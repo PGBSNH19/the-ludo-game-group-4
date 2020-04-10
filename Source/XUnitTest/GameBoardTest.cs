@@ -71,16 +71,16 @@ namespace XUnitTest
         [InlineData(false, 2, "Piece 1", "Piece 2", "Piece 3", "Piece 4")]
         [InlineData(true, 1, "Piece 1", "Piece 2", "Piece 3", "Piece 4")]
         [InlineData(false, 0, "Piece 1", "Piece 2", "Piece 3", "Piece 4")]
+        [InlineData(true, 3, "Piece 1", "Piece 2", "Piece 3", "Piece 4")]
         public void CreatePieceButtonOptions_FindPiecePlacement_ReturnPieceIdentity(bool displayInNest, int index, string expectedOne, string expectedTwo, string expectedThree, string expectedFour)
         {
-            var playerOne = new GamePlayer(1, "Kalle", "Red");
-            var playerTwo = new GamePlayer(2, "John", "Blue");
-            var playerThree = new GamePlayer(3, "Urban", "Green");
-
-            List<GamePlayer> GamePlayers = new List<GamePlayer>();
-            GamePlayers.Add(playerOne);
-            GamePlayers.Add(playerTwo);
-            GamePlayers.Add(playerThree);
+            IList<GamePlayer> GamePlayers = new List<GamePlayer>()
+            {
+                new GamePlayer(1, "Laban", "Blue"),
+                new GamePlayer(3, "John", "Green"),
+                new GamePlayer(2, "Kalle", "Yellow"),
+                new GamePlayer(4, "Johan", "Red")
+            };
 
             IList<string> pieceOptions = new List<string>();
 
