@@ -48,13 +48,10 @@ namespace XUnitTest
         }
 
         [Theory]
-        [InlineData(101, 102, 103, 104, 4, 2, 1, 3, 101)]
-        [InlineData(101, 102, 103, 104, 4, 2, 6, 1, 103)]
-        [InlineData(101, 102, 103, 104, 4, 5, 1, 2, 102)]
-        [InlineData(101, 102, 103, 104, 4, 5, 1, 6, 104)]
+        [MemberData(nameof(TestDataForDecidePlayerStart))]
         public void DecidePlayerStart_SortOutStartingPlayer_StartingPlayer(int playerIdOne, int playerIdTwo, int playerIdThree, int playerIdFour, int diceNumberRollOne, int diceNumberRollTwo, int diceNumberRollThree, int diceNumberRollFour, int expectedPlayerId)
         {
-            Dictionary<int, int> firstRoll = new Dictionary<int, int>
+            Dictionary<int, int> firstDiceRoll = new Dictionary<int, int>
             {
                 { playerIdOne, diceNumberRollOne },
                 { playerIdTwo, diceNumberRollTwo },
@@ -62,10 +59,19 @@ namespace XUnitTest
                 { playerIdFour, diceNumberRollFour }
             };
 
-            var startingPlayer = firstRoll.OrderByDescending(x => x.Value).First();
+            var startingPlayer = firstDiceRoll.OrderByDescending(x => x.Value).First();
 
             Assert.Equal(expectedPlayerId, startingPlayer.Key);
         }
+
+        public static IEnumerable<object[]> TestDataForDecidePlayerStart =>
+       new List<object[]>
+       {
+            new object[] { 101, 102, 103, 104, 4, 2, 1, 3, 101 },
+            new object[] { 101, 102, 103, 104, 4, 2, 6, 1, 103 },
+            new object[] { 101, 102, 103, 104, 4, 5, 1, 2, 102 },
+            new object[] { 101, 102, 103, 104, 4, 5, 1, 6, 104 }
+       };
 
         [Theory]
         [InlineData(false, 2, "Piece 1", "Piece 2", "Piece 3", "Piece 4")]
@@ -74,7 +80,7 @@ namespace XUnitTest
         [InlineData(true, 3, "Piece 1", "Piece 2", "Piece 3", "Piece 4")]
         public void CreatePieceButtonOptions_FindPiecePlacement_ReturnPieceIdentity(bool displayInNest, int index, string expectedOne, string expectedTwo, string expectedThree, string expectedFour)
         {
-            IList<GamePlayer> GamePlayers = new List<GamePlayer>()
+            IList<GamePlayer> gamePlayers = new List<GamePlayer>()
             {
                 new GamePlayer(1, "Laban", "Blue"),
                 new GamePlayer(3, "John", "Green"),
@@ -84,10 +90,10 @@ namespace XUnitTest
 
             IList<string> pieceOptions = new List<string>();
 
-            var pieces = GamePlayers[index].Pieces.Where(p => p.CurrentPos != p.GoalPos).Select(p => p.PieceID);
+            var pieces = gamePlayers[index].Pieces.Where(p => p.CurrentPos != p.GoalPos).Select(p => p.PieceID);
 
             if (displayInNest != true)
-                pieces = GamePlayers[index].Pieces.Where(p => p.CurrentPos != p.LocalStartPos || p.CurrentPos != p.GoalPos).Select(p => p.PieceID);
+                pieces = gamePlayers[index].Pieces.Where(p => p.CurrentPos != p.LocalStartPos || p.CurrentPos != p.GoalPos).Select(p => p.PieceID);
 
             foreach (var id in pieces)
             {
