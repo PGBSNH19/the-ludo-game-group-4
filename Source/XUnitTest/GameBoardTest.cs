@@ -15,7 +15,7 @@ namespace XUnitTest
         public void SetColorStartPositon_InputColor_ExpectedBoardPosition(string color, int expectedBoardPosition)
         {
             //Arrange
-            GameBoard gameBoard = new GameBoard(new GameSession());
+            GameBoard gameBoard = new GameBoard(new GameSession(),true);
 
             //Act
             int actualValue = gameBoard.SetColorStartPositon(color);
@@ -28,7 +28,7 @@ namespace XUnitTest
         public void SetPlayOrder_P1BlueP2YellowP3RedP4Green_ExpectedPlayingOrderBlueGreenYellowRed()
         {
             //Arrange
-            GameBoard gameBoard = new GameBoard(new GameSession());
+            GameBoard gameBoard = new GameBoard(new GameSession(),true);
             IList<GamePlayer> gamePlayers = new List<GamePlayer>()
             {
                 new GamePlayer(1, "Laban", "Blue"),
@@ -74,11 +74,8 @@ namespace XUnitTest
        };
 
         [Theory]
-        [InlineData(false, 2, "Piece 1", "Piece 2", "Piece 3", "Piece 4")]
-        [InlineData(true, 1, "Piece 1", "Piece 2", "Piece 3", "Piece 4")]
-        [InlineData(false, 0, "Piece 1", "Piece 2", "Piece 3", "Piece 4")]
-        [InlineData(true, 3, "Piece 1", "Piece 2", "Piece 3", "Piece 4")]
-        public void CreatePieceButtonOptions_FindPiecePlacement_ReturnPieceIdentity(bool displayInNest, int index, string expectedOne, string expectedTwo, string expectedThree, string expectedFour)
+        [MemberData(nameof(TestDataForCreatePieceButtonOptions))]
+        public void CreatePieceButtonOptions_FindPiecePlacement_ReturnPiecesNotInGoal(bool displayInNest,int index, int expected)
         {
             IList<GamePlayer> gamePlayers = new List<GamePlayer>()
             {
@@ -87,6 +84,26 @@ namespace XUnitTest
                 new GamePlayer(2, "Kalle", "Yellow"),
                 new GamePlayer(4, "Johan", "Red")
             };
+
+            gamePlayers[0].Pieces[0].CurrentPos = 12;
+            gamePlayers[0].Pieces[1].CurrentPos = 1;
+            gamePlayers[0].Pieces[2].CurrentPos = 0;
+            gamePlayers[0].Pieces[3].CurrentPos = 24;
+            
+            gamePlayers[1].Pieces[0].CurrentPos = 28;
+            gamePlayers[1].Pieces[1].CurrentPos = 45;
+            gamePlayers[1].Pieces[2].CurrentPos = 5;
+            gamePlayers[1].Pieces[3].CurrentPos = 31;
+            
+            gamePlayers[2].Pieces[0].CurrentPos = 0;
+            gamePlayers[2].Pieces[1].CurrentPos = 30;
+            gamePlayers[2].Pieces[2].CurrentPos = 21;
+            gamePlayers[2].Pieces[3].CurrentPos = 45;
+
+            gamePlayers[3].Pieces[0].CurrentPos = 29;
+            gamePlayers[3].Pieces[1].CurrentPos = 16;
+            gamePlayers[3].Pieces[2].CurrentPos = 45;
+            gamePlayers[3].Pieces[3].CurrentPos = 0;
 
             IList<string> pieceOptions = new List<string>();
 
@@ -100,15 +117,21 @@ namespace XUnitTest
                 pieceOptions.Add($"Piece {id}");
             }
 
-            string actualOne = pieceOptions[0];
-            string actualTwo = pieceOptions[1];
-            string actualThree = pieceOptions[2];
-            string actualFour = pieceOptions[3];
+            var actual = pieceOptions.Count;
 
-            Assert.Equal(expectedOne, actualOne);
-            Assert.Equal(expectedTwo, actualTwo);
-            Assert.Equal(expectedThree, actualThree);
-            Assert.Equal(expectedFour, actualFour);
+            Assert.Equal(expected, actual);
         }
+
+        public static IEnumerable<object[]> TestDataForCreatePieceButtonOptions =>
+      new List<object[]>
+      {
+            new object[] { false, 0, 4 },
+            new object[] { true, 0, 4 },
+            new object[] { true, 1, 3 },
+            new object[] { true, 2, 3 },
+            new object[] { true, 2, 3 },
+            new object[] { true, 3, 3 },
+            new object[] { true, 3, 3 },
+      };
     }
 }
