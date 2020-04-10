@@ -6,6 +6,7 @@ namespace LudoGameEngine
 {
     public class CreateInteractable
     {
+        //create a single button
         public static int SingleButton(Func<int> methodName, string buttonText)
         {
             Console.CursorVisible = false;
@@ -25,7 +26,19 @@ namespace LudoGameEngine
             return methodName();
         }
 
-        public static int OptionMenu(bool horizontal, string[] option)
+        /// <summary>
+        /// Create a menu, optional parameters. string text display a text above menu.
+        /// posX1 and posY1 sets position of menu, posX2 and posY2 sets position of string text
+        /// </summary>
+        /// <param name="horizontal"></param>
+        /// <param name="options"></param>
+        /// <param name="posX1"></param>
+        /// <param name="posY1"></param>
+        /// <param name="posX2"></param>
+        /// <param name="posY2"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static int OptionMenu(bool horizontal, string[] options, int posX1 = 0, int posY1 = 0, int posX2 = 0, int posY2 = 0, string text = "")
         {
 
             int selectedIndex = 0;
@@ -34,17 +47,21 @@ namespace LudoGameEngine
 
             while (key != ConsoleKey.Enter)
             {
+                DrawGFX.SetDrawPosition(posX2, posY2);
+                Console.WriteLine(text);
+
+                DrawGFX.SetDrawPosition(posX1, posY1);
                 if (horizontal == false)
                 {
-                    for (int i = 0; i < option.Length; i++)
+                    for (int i = 0; i < options.Length; i++)
                     {
                         if (i == selectedIndex)
                         {
                             Console.BackgroundColor = ConsoleColor.DarkBlue;
                             Console.ForegroundColor = ConsoleColor.White;
                         }
-
-                        Console.WriteLine(option[i]);
+                        
+                        Console.WriteLine(options[i]);
                         Console.ResetColor();
                     }
 
@@ -53,21 +70,21 @@ namespace LudoGameEngine
                     if (key == ConsoleKey.DownArrow)
                     {
                         selectedIndex++;
-                        if (selectedIndex == option.Length)
+                        if (selectedIndex == options.Length)
                             selectedIndex = 0;
                     }
                     else if (key == ConsoleKey.UpArrow)
                     {
                         selectedIndex--;
                         if (selectedIndex == -1)
-                            selectedIndex = option.Length - 1;
+                            selectedIndex = options.Length - 1;
                     }
 
                     Console.Clear();
                 }
                 else
                 {
-                    for (int i = 0; i < option.Length; i++)
+                    for (int i = 0; i < options.Length; i++)
                     {
                         if (i == selectedIndex)
                         {
@@ -75,7 +92,7 @@ namespace LudoGameEngine
                             Console.ForegroundColor = ConsoleColor.White;
                         }
 
-                        Console.Write(" " + option[i] + " ");
+                        Console.Write(" " + options[i] + " ");
                         Console.ResetColor();
                     }
 
@@ -84,15 +101,15 @@ namespace LudoGameEngine
                     if (key == ConsoleKey.RightArrow)
                     {
                         selectedIndex++;
-                        if (selectedIndex == option.Length)
+                        if (selectedIndex == options.Length)
                             selectedIndex = 0;
                     }
                     else if (key == ConsoleKey.LeftArrow)
                     {
                         selectedIndex--;
                         if (selectedIndex == -1)
-                            selectedIndex = option.Length - 1;
-                    }                   
+                            selectedIndex = options.Length - 1;
+                    }
                 }
 
                 Console.Clear();
@@ -102,7 +119,19 @@ namespace LudoGameEngine
             return selectedIndex;
         }
 
-        public static int OptionMenu(bool horizontal, IList<string> option)
+        /// <summary>
+        /// Create a menu, optional parameters. string text display a text above menu.
+        /// posX1 and posY1 sets position of menu, posX2 and posY2 sets position of string text
+        /// </summary>
+        /// <param name="horizontal"></param>
+        /// <param name="options"></param>
+        /// <param name="posX1"></param>
+        /// <param name="posY1"></param>
+        /// <param name="posX2"></param>
+        /// <param name="posY2"></param>
+        /// <param name="text"></param>
+        /// <returns></returns>
+        public static int OptionMenu(bool horizontal, IList<string> options, int posX1 = 0, int posY1 = 1, int posX2 = 0, int posY2 = 0, string text = "")
         {
 
             int selectedIndex = 0;
@@ -113,7 +142,7 @@ namespace LudoGameEngine
             {
                 if (horizontal == false)
                 {
-                    for (int i = 0; i < option.Count; i++)
+                    for (int i = 0; i < options.Count; i++)
                     {
                         if (i == selectedIndex)
                         {
@@ -121,7 +150,7 @@ namespace LudoGameEngine
                             Console.ForegroundColor = ConsoleColor.White;
                         }
 
-                        Console.WriteLine(option[i]);
+                        Console.WriteLine(options[i]);
                         Console.ResetColor();
                     }
 
@@ -130,21 +159,21 @@ namespace LudoGameEngine
                     if (key == ConsoleKey.DownArrow)
                     {
                         selectedIndex++;
-                        if (selectedIndex == option.Count)
+                        if (selectedIndex == options.Count)
                             selectedIndex = 0;
                     }
                     else if (key == ConsoleKey.UpArrow)
                     {
                         selectedIndex--;
                         if (selectedIndex == -1)
-                            selectedIndex = option.Count - 1;
+                            selectedIndex = options.Count - 1;
                     }
 
                     Console.Clear();
                 }
                 else
                 {
-                    for (int i = 0; i < option.Count; i++)
+                    for (int i = 0; i < options.Count; i++)
                     {
                         if (i == selectedIndex)
                         {
@@ -152,7 +181,7 @@ namespace LudoGameEngine
                             Console.ForegroundColor = ConsoleColor.White;
                         }
 
-                        Console.Write(" " + option[i] + " ");
+                        Console.Write(" " + options[i] + " ");
                         Console.ResetColor();
                     }
 
@@ -161,14 +190,14 @@ namespace LudoGameEngine
                     if (key == ConsoleKey.RightArrow)
                     {
                         selectedIndex++;
-                        if (selectedIndex == option.Count)
+                        if (selectedIndex == options.Count)
                             selectedIndex = 0;
                     }
                     else if (key == ConsoleKey.LeftArrow)
                     {
                         selectedIndex--;
                         if (selectedIndex == -1)
-                            selectedIndex = option.Count - 1;
+                            selectedIndex = options.Count - 1;
                     }
                 }
 

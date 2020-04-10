@@ -24,8 +24,8 @@ namespace LudoGame
         {
             playerProfiles = LoadHighScoreAsync().Result;
 
-            //int selected = MenuOptions(options);
-            int selected = CreateInteractable.OptionMenu(false, options);
+            int selected = CreateInteractable.OptionMenu(false, options, 0, 2, 0, 0, "Welcome to LudoFrenzy".ToUpper());
+
             switch (selected)
             {
                 case 0:
@@ -57,50 +57,7 @@ namespace LudoGame
                     break;
             }
         }
-
-        //static int MenuOptions(string[] option)
-        //{
-        //    int selectedIndex = 0;
-
-        //    Console.CursorVisible = false;
-
-        //    ConsoleKey? key = null;
-
-        //    while (key != ConsoleKey.Enter)
-        //    {
-        //        for(int i = 0; i < option.Length; i++)
-        //        {
-                    
-        //            if(i == selectedIndex)
-        //            {
-        //                Console.BackgroundColor = ConsoleColor.DarkBlue;
-        //                Console.ForegroundColor = ConsoleColor.White;
-        //            }
-
-        //            Console.WriteLine(option[i]);
-        //            Console.ResetColor();
-        //        }
-
-        //        key = Console.ReadKey().Key;
-
-        //        if (key == ConsoleKey.DownArrow)
-        //        {
-        //            selectedIndex++;
-        //            if (selectedIndex == option.Length)
-        //                selectedIndex = 0;
-        //        }
-        //        else if(key == ConsoleKey.UpArrow)
-        //        {
-        //            selectedIndex--;
-        //            if (selectedIndex == -1)
-        //                selectedIndex = option.Length - 1;
-        //        }
-
-        //        Console.Clear();
-        //    }
-        //    return selectedIndex;
-        //}
-
+      
         static void ContinueLastSavedGame()
         {
             Console.WriteLine("Continue last saved game");

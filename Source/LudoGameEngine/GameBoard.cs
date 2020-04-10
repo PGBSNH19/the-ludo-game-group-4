@@ -492,7 +492,7 @@ namespace LudoGameEngine
             return pieceOptions;
         }
 
-        private int RollRegular(int stepsToMove, int playerIndex)
+        private void RollRegular(int stepsToMove, int playerIndex)
         {
             
         }

@@ -39,7 +39,7 @@ namespace XUnitTest
             };
 
             //Act
-            var result = gameBoard.SetPlayOrder(gamePlayers[0].GamePlayerID, gamePlayers);
+            var result = gameBoard.SetPlayOrder(gamePlayers[1].GamePlayerID, gamePlayers);
 
             //Assert
             Assert.Equal("Blue", result[0].Color);

@@ -39,3 +39,15 @@ Refakturerat gameplay. Gjort metoder kring regler då spelare slår 1-5. Kvarst�
 Klar med 6ans nummer, och kollissioner. Tror det kommer bli ett par buggar här och där, men det blir lättare att upptäcka dem när drawing klass och meny klass är på plats som kommer att hjälpa till UI. Menyklassen är fixad, så nu går det att anropa olika menyer som visas  horisontellt eller vertikalt på olika val spelaren får göra i spelet.
 
 Påbörjat DrawUI
+
+2020-04-08
+
+Endast gjort lite småfix här och där
+
+2020-04-09
+
+Fixat iordning så UI displayas. Gjort en hel del hjälpfunktioner och klasser. Mycket refakturering av kod. spelarpjäserna flyttas numera på brädet. Fixat om  i menyfunktionerna.
+
+2020-04-10
+
+[natt] Fortsatt fix med menyfunktioner, samt extra hjälpfunktioner och refakturering av kod

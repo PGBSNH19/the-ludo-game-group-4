@@ -40,3 +40,11 @@ En hjälpklass (CreateInteractable) har skapats som abstraherar och simulerar op
 För övrigt har vi ungefär så gott som hållit och arbetat utefter våra flowcharts, CRC-cards samt Userstories även om viss funktionalitet och metoder kanske flyttats till andra klasser.
 
 Det ser dock ut att bli tight med presentationen och få klart spelet samt testerna i en tillfredställande kvalitet som följer projektbeskrivningen, så vi kommer troligtvis få gå in i varandras ansvarsområden och stötta upp. 
+
+**[Update 3 - 2020-04-10]**
+
+Databashanteringen är mer eller mindre klar. Måste bara implementera det i spelet, men avvaktar med detta tills gameplay är klart, så det går snabbt att komma in i spelet och debugga, utan att det skall skriva till databasen hela tiden. UI är på plats, även om det behövs en del justeringar. Massvis med refakturering av kod är gjort samt flera hjälpklasser och funktioner har lagts till. Behovet uppkom i samband med att det behövdes mer kontroll över hur det renderas ut UI element och text i consolfönstret. Det går numera även att flytta runt pjäserna visuellt på spelplan till viss del. Alla tärningsslag är inte gjorda helt ännu. 
+
+En del buggar har också upptäckts som vi försökt logga i vår backlogg och en del har rättats till direkt utan att hamna i backloggen. Viss felhantering har skett i form av att visuella menyer med fasta returvärden har ersatt Console.Readline. På så vis minskar chanserna att användaren skriver fel eller gör något oväntat.
+
+Fortsatt arbete behövs göras för att få allt på plats, men någon gång i helgen tror jag (micael) vi skall vara klara med allt.

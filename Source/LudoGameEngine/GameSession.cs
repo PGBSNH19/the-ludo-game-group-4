@@ -18,8 +18,8 @@ namespace LudoGameEngine
     }
     public class GameSession: IGameSession
     {
-      
-        public int PlayerAmount { get; set; }
+
+        public int PlayerAmount { get; set; } = 0;
         public string PlayerName { get; set; }
         public IList<string> PlayerNames = new List<string>();
         public IList<string> Colors = new List<string>();
@@ -47,15 +47,9 @@ namespace LudoGameEngine
 
         public IGameSession SetPlayerAmount()
         {
-            Console.Write("How many players will play?: ");
-            PlayerAmount = int.Parse(Console.ReadLine());
-            while (PlayerAmount <2 || PlayerAmount > 4)
-            {
-                Console.WriteLine("Sorry. You have to be at least two and maximum four players to play");
-                Console.Write("How many players will play?: ");
-                PlayerAmount = int.Parse(Console.ReadLine());
-            }
-            
+            string[] avaliablePlayers = {"[   2   ]", "[   3   ]", "[   4   ]"};
+            PlayerAmount =(2 + CreateInteractable.OptionMenu(true, avaliablePlayers, 0 , 1, 0, 0, "How many players will play?:"));
+
             return this;
         }
         public IGameSession SetSessionData()
@@ -64,14 +58,25 @@ namespace LudoGameEngine
 
             for(int i = 1; i <= PlayerAmount; i++)
             {
+
                 Console.Write($"Name player {i}: ");
                 PlayerName = Console.ReadLine();
+                while (string.IsNullOrEmpty(PlayerName))
+                {
+                    Console.WriteLine("Sorry. You have to fill in a name");
+                    Console.Write($"Name player {i}: ");
+                    PlayerName = Console.ReadLine();                   
+                }
 
-                //ersätt detta med menyoptions som med piltagenter. Måste skapa en ui-utilityclass
-                Console.WriteLine("Choose Color: Red, Blue, Green, Yellow");
-                string color = Console.ReadLine();
+                Console.WriteLine("Choose your player color:");
+                DrawGFX.ClearDrawContent(0, 0, 1);
+                DrawGFX.SetDrawPosition(0, 1);
 
-                SessionPlayerData.Add(Tuple.Create(i, PlayerName, color));
+                string[] colorOptions = Enum.GetNames(typeof(GameColors));
+                int colorID = CreateInteractable.OptionMenu(true, colorOptions, 0, 1, 0, 0, "Choose your player color:");
+
+                string choosenColor = Enum.GetName(typeof(GameColors), colorID);
+                SessionPlayerData.Add(Tuple.Create(i, PlayerName, choosenColor));
             }
 
             return this;
