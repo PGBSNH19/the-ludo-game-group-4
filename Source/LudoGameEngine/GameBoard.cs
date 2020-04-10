@@ -29,17 +29,6 @@ namespace LudoGameEngine
 
         public Dice dice = new Dice();
 
-        public enum ColorOrder
-        {
-            Red,    //0
-            Blue,   //1
-            Green,  //2
-            Yellow  //3
-        }
-
-       
-
-
         public GameBoard(IGameSession gameSession)
         {
             this.gs = gameSession;
@@ -476,6 +465,7 @@ namespace LudoGameEngine
 
         }
 
+        //return a list ov avaliable pieces to move, excluding pieces in goal position
         private IList<string> CreatePieceBtnOptions(bool displayInNest, int index)
         {
             IList<string> pieceOptions = new List<string>();
@@ -540,7 +530,7 @@ namespace LudoGameEngine
             newOrder.Add(gPID);
             gp.Remove(gPID);
 
-            var values = Enum.GetNames(typeof(ColorOrder));
+            var values = Enum.GetNames(typeof(GameColors));
             int index = Array.IndexOf(values, currentColor);
 
             for(int i = 0; i < gp.Count; i++)
@@ -572,13 +562,13 @@ namespace LudoGameEngine
             int startPos = 0;
 
             if (color == "Red")
-                startPos = 0;  //ev. 0 om man räknar från index 0
+                startPos = 0;  
             else if (color == "Blue")
-                startPos = 10;  //ev. 10 om man räknar från index 0
+                startPos = 10;  
             else if (color == "Green")
-                startPos = 20;  //ev. 20 om man räknar från index 0
+                startPos = 20;  
             else if (color == "Yellow")
-                startPos = 30;  //ev. 30 om man räknar från index 0
+                startPos = 30;  
 
            return startPos;
         }

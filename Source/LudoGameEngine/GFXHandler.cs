@@ -18,10 +18,10 @@ namespace LudoGameEngine
 
     public enum GameColors
     {
-        Red,
-        Blue,
-        Green,
-        Yellow
+        Red,    //0
+        Blue,   //1
+        Green,  //2
+        Yellow  //3
     }
 
     public class DrawGFX
@@ -158,36 +158,5 @@ namespace LudoGameEngine
 
             return brushColor;
         }
-
-
-        //private static ConsoleColor BrushColor(GameColors gameColor)
-        //{
-        //    var brushColor = new ConsoleColor();
-
-        //    if (gameColor == GameColors.Red)
-        //    {
-        //        brushColor = ConsoleColor.Red;
-        //    }
-        //    else if (gameColor == GameColors.Blue)
-        //    {
-        //        brushColor = ConsoleColor.Blue;
-        //    }
-        //    else if (gameColor == GameColors.Green)
-        //    {
-        //        brushColor = ConsoleColor.Green;
-        //    }
-        //    else if (gameColor == GameColors.Yellow)
-        //    {
-        //        brushColor = ConsoleColor.Yellow;
-        //    }
-
-        //    return brushColor;
-        //}
-
-
-        static void bottombuttonsposition()
-        {
-
-        }        
     }
 }
