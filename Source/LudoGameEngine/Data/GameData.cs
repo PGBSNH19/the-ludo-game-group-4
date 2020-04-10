@@ -11,17 +11,18 @@ namespace LudoGameEngine.Data
     public class GameData
     {
         DataContext Context = new DataContext();
-        public int SessionId { get; set; }
-        public int PlayerId { get; set; }
+        public int SessionId { get; set; } //holding sessiond id for foreign key in PlayerSession table
+        public int PlayerId { get; set; }   // holding player id for foreign key in playerSession table
+        //creating new session
         public void InsertSessionData(string SessionName, bool finished = false, string winner = "")
         {
             try
             {
-                var sName = Context.Session
+                var sName = Context.Session  // finding an existing session name
                     .Where(x=> x.SessionName==SessionName)
                     .Select(x => x.SessionName).FirstOrDefault();
 
-                if (sName!=SessionName)
+                if (sName!=SessionName)  //checking for existing name
                 {
                     Session session = new Session
                     {
@@ -124,8 +125,8 @@ namespace LudoGameEngine.Data
 
                 PlayerSession ps = new PlayerSession
                 {
-                    PlayerId = player.PlayerID,
-                    SessionId = SessionId,
+                    PlayerId = player.PlayerID, //giving same player id to foreignKey in PlayerSession
+                    SessionId = SessionId,  //giving same session id for foreign key in PlayerSession. 
                     Color = color
                 };
                 Context.PlayerSession.Add(ps);
@@ -171,7 +172,7 @@ namespace LudoGameEngine.Data
         public void ShowHighScore()
         {
             try
-            {
+            {   //Group by winner and count their wins
                 var score = Context.Session
                      .Where(c => c.GameFinished == true)
                      .GroupBy(x => x.Winner)
@@ -181,7 +182,7 @@ namespace LudoGameEngine.Data
                 foreach (var item in score)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Player Name {0} \t Wone {1}", item.winner, item.Count);
+                    Console.WriteLine("Player {0} \t Wone {1}", item.winner.ToUpper(), item.Count);
                     Console.ResetColor();
                 }
             }
@@ -193,7 +194,7 @@ namespace LudoGameEngine.Data
             }
         }
 
-        public void ShowData()
+        public void ShowData()  // shows the recent added player and session 
         {
             try
             {
@@ -229,7 +230,7 @@ namespace LudoGameEngine.Data
                 Console.ResetColor();
             }
         }
-        public void RemoveEverything()
+        public void RemoveEverything()   //remove everything from all tables, this method was created to clean all test data 
         {
             try
             {
@@ -374,7 +375,7 @@ namespace LudoGameEngine.Data
                                 pieceID = p.PlayerPieceID
                             }).ToList();
 
-                if (data.Count()==0)
+                if (data.Count()==0) 
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Console.WriteLine("OBS, There is no unfinished game available \n");

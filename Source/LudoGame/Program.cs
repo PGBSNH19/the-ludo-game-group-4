@@ -11,7 +11,7 @@ namespace LudoGame
     {
         static void Main(string[] args)
         {
-            Console.SetWindowSize(200, 50);
+            //Console.SetWindowSize(200, 50);
             Console.SetBufferSize(200, 50);
 
             //NYASTE GAMEDATAN
@@ -36,24 +36,24 @@ namespace LudoGame
 
 
             ////create session (name,GameFinished? WinnerName?. method must calls before inserteachPlayer()
-            // d.InsertSessionData("session6", false, "");
+             //d.InsertSessionData("session10", false, "");
 
-            
-            //    //code bellow create player with their piece and color. 
-            //    Console.WriteLine("Enter amount of player");
-            //    int amountPlayer = int.Parse(Console.ReadLine());
-            //    for (int i = 1; i <= amountPlayer; i++)
-            //    {
-            //        Console.WriteLine($"Enter player {i} name");
-            //        string name = Console.ReadLine();
-            //        Console.WriteLine($"Enter player {i} color");
-            //        string color = Console.ReadLine();
-            //        //amount of player, name, color
-            //        d.InsertEachPlayerData(i, name, color);
-            //    }
 
-            //    //shows the recent added players and session
-            //    d.ShowData();
+            //code bellow create player with their piece and color. 
+            //Console.WriteLine("Enter amount of player");
+            //int amountPlayer = int.Parse(Console.ReadLine());
+            //for (int i = 1; i <= amountPlayer; i++)
+            //{
+            //    Console.WriteLine($"Enter player {i} name");
+            //    string name = Console.ReadLine();
+            //    Console.WriteLine($"Enter player {i} color");
+            //    string color = Console.ReadLine();
+            //    //amount of player, name, color
+            //    d.InsertEachPlayerData(i, name, color);
+            //}
+
+            //shows the recent added players and session
+            //d.ShowData();
 
             //    //this method show the high score players
             //    //d.ShowHighScore();

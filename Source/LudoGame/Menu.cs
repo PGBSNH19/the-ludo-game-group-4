@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading.Tasks;
 using LudoGameEngine;
-
+using LudoGameEngine.Data;
 
 namespace LudoGame
 {
@@ -19,7 +19,7 @@ namespace LudoGame
         };
 
         private static IDictionary<string, int> playerProfiles = new Dictionary<string, int>();
-
+        public static GameData Data = new GameData();
         public static void Display()
         {
             playerProfiles = LoadHighScoreAsync().Result;
@@ -74,7 +74,8 @@ namespace LudoGame
 
         static void DisplayHighScore(IDictionary<string, int> dict)
         {
-            Console.WriteLine("HighScore");
+            Console.WriteLine("HighScore ");
+            Data.ShowHighScore();
             Dictionary<string, int> topPlayers = new Dictionary<string, int>();
 
 
@@ -83,7 +84,13 @@ namespace LudoGame
         }
         static void LoadSavedGames()
         {
-            Console.WriteLine("Load");
+            //Console.WriteLine("Load");
+            Console.WriteLine("Please Enter the session name");
+            string sessioName = Console.ReadLine();
+            foreach (var i in Data.LoadGame(sessioName))
+            {
+                Console.WriteLine($"Session Name: {i.SessionName}\tPlayerName: {i.PlayerName}\tColor: {i.Color}\tPiece ID: {i.PieceID}\tPosition{i.Position}");
+            }   
             BackButton();
             ReturnToMenu();
         }

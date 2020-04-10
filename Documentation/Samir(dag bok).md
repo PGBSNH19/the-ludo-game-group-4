@@ -30,3 +30,7 @@ men det blv fel eftersom jag har join tabell på många ställe och många foreign k
 därför blev det fel
 
 man jag har gjort ett försök i alla fall. om jag hade lyckats med den programmet kunde snabbas mycket mer än det är nu. eftersom nu den sparar varje pjäss separat. därför det blir många context.saveChanges();  det tar mycket tid att spara varje pjäss separat.
+
+
+2020-04-10
+har gått genom koden och kommenterat där det behövdes och även kopplat vissa metoder som kommer från databas klassen till menu klassen. 

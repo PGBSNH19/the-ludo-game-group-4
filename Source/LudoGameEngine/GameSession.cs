@@ -1,4 +1,5 @@
-﻿using System;
+﻿using LudoGameEngine.Data;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -54,9 +55,12 @@ namespace LudoGameEngine
         }
         public IGameSession SetSessionData()
         {
+            GameData d = new GameData();
+            Console.WriteLine("Please Enter a Session Name");
+            string sessionName = Console.ReadLine();
+            d.InsertSessionData(sessionName);  //creating new session, Name must be Unique
             Console.WriteLine("Please type in your names");
-
-            for(int i = 1; i <= PlayerAmount; i++)
+            for (int i = 1; i <= PlayerAmount; i++)
             {
 
                 Console.Write($"Name player {i}: ");
@@ -77,6 +81,7 @@ namespace LudoGameEngine
 
                 string choosenColor = Enum.GetName(typeof(GameColors), colorID);
                 SessionPlayerData.Add(Tuple.Create(i, PlayerName, choosenColor));
+                d.InsertEachPlayerData(i, PlayerName, choosenColor); //inserting player data to DB
             }
 
             return this;
