@@ -95,7 +95,7 @@ namespace LudoGame
                 Console.WriteLine($"Session Name: {i.SessionName}\tPlayerName: {i.PlayerName}\tColor: {i.Color}\tPiece ID: {i.PieceID}\tPosition {i.Position}");
             }
 
-              GameBoard game = new GameBoard(new GameSession());
+              GameBoard game = new GameBoard(new GameSession(), false);
               game.gamePlayerAmnt = playerAmount.Count;
               game.GameLoop();
             BackButton();
