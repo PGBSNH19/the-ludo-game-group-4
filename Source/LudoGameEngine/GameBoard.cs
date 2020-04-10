@@ -22,16 +22,18 @@ namespace LudoGameEngine
 
         public int gamePlayerAmnt = 0;
         private string winner { get; set; } = "";
-        //private int playerTurn;
+
         private ConsoleColor textColor;
 
         public IGameSession gs;
+        public bool NewGame { get; set; }
 
         public Dice dice = new Dice();
 
-        public GameBoard(IGameSession gameSession)
+        public GameBoard(IGameSession gameSession, bool newGame)
         {
             this.gs = gameSession;
+            this.NewGame = newGame;
         }
 
         //this loop runs the game
@@ -79,8 +81,10 @@ namespace LudoGameEngine
                 //all the gameplay here
                 for(int i = 0; i < gamePlayerAmnt; i++)
                 { 
+                    //header
                     DrawGFX.SetDrawPosition(0, 0);
-                    Console.WriteLine("May the best player win!");
+                    Console.Write(new string("[GAME PROGRESS INFORMATION]").PadRight(25));
+                    Console.WriteLine("Press 9 to Save");
 
                     //position for dialogue
                     DrawGFX.SetDrawPosition(0, 2);
@@ -229,47 +233,6 @@ namespace LudoGameEngine
                     //    DrawGFX.SetDrawPosition(0, 8);
                     //    diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");
                     //}
-
-
-
-
-                    //if (diceValue == 1)
-                    //{
-                    //    DrawGFX.SetDrawPosition(0, 2);
-                    //    Console.WriteLine("Choose a piece to move");
-
-                    //    IList<string> options = CreatePieceBtnOptions(true, i);
-                    //    int selectedPiece = (1 + CreateInteractable.OptionMenu(true, options));
-
-                    //    var piece = GamePlayers[i].Pieces.Where(s => s.PieceID == selectedPiece).FirstOrDefault();
-
-                    //    int currentLocalPosition = UpdateLocalPiecePosition(i, piece, diceValue);
-                    //    int globalPosition = GetGlobalPiecePosition(i, piece);
-                    //    UpdateGlobalPiecePosition(i, globalPosition);
-
-                    //    Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {piece.PieceID} moved to position {currentLocalPosition} in Player Board" +
-                    //        $"and position {globalPosition} in Game Board.");
-                    //}
-                    //else if(diceValue == 6)
-                    //{
-
-                    //}
-                    //else
-                    //{
-                    //    IList<string> options = CreatePieceBtnOptions(true, i);
-                    //    int selectedPiece = (1 + CreateInteractable.OptionMenu(true, options));
-
-                    //    var piece = GamePlayers[i].Pieces.Where(s => s.PieceID == selectedPiece).FirstOrDefault();
-
-                    //    int currentLocalPosition = UpdateLocalPiecePosition(i, piece, diceValue);
-                    //    int globalPosition = GetGlobalPiecePosition(i, piece);
-                    //    UpdateGlobalPiecePosition(i, globalPosition);
-
-                    //    Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {piece.PieceID} moved to position {currentLocalPosition} in Player Board" +
-                    //        $"and position {globalPosition} in Game Board.");
-                    //}
-
-
 
 
                     /*for (int y = 0; y < 4; y++)
@@ -501,8 +464,7 @@ namespace LudoGameEngine
                 GamePlayers.Add(new GamePlayer(sessionData[i].Item1,sessionData[i].Item2, sessionData[i].Item3));
                 GamePlayers[i].GlobalStartPos = SetColorStartPositon(GamePlayers[i].Color);
             }
-            
-            
+                       
         }
 
         private void InitializeBoardCoordinates()
