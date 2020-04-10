@@ -20,7 +20,7 @@ namespace LudoGameEngine
         public IList<BoardCoordinate> CoordinateOuterPosition = new List<BoardCoordinate>();
         public IList<GamePlayer> GamePlayers = new List<GamePlayer>();
 
-        private int gamePlayerAmnt = 0;
+        public int gamePlayerAmnt = 0;
         private string winner { get; set; } = "";
         //private int playerTurn;
         private ConsoleColor textColor;
