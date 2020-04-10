@@ -1,8 +1,7 @@
-﻿using System;
+﻿using Xunit;
 using System.Collections.Generic;
-using System.Text;
-using Xunit;
 using LudoGameEngine;
+using System.Linq;
 
 namespace XUnitTest
 {
@@ -39,13 +38,71 @@ namespace XUnitTest
             };
 
             //Act
-            var result = gameBoard.SetPlayOrder(gamePlayers[1].GamePlayerID, gamePlayers);
+            var result = gameBoard.SetPlayOrder(gamePlayers[0].GamePlayerID, gamePlayers);
 
             //Assert
             Assert.Equal("Blue", result[0].Color);
             Assert.Equal("Green", result[1].Color);
             Assert.Equal("Yellow", result[2].Color);
             Assert.Equal("Red", result[3].Color);
+        }
+
+        [Theory]
+        [InlineData(101, 102, 103, 104, 4, 2, 1, 3, 101)]
+        [InlineData(101, 102, 103, 104, 4, 2, 6, 1, 103)]
+        [InlineData(101, 102, 103, 104, 4, 5, 1, 2, 102)]
+        [InlineData(101, 102, 103, 104, 4, 5, 1, 6, 104)]
+        public void DecidePlayerStart_SortOutStartingPlayer_StartingPlayer(int playerIdOne, int playerIdTwo, int playerIdThree, int playerIdFour, int diceNumberRollOne, int diceNumberRollTwo, int diceNumberRollThree, int diceNumberRollFour, int expectedPlayerId)
+        {
+            Dictionary<int, int> firstRoll = new Dictionary<int, int>
+            {
+                { playerIdOne, diceNumberRollOne },
+                { playerIdTwo, diceNumberRollTwo },
+                { playerIdThree, diceNumberRollThree },
+                { playerIdFour, diceNumberRollFour }
+            };
+
+            var startingPlayer = firstRoll.OrderByDescending(x => x.Value).First();
+
+            Assert.Equal(expectedPlayerId, startingPlayer.Key);
+        }
+
+        [Theory]
+        [InlineData(false, 2, "Piece 1", "Piece 2", "Piece 3", "Piece 4")]
+        [InlineData(true, 1, "Piece 1", "Piece 2", "Piece 3", "Piece 4")]
+        [InlineData(false, 0, "Piece 1", "Piece 2", "Piece 3", "Piece 4")]
+        public void CreatePieceButtonOptions_FindPiecePlacement_ReturnPieceIdentity(bool displayInNest, int index, string expectedOne, string expectedTwo, string expectedThree, string expectedFour)
+        {
+            var playerOne = new GamePlayer(1, "Kalle", "Red");
+            var playerTwo = new GamePlayer(2, "John", "Blue");
+            var playerThree = new GamePlayer(3, "Urban", "Green");
+
+            List<GamePlayer> GamePlayers = new List<GamePlayer>();
+            GamePlayers.Add(playerOne);
+            GamePlayers.Add(playerTwo);
+            GamePlayers.Add(playerThree);
+
+            IList<string> pieceOptions = new List<string>();
+
+            var pieces = GamePlayers[index].Pieces.Where(p => p.CurrentPos != p.GoalPos).Select(p => p.PieceID);
+
+            if (displayInNest != true)
+                pieces = GamePlayers[index].Pieces.Where(p => p.CurrentPos != p.LocalStartPos || p.CurrentPos != p.GoalPos).Select(p => p.PieceID);
+
+            foreach (var id in pieces)
+            {
+                pieceOptions.Add($"Piece {id}");
+            }
+
+            string actualOne = pieceOptions[0];
+            string actualTwo = pieceOptions[1];
+            string actualThree = pieceOptions[2];
+            string actualFour = pieceOptions[3];
+
+            Assert.Equal(expectedOne, actualOne);
+            Assert.Equal(expectedTwo, actualTwo);
+            Assert.Equal(expectedThree, actualThree);
+            Assert.Equal(expectedFour, actualFour);
         }
     }
 }
