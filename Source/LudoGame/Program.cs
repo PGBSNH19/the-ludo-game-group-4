@@ -15,11 +15,11 @@ namespace LudoGame
             Console.SetBufferSize(200, 50);
 
             //NYASTE GAMEDATAN
-            GameData d = new GameData();
-            foreach (var item in d.ShowAllSession())
-            {
-                Console.WriteLine(item);
-            }
+            //GameData d = new GameData();
+            //foreach (var item in d.ShowAllSession())
+            //{
+            //    Console.WriteLine(item);
+            //}
             ////metod return unfinished Game from database. session name must match
             //foreach (var i in d.LoadGame("session2"))
             //{
@@ -105,7 +105,7 @@ namespace LudoGame
             ////this method show the high score players
             ////d.ShowHighScore();
 
-            //.Display();
+            Menu.Display();
             Console.ReadKey();
 
             //GameBoard gb = new GameBoard(new GameSession());
