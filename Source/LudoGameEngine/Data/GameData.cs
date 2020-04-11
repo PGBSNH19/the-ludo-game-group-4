@@ -351,6 +351,14 @@ namespace LudoGameEngine.Data
             public int PieceID { get; set; }
             public int Position { get; set; }
         }
+        public List<string> ShowAllSession()
+        {
+            var session = Context.Session
+                .Where(x => x.GameFinished == false)
+                .Select(x => x.SessionName).ToList();
+
+            return session;
+        }
 
         public List<MyGameData> LoadGame(string sName)
         {
