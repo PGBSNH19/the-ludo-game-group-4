@@ -8,6 +8,7 @@ namespace LudoGameEngine
     {
         public int PieceID { get; set; }
         public int CurrentPos { get; set; } = 0;
+        public int CurrentGlobalPos { get; set; } = 0;
         public int LocalStartPos { get; } = 0;
         public int GoalPos { get; } = 45;
         public bool PieceInGoal { get; set; } = false;

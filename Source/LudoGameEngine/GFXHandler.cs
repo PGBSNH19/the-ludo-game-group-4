@@ -7,7 +7,8 @@ namespace LudoGameEngine
     public enum BoardGFXItem
     {
         GameBoardGFX,
-        PieceBoardGFX
+        PieceBoardGFX,
+        GameBoardPiecesGFX
     }
 
     public enum PieceGFXItem
@@ -28,6 +29,7 @@ namespace LudoGameEngine
     {
         public static string GameBoardItem { get; } = "(x)";
         public static string PieceBoardItem { get; } = "(#)";
+        public static string GameBoardPieces { get; } = "  ";
         public static string PieceOnBoard { get; } = " ▲ ";
         public static string PieceInNest { get; } = "(▲)";
 
@@ -70,6 +72,8 @@ namespace LudoGameEngine
                 item = GameBoardItem;
             else if (boardGFXItem == BoardGFXItem.PieceBoardGFX)
                 item = PieceBoardItem;
+            else if (boardGFXItem == BoardGFXItem.PieceBoardGFX)
+                item = GameBoardPieces;
 
             IList<string> tmp = new List<string>();
             for(int i = 0; i < boardLength; i++)
