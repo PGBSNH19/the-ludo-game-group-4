@@ -11,7 +11,7 @@ namespace LudoGame
     {
         static void Main(string[] args)
         {
-            //Console.SetWindowSize(200, 50);
+            Console.SetWindowSize(200, 50);
             Console.SetBufferSize(200, 50);
 
             //NYASTE GAMEDATAN
@@ -105,7 +105,7 @@ namespace LudoGame
             Menu.Display();
             Console.ReadKey();
 
-            GameBoard gb = new GameBoard(new GameSession());
+            //GameBoard gb = new GameBoard(new GameSession());
             
             
         }

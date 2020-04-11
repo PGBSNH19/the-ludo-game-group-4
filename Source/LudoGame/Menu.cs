@@ -24,7 +24,10 @@ namespace LudoGame
         {
             playerProfiles = LoadHighScoreAsync().Result;
 
-            int selected = CreateInteractable.OptionMenu(false, options, 0, 2, 0, 0, "Welcome to LudoFrenzy".ToUpper());
+            DrawGFX.SetDrawPosition(0, 0);
+            Console.WriteLine("Welcome to LudoFrenzy".ToUpper());
+
+            int selected = CreateInteractable.OptionMenu(false, options, 0, 2);
 
             switch (selected)
             {
@@ -86,14 +89,14 @@ namespace LudoGame
         {
             //Console.WriteLine("Load");
             Console.WriteLine("Please Enter the session name");
-            string sessioName = Console.ReadLine();
+            string sessionName = Console.ReadLine();
             List<string> playerAmount = new List<string>();
             string sessionN = "";
 
 
             GameBoard game = new GameBoard(new GameSession(), false);
             int index = 0;
-            foreach (var i in Data.LoadGame(sessioName))
+            foreach (var i in Data.LoadGame(sessionName))
             {
                 playerAmount.Add(i.PlayerName);
                 sessionN = i.SessionName;
@@ -109,9 +112,9 @@ namespace LudoGame
                 index++;
             }
 
-            game.gamePlayerAmnt = playerAmount.Count;
+            /*game.gamePlayerAmnt = playerAmount.Count;
             game.SessionName = sessionN;
-            game.GameLoop();
+            game.GameLoop();*/
 
 
             BackButton();

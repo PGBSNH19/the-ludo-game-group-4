@@ -36,12 +36,23 @@ namespace LudoGameEngine
             Console.SetCursorPosition(posX, posY);
         }
 
+        /// <summary>
+        /// Clear a line
+        /// </summary>
+        /// <param name="posX"></param>
+        /// <param name="posY"></param>
         public static void ClearDrawContent(int posX, int posY)
         {
             Console.SetCursorPosition(posX, posY);
             Console.Write(new string(' ', Console.WindowWidth));
         }
 
+        /// <summary>
+        /// Clear an area
+        /// </summary>
+        /// <param name="posX"></param>
+        /// <param name="startPosY"></param>
+        /// <param name="endPosY"></param>
         public static void ClearDrawContent(int posX, int startPosY, int endPosY)
         {
             for(int i = startPosY; i <= endPosY; i++)

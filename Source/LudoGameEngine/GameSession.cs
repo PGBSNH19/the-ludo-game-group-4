@@ -48,40 +48,60 @@ namespace LudoGameEngine
 
         public IGameSession SetPlayerAmount()
         {
+            Console.Clear();
+            Console.WriteLine("How many players will play ?");
+
             string[] avaliablePlayers = {"[   2   ]", "[   3   ]", "[   4   ]"};
-            PlayerAmount =(2 + CreateInteractable.OptionMenu(true, avaliablePlayers, 0 , 1, 0, 0, "How many players will play?:"));
+            PlayerAmount = (2 + CreateInteractable.OptionMenu(true, avaliablePlayers, 0, 2));
+            //PlayerAmount =(2 + CreateInteractable.OptionMenu(true, avaliablePlayers, 0 , 1, 0, 0, "How many players will play?:"));
 
             return this;
         }
         public IGameSession SetSessionData()
         {
-            GameData d = new GameData();
-            Console.WriteLine("Please Enter a Session Name");
-            string sessionName = Console.ReadLine();
-            d.InsertSessionData(sessionName);  //creating new session, Name must be Unique
+            //GameData d = new GameData();
+            //Console.WriteLine("Please Enter a Session Name");
+            //string sessionName = Console.ReadLine();
+            //d.InsertSessionData(sessionName);  //creating new session, Name must be Unique
+            
+            Console.Clear();
+
+            string[] tmpOptions = Enum.GetNames(typeof(GameColors));
+            List<string> colorOptions = new List<string>(tmpOptions);
+
             Console.WriteLine("Please type in your names");
+
             for (int i = 1; i <= PlayerAmount; i++)
             {
-
+                DrawGFX.SetDrawPosition(0, 1);
                 Console.Write($"Name player {i}: ");
                 PlayerName = Console.ReadLine();
                 while (string.IsNullOrEmpty(PlayerName))
                 {
+                    Console.Clear();
                     Console.WriteLine("Sorry. You have to fill in a name");
                     Console.Write($"Name player {i}: ");
                     PlayerName = Console.ReadLine();                   
                 }
 
+                DrawGFX.SetDrawPosition(0, 3);
                 Console.WriteLine("Choose your player color:");
-                DrawGFX.ClearDrawContent(0, 0, 1);
-                DrawGFX.SetDrawPosition(0, 1);
+                //DrawGFX.ClearDrawContent(0, 0, 1);
+                //DrawGFX.SetDrawPosition(0, 1);
 
-                string[] colorOptions = Enum.GetNames(typeof(GameColors));
-                int colorID = CreateInteractable.OptionMenu(true, colorOptions, 0, 1, 0, 0, "Choose your player color:");
+                //IList<string> colorOptions = Enum.GetNames(typeof(GameColors));
+                
+                int colorID = CreateInteractable.OptionMenu(true, colorOptions, 0, 5);
+                colorOptions.RemoveAt(colorID);
+                //int colorID = CreateInteractable.OptionMenu(true, colorOptions, 0, 1, 0, 0, "Choose your player color:");
 
                 string choosenColor = Enum.GetName(typeof(GameColors), colorID);
                 SessionPlayerData.Add(Tuple.Create(i, PlayerName, choosenColor));
-                d.InsertEachPlayerData(i, PlayerName, choosenColor); //inserting player data to DB
+
+                DrawGFX.ClearDrawContent(0, 3);
+                DrawGFX.ClearDrawContent(0, 1);
+
+                //d.InsertEachPlayerData(i, PlayerName, choosenColor); //inserting player data to DB
             }
 
             return this;

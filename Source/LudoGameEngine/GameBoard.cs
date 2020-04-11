@@ -20,18 +20,41 @@ namespace LudoGameEngine
         public IList<BoardCoordinate> CoordinateOuterPosition = new List<BoardCoordinate>();
         public IList<GamePlayer> GamePlayers = new List<GamePlayer>();
 
-        public int gamePlayerAmnt = 0;
-        private string winner { get; set; } = "";
-
-        private ConsoleColor textColor;
-
-        public IGameSession gs;
+        public int GamePlayerAmnt { get; set; } = 0;
 
         public string SessionName { get; set; } = "";
 
         public bool NewGame { get; set; }
 
         public Dice dice = new Dice();
+
+        private string winner { get; set; } = "";
+
+        private ConsoleColor textColor;
+
+        private IGameSession gs;
+
+        /*===========================================================
+        GFX ConsolePosition
+        ===========================================================*/
+        private int gfxInfoPos = 0;
+        private int gfxSubInfoPos = 1;
+        private int gfxStatusPos = 2;
+        private int gfxResultPos = 4;
+        private int gfxInteractableInfoPos = 6;
+        private int gfxInteractablePos = 8;
+        private int gfxDividerPos = 10;
+
+        private int gfxGameBoardTitlePos = 12;
+        private int gfxGameBoardPiecePis = 14;
+        private int gfxGameBoardPos = 15;
+        private int gfxPlayerBoardTitlePos = 19;
+        private int gfxPlayerInfoPos = 20;
+        private int gfxPieceBoard1Pos = 22;
+        private int gfxPieceBoard2Pos = 25;
+        private int gfxPieceBoard3Pos = 28;
+        private int gfxPieceBoard4Pos = 31;
+        /**************************************************************/
 
         public GameBoard(IGameSession gameSession, bool newGame)
         {
@@ -51,18 +74,21 @@ namespace LudoGameEngine
 
                 //decide which player start
                 IDictionary<int, int> playersRoll = new Dictionary<int, int>();
-                for (int i = 1; i <= gamePlayerAmnt; i++)
+                for (int i = 1; i <= GamePlayerAmnt; i++)
                 {
-                    DrawGFX.SetDrawPosition(0, 0);
+                    DrawGFX.SetDrawPosition(0, gfxInfoPos);
+                    Console.WriteLine("[GAME PROGRESS INFORMATION]");
+
+                    DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
                     Console.WriteLine("Decide which player starts by rolling the dice. Highest number wins");
 
-                    DrawGFX.SetDrawPosition(0, 2);
+                    DrawGFX.SetDrawPosition(0, gfxStatusPos);
                     Console.WriteLine($"Player {i} please roll the dice. Press[ENTER] to roll");
 
-                    DrawGFX.SetDrawPosition(0, 8);
+                    DrawGFX.SetDrawPosition(0, gfxInteractablePos);
                     int diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");
 
-                    DrawGFX.SetDrawPosition(0, 4);
+                    DrawGFX.SetDrawPosition(0, gfxResultPos);
                     Console.WriteLine($"Player {i} rolls: {diceValue}");
 
                     playersRoll.Add(i, diceValue);
@@ -70,7 +96,7 @@ namespace LudoGameEngine
 
                 int playerIDStart = DecidePlayerStart(playersRoll);
 
-                DrawGFX.SetDrawPosition(0, 0);
+                DrawGFX.SetDrawPosition(0, gfxStatusPos);
                 Console.WriteLine($"Player {playerIDStart} got the highest number and therefore start. Press[ENTER] to continue ");
 
                 GamePlayers = SetPlayOrder(playerIDStart, GamePlayers);
@@ -84,27 +110,30 @@ namespace LudoGameEngine
             while (winner == "")
             {
                 //all the gameplay here
-                for(int i = 0; i < gamePlayerAmnt; i++)
+                for(int i = 0; i < GamePlayerAmnt; i++)
                 { 
                     //header
-                    DrawGFX.SetDrawPosition(0, 0);
-                    Console.Write(new string("[GAME PROGRESS INFORMATION]").PadRight(25));
+                    DrawGFX.SetDrawPosition(0, gfxInfoPos);
+                    Console.Write(new string("[GAME PROGRESS INFORMATION]").PadRight(35));
                     Console.WriteLine("Press 9 to Save");
 
                     //position for dialogue
-                    DrawGFX.SetDrawPosition(0, 2);
+                    DrawGFX.SetDrawPosition(0, gfxStatusPos);
                     Console.WriteLine($"[{GamePlayers[i].Color}] Player {GamePlayers[i].GamePlayerID} {GamePlayers[i].Name} please roll the dice: ");
 
                     //position for consoledivider
-                    DrawGFX.SetDrawPosition(0, 10);
+                    DrawGFX.SetDrawPosition(0, gfxDividerPos);
                     Console.Write("\r\n" + new string('=', Console.WindowWidth) + "\r\n");
 
                     //positon for Game Board Title
-                    DrawGFX.SetDrawPosition(0, 12);
+                    DrawGFX.SetDrawPosition(0, gfxGameBoardTitlePos);
                     Console.WriteLine("GAME BOARD");
 
+                    //position for Game Board Pieces
+                    DrawGFX.SetDrawPosition(0, gfxGameBoardPiecePis);
+
                     //position for Game Board
-                    DrawGFX.SetDrawPosition(0, 15);
+                    DrawGFX.SetDrawPosition(0, gfxGameBoardPos);
                     var commonGameBoard = DrawGFX.CreateBoard(40,BoardGFXItem.GameBoardGFX);
                     commonGameBoard = DrawGFX.RenderGameBoard(commonGameBoard);
 
@@ -118,20 +147,23 @@ namespace LudoGameEngine
                     var piece1 = GamePlayers[i].Pieces.Where(s => s.PieceID == 1).FirstOrDefault();
                     var piece2 = GamePlayers[i].Pieces.Where(s => s.PieceID == 2).FirstOrDefault();
                     var piece3 = GamePlayers[i].Pieces.Where(s => s.PieceID == 3).FirstOrDefault();
-                    var piece4 = GamePlayers[i].Pieces.Where(s => s.PieceID == 4).FirstOrDefault();
+                    var piece4 = GamePlayers[i].Pieces.Where(s => s.PieceID == 4).FirstOrDefault(); 
 
-                    //position for playerboard header
-                    DrawGFX.SetDrawPosition(0, 19);
+                    //position for playerboard title
+                    DrawGFX.SetDrawPosition(0, gfxPlayerBoardTitlePos);
                     textColor = DrawGFX.BrushColor(GamePlayers[i].Color);
                     Console.ForegroundColor = textColor;
-                    Console.WriteLine("PLAYER BOARD");       
+                    Console.WriteLine("PLAYER BOARD");
+
+                    //position for playerboard info
+                    DrawGFX.SetDrawPosition(0, gfxPlayerInfoPos);
                     Console.Write(new string($"Player {GamePlayers[i].GamePlayerID}: {GamePlayers[i].Name}").PadRight(30));
                     Console.Write(new string("▲ = Player pice").PadRight(25));
                     Console.WriteLine("(▲) = Piece in Nest");
                     Console.ResetColor();
 
                     //position piece board 1
-                    DrawGFX.SetDrawPosition(0, 22);
+                    DrawGFX.SetDrawPosition(0, gfxPieceBoard1Pos);
                     var playerBoard1 = DrawGFX.CreateBoard(45, BoardGFXItem.PieceBoardGFX);
                     playerBoard1[piece1.CurrentPos] = UpdatePlayerPieceGFXByPosition(piece1.CurrentPos);
                     
@@ -139,7 +171,7 @@ namespace LudoGameEngine
                     playerBoard1 = DrawGFX.RenderPieceBoard(GamePlayers[i].Color, playerBoard1);
 
                     //position piece board 2
-                    DrawGFX.SetDrawPosition(0, 25);
+                    DrawGFX.SetDrawPosition(0, gfxPieceBoard2Pos);
                     var playerBoard2 = DrawGFX.CreateBoard(45, BoardGFXItem.PieceBoardGFX);
                     playerBoard2[piece2.CurrentPos] = UpdatePlayerPieceGFXByPosition(piece2.CurrentPos);
                     
@@ -147,7 +179,7 @@ namespace LudoGameEngine
                     playerBoard2 = DrawGFX.RenderPieceBoard(GamePlayers[i].Color, playerBoard2);
 
                     //position piece board 3
-                    DrawGFX.SetDrawPosition(0, 28);
+                    DrawGFX.SetDrawPosition(0, gfxPieceBoard3Pos);
                     var playerBoard3 = DrawGFX.CreateBoard(45, BoardGFXItem.PieceBoardGFX);
                     playerBoard3[piece3.CurrentPos] = UpdatePlayerPieceGFXByPosition(piece3.CurrentPos);
 
@@ -155,7 +187,7 @@ namespace LudoGameEngine
                     playerBoard3 = DrawGFX.RenderPieceBoard(GamePlayers[i].Color, playerBoard3);
 
                     //position piece board 4
-                    DrawGFX.SetDrawPosition(0, 31);
+                    DrawGFX.SetDrawPosition(0, gfxPieceBoard4Pos);
                     var playerBoard4 = DrawGFX.CreateBoard(45, BoardGFXItem.PieceBoardGFX);
                     playerBoard4[piece4.CurrentPos] = UpdatePlayerPieceGFXByPosition(piece4.CurrentPos);
 
@@ -174,13 +206,12 @@ namespace LudoGameEngine
                     ////position out pieces in the playerboards
                     //playerBoards[0].IndexOf(piece1.CurrentPos);
 
-                    //position for dice btn
-                    
-                    DrawGFX.SetDrawPosition(0, 8);
+                    //position for dice btn                    
+                    DrawGFX.SetDrawPosition(0, gfxInteractablePos);
                     int diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");                   
 
                     //position for dice roll text
-                    DrawGFX.SetDrawPosition(0, 4);
+                    DrawGFX.SetDrawPosition(0, gfxResultPos);
                     Console.WriteLine("Dice rolled: "+ diceValue);
 
                     IList<string> options = new List<string>();
@@ -191,11 +222,11 @@ namespace LudoGameEngine
                     switch (diceValue)
                     {
                         case 1:
-                            DrawGFX.SetDrawPosition(0, 2);
+                            DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
                             Console.WriteLine("Choose a piece to move");
 
                             options = CreatePieceBtnOptions(true, i);
-                            selectedPiece = (1 + CreateInteractable.OptionMenu(true, options));
+                            selectedPiece = (1 + CreateInteractable.OptionMenu(true, options, 0, gfxInteractablePos));
 
                             var pieceDice1 = GamePlayers[i].Pieces.Where(s => s.PieceID == selectedPiece).FirstOrDefault();
 
@@ -203,7 +234,7 @@ namespace LudoGameEngine
                             globalPosition = GetGlobalPiecePosition(i, pieceDice1);
                             UpdateGlobalPiecePosition(i, globalPosition);
 
-                            DrawGFX.SetDrawPosition(0, 2);
+                            DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
                             Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {pieceDice1.PieceID} moved to position {currentLocalPosition} in Player Board" +
                                 $"and position {globalPosition} in Game Board.");
                             break;
@@ -217,8 +248,8 @@ namespace LudoGameEngine
                             // CheckCollision(GamePlayers[i].GamePlayerID, movePieceInGlobalIndex);
                             break;
                         default:
-                            options = CreatePieceBtnOptions(true, i);
-                            selectedPiece = (1 + CreateInteractable.OptionMenu(false, options));
+                            options = CreatePieceBtnOptions(false, i);
+                            selectedPiece = (1 + CreateInteractable.OptionMenu(true, options, 0, gfxInteractablePos));
 
                             var pieceDiceDefault = GamePlayers[i].Pieces.Where(s => s.PieceID == selectedPiece).FirstOrDefault();
 
@@ -226,7 +257,7 @@ namespace LudoGameEngine
                             globalPosition = GetGlobalPiecePosition(i, pieceDiceDefault);
                             UpdateGlobalPiecePosition(i, globalPosition);
 
-                            DrawGFX.SetDrawPosition(0, 2);
+                            DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
                             Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {pieceDiceDefault.PieceID} moved to position {currentLocalPosition} in Player Board" +
                                 $"and position {globalPosition} in Game Board.");
                             break;
@@ -250,9 +281,9 @@ namespace LudoGameEngine
 
                     var allPiecesFinished = GamePlayers[i].Pieces.All(p => p.PieceInGoal == true);*/
 
-                }
-                
-            }
+    }
+
+}
 
         }
         //GAMEPLAY
@@ -347,10 +378,16 @@ namespace LudoGameEngine
             return currentPiecePos;
         }
 
+        //Convert a piece local position and returns it as global
         private int GetGlobalPiecePosition(int playerIndex, GamePiece piece)
         {
             int pieceIndex = GetPieceIndex(playerIndex, piece);
             int newGlobalPosition = (GamePlayers[playerIndex].GlobalStartPos) + (GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos--);
+
+            //check if position is out of range. then sets pos at beginning of board.
+            //hence in reality its a round board players can go around
+            if (newGlobalPosition > CoordinateOuterPosition.Count)
+                newGlobalPosition -= (1 - CoordinateOuterPosition.Count);
 
             return newGlobalPosition;
 
@@ -362,6 +399,7 @@ namespace LudoGameEngine
             //CheckCollision(GamePlayers[i].GamePlayerID, movePieceInGlobalIndex);
         }
 
+        //Updates the global board position with what player has currently occupied it
         private void  UpdateGlobalPiecePosition(int playerIndex, int globalPosition)
         {
             CoordinateOuterPosition[globalPosition].IsOccupied = true;
@@ -435,7 +473,7 @@ namespace LudoGameEngine
 
         }
 
-        //return a list ov avaliable pieces to move, excluding pieces in goal position
+        //Return a list of avaliable pieces to move, excluding pieces in goal position
         private IList<string> CreatePieceBtnOptions(bool displayInNest, int index)
         {
             IList<string> pieceOptions = new List<string>();
@@ -461,12 +499,12 @@ namespace LudoGameEngine
         public void InitializeGame()
         {
             //players
-            gamePlayerAmnt = gs.GetPlayerAmount();
+            GamePlayerAmnt = gs.GetPlayerAmount();
             IList<Tuple<int, string, string>> sessionData = gs.GetSessionData();
 
             InitializeBoardCoordinates();
 
-            for (int i = 0; i < gamePlayerAmnt; i++)
+            for (int i = 0; i < GamePlayerAmnt; i++)
             {
                 GamePlayers.Add(new GamePlayer(sessionData[i].Item1,sessionData[i].Item2, sessionData[i].Item3));
                 GamePlayers[i].GlobalStartPos = SetColorStartPositon(GamePlayers[i].Color);

@@ -22,7 +22,6 @@ namespace LudoGameEngine
                 key = Console.ReadKey().Key;
             }
 
-            Console.Clear();
             return methodName();
         }
 
@@ -34,11 +33,8 @@ namespace LudoGameEngine
         /// <param name="options"></param>
         /// <param name="posX1"></param>
         /// <param name="posY1"></param>
-        /// <param name="posX2"></param>
-        /// <param name="posY2"></param>
-        /// <param name="text"></param>
         /// <returns></returns>
-        public static int OptionMenu(bool horizontal, string[] options, int posX1 = 0, int posY1 = 0, int posX2 = 0, int posY2 = 0, string text = "")
+        public static int OptionMenu(bool horizontal, string[] options, int posX1 = 0, int posY1 = 0)
         {
 
             int selectedIndex = 0;
@@ -47,9 +43,6 @@ namespace LudoGameEngine
 
             while (key != ConsoleKey.Enter)
             {
-                DrawGFX.SetDrawPosition(posX2, posY2);
-                Console.WriteLine(text);
-
                 DrawGFX.SetDrawPosition(posX1, posY1);
                 if (horizontal == false)
                 {
@@ -80,7 +73,6 @@ namespace LudoGameEngine
                             selectedIndex = options.Length - 1;
                     }
 
-                    Console.Clear();
                 }
                 else
                 {
@@ -112,26 +104,115 @@ namespace LudoGameEngine
                     }
                 }
 
-                Console.Clear();
+                   
+                if(horizontal == false)
+                {
+                    DrawGFX.ClearDrawContent(0, posY1, posY1 + options.Length);
+                }
+                else
+                {
+                    DrawGFX.ClearDrawContent(posX1, posY1);
+                }
+                
+                DrawGFX.SetDrawPosition(posX1, posY1);
 
             }
 
             return selectedIndex;
         }
 
+        //public static int OptionMenu(bool horizontal, string[] options, int posX1 = 0, int posY1 = 0, int posX2 = 0, int posY2 = 0, string text = "")
+        //{
+
+        //    int selectedIndex = 0;
+        //    Console.CursorVisible = false;
+        //    ConsoleKey? key = null;
+
+        //    while (key != ConsoleKey.Enter)
+        //    {
+        //        DrawGFX.SetDrawPosition(posX2, posY2);
+        //        Console.WriteLine(text);
+
+        //        DrawGFX.SetDrawPosition(posX1, posY1);
+        //        if (horizontal == false)
+        //        {
+        //            for (int i = 0; i < options.Length; i++)
+        //            {
+        //                if (i == selectedIndex)
+        //                {
+        //                    Console.BackgroundColor = ConsoleColor.DarkBlue;
+        //                    Console.ForegroundColor = ConsoleColor.White;
+        //                }
+
+        //                Console.WriteLine(options[i]);
+        //                Console.ResetColor();
+        //            }
+
+        //            key = Console.ReadKey().Key;
+
+        //            if (key == ConsoleKey.DownArrow)
+        //            {
+        //                selectedIndex++;
+        //                if (selectedIndex == options.Length)
+        //                    selectedIndex = 0;
+        //            }
+        //            else if (key == ConsoleKey.UpArrow)
+        //            {
+        //                selectedIndex--;
+        //                if (selectedIndex == -1)
+        //                    selectedIndex = options.Length - 1;
+        //            }
+
+        //        }
+        //        else
+        //        {
+        //            for (int i = 0; i < options.Length; i++)
+        //            {
+        //                if (i == selectedIndex)
+        //                {
+        //                    Console.BackgroundColor = ConsoleColor.DarkBlue;
+        //                    Console.ForegroundColor = ConsoleColor.White;
+        //                }
+
+        //                Console.Write(" " + options[i] + " ");
+        //                Console.ResetColor();
+        //            }
+
+        //            key = Console.ReadKey().Key;
+
+        //            if (key == ConsoleKey.RightArrow)
+        //            {
+        //                selectedIndex++;
+        //                if (selectedIndex == options.Length)
+        //                    selectedIndex = 0;
+        //            }
+        //            else if (key == ConsoleKey.LeftArrow)
+        //            {
+        //                selectedIndex--;
+        //                if (selectedIndex == -1)
+        //                    selectedIndex = options.Length - 1;
+        //            }
+        //        }
+
+        //        DrawGFX.ClearDrawContent(0, posY1, posY1 + options.Length);
+        //        DrawGFX.SetDrawPosition(posX1, posY1);
+        //        //Console.Clear();
+
+        //    }
+
+        //    return selectedIndex;
+        //}
+
         /// <summary>
         /// Create a menu, optional parameters. string text display a text above menu.
-        /// posX1 and posY1 sets position of menu, posX2 and posY2 sets position of string text
+        /// posX1 and posY1 sets position of menu
         /// </summary>
         /// <param name="horizontal"></param>
         /// <param name="options"></param>
         /// <param name="posX1"></param>
         /// <param name="posY1"></param>
-        /// <param name="posX2"></param>
-        /// <param name="posY2"></param>
-        /// <param name="text"></param>
         /// <returns></returns>
-        public static int OptionMenu(bool horizontal, IList<string> options, int posX1 = 0, int posY1 = 1, int posX2 = 0, int posY2 = 0, string text = "")
+        public static int OptionMenu(bool horizontal, IList<string> options, int posX1 = 0, int posY1 = 0)
         {
 
             int selectedIndex = 0;
@@ -140,6 +221,7 @@ namespace LudoGameEngine
 
             while (key != ConsoleKey.Enter)
             {
+                DrawGFX.SetDrawPosition(posX1, posY1);
                 if (horizontal == false)
                 {
                     for (int i = 0; i < options.Count; i++)
@@ -168,8 +250,6 @@ namespace LudoGameEngine
                         if (selectedIndex == -1)
                             selectedIndex = options.Count - 1;
                     }
-
-                    Console.Clear();
                 }
                 else
                 {
@@ -201,8 +281,16 @@ namespace LudoGameEngine
                     }
                 }
 
-                Console.Clear();
+                if (horizontal == false)
+                {
+                    DrawGFX.ClearDrawContent(0, posY1, posY1 + options.Count);
+                }
+                else
+                {
+                    DrawGFX.ClearDrawContent(posX1, posY1);
+                }
 
+                DrawGFX.SetDrawPosition(posX1, posY1);
             }
 
             return selectedIndex;
