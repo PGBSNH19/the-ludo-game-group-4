@@ -87,30 +87,39 @@ namespace LudoGame
         }
         static void LoadSavedGames()
         {
+            Console.WriteLine("Load Game");
+            List<string> sessionOption = Data.ShowAllSession();
+            int loadOption = CreateInteractable.OptionMenu(false, sessionOption, 0, 2);
+            string sessionName = sessionOption[loadOption];
+
+            var SessionDataData = Data.LoadGame(sessionName);
+
+
+
             //Console.WriteLine("Load");
-            Console.WriteLine("Please Enter the session name");
-            string sessionName = Console.ReadLine();
-            List<string> playerAmount = new List<string>();
-            string sessionN = "";
+            //Console.WriteLine("Please Enter the session name");
+            //string sessionName = Console.ReadLine();
+            //List<string> playerAmount = new List<string>();
+            //string sessionN = "";
 
 
-            GameBoard game = new GameBoard(new GameSession(), false);
-            int index = 0;
-            foreach (var i in Data.LoadGame(sessionName))
-            {
-                playerAmount.Add(i.PlayerName);
-                sessionN = i.SessionName;
+            //GameBoard game = new GameBoard(new GameSession(), false);
+            //int index = 0;
+            //foreach (var i in Data.LoadGame(sessionName))
+            //{
+            //    playerAmount.Add(i.PlayerName);
+            //    sessionN = i.SessionName;
 
-                game.GamePlayers[index].GamePlayerID = 0;
-                game.GamePlayers[index].Name = i.PlayerName;
-                game.GamePlayers[index].Color = i.Color;
-                game.GamePlayers[index].GlobalStartPos = i.Position;
+            //    game.GamePlayers[index].GamePlayerID = 0;
+            //    game.GamePlayers[index].Name = i.PlayerName;
+            //    game.GamePlayers[index].Color = i.Color;
+            //    game.GamePlayers[index].GlobalStartPos = i.Position;
 
 
-                Console.WriteLine($"Player ID: {i.PlayerID} Session Name: {i.SessionName}\tPlayerName: {i.PlayerName}\t" +
-                    $"Color: {i.Color}\tPiece ID: {i.PieceID}\tPosition {i.Position}");
-                index++;
-            }
+            //    Console.WriteLine($"Player ID: {i.PlayerID} Session Name: {i.SessionName}\tPlayerName: {i.PlayerName}\t" +
+            //        $"Color: {i.Color}\tPiece ID: {i.PieceID}\tPosition {i.Position}");
+            //    index++;
+            //}
 
             /*game.gamePlayerAmnt = playerAmount.Count;
             game.SessionName = sessionN;
