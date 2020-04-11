@@ -102,10 +102,11 @@ namespace LudoGame
                 playerAmount.Add(i.PlayerName);
                 gb.GamePlayers.Add(new GamePlayer(id: i.PlayerID,name: i.PlayerName, color:i.Color ));
 
-                for (int j = 0; j <= 4; j++)
-                {
-                    gb.GamePlayers[index].Pieces[j].CurrentPos = i.Position;
-                }
+
+                //for (int j = 0; j <= 4; j++)
+                //{
+                //    gb.GamePlayers[index].Pieces[j].CurrentPos = i.Position;
+                //}
 
 
                 //if (index==0)
