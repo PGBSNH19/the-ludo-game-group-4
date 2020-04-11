@@ -196,7 +196,7 @@ namespace XUnitTest
             var gp3 = gamePlayers[0].Pieces[2];
             var gp4 = gamePlayers[0].Pieces[3];
 
-            int expected = 2;
+            int expected = 22;
 
             GameBoard gb = new GameBoard(new GameSession(), true);
             gb.GamePlayers = gamePlayers;
