@@ -92,7 +92,7 @@ namespace LudoGame
             int loadOption = CreateInteractable.OptionMenu(false, sessionOption, 0, 2);
             string sessionName = sessionOption[loadOption];
 
-            var SessionDataData = Data.LoadGame(sessionName);
+            var SessionDatData = Data.LoadGame(sessionName);
 
 
 
