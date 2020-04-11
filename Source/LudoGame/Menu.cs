@@ -91,19 +91,51 @@ namespace LudoGame
             List<string> sessionOption = Data.ShowAllSession();
             int loadOption = CreateInteractable.OptionMenu(false, sessionOption, 0, 2);
             string sessionName = sessionOption[loadOption];
+            var SessionData = Data.LoadGame(sessionName);
 
-            var SessionDataData = Data.LoadGame(sessionName);
 
+            GameBoard gb = new GameBoard(new GameSession(), false);
+            List<string> playerAmount = new List<string>();
+            int index = 0;
+            foreach (var i in SessionData)
+            {
+                playerAmount.Add(i.PlayerName);
+                gb.GamePlayers.Add(new GamePlayer(id: i.PlayerID,name: i.PlayerName, color:i.Color ));
+
+                for (int j = 0; j <= 4; j++)
+                {
+                    gb.GamePlayers[index].Pieces[j].CurrentPos = i.Position;
+                }
+
+
+                //if (index==0)
+                //{
+                //    for (int j = 1; j <= 4; j++)
+                //    {
+                //        gb.GamePlayers[index].Pieces.Add(new GamePiece(id: j) {CurrentPos=i.Position });
+                //    }
+                //}
+                //else if (index == 1)
+                //{
+                //    for (int j = 1; j <= 4; j++)
+                //    {
+                //        gb.GamePlayers[index].Pieces.Add(new GamePiece(id: j) { CurrentPos = i.Position });
+                //    }
+                //}
+
+
+                index++;
+            }
+            gb.GamePlayerAmnt = playerAmount.Count;
+            gb.GameLoop();
 
 
             //Console.WriteLine("Load");
             //Console.WriteLine("Please Enter the session name");
             //string sessionName = Console.ReadLine();
-            //List<string> playerAmount = new List<string>();
             //string sessionN = "";
 
 
-            //GameBoard game = new GameBoard(new GameSession(), false);
             //int index = 0;
             //foreach (var i in Data.LoadGame(sessionName))
             //{
