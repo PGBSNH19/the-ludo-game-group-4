@@ -86,18 +86,13 @@ namespace LudoGameEngine
 
                 DrawGFX.SetDrawPosition(0, 3);
                 Console.WriteLine("Choose your player color:");
-                //DrawGFX.ClearDrawContent(0, 0, 1);
-                //DrawGFX.SetDrawPosition(0, 1);
-
-                //IList<string> colorOptions = Enum.GetNames(typeof(GameColors));
                 
                 int colorID = CreateInteractable.OptionMenu(true, colorOptions, 0, 5);
-                colorOptions.RemoveAt(colorID);
-                //int colorID = CreateInteractable.OptionMenu(true, colorOptions, 0, 1, 0, 0, "Choose your player color:");
 
-                string choosenColor = Enum.GetName(typeof(GameColors), colorID);
+                string choosenColor = colorOptions[colorID];
                 SessionPlayerData.Add(Tuple.Create(i, PlayerName, choosenColor));
 
+                colorOptions.RemoveAt(colorID);
                 DrawGFX.ClearDrawContent(0, 3);
                 DrawGFX.ClearDrawContent(0, 1);
 

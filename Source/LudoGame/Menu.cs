@@ -93,7 +93,6 @@ namespace LudoGame
             string sessionName = sessionOption[loadOption];
             var SessionData = Data.LoadGame(sessionName);
 
-
             GameBoard gb = new GameBoard(new GameSession(), false);
             List<string> playerAmount = new List<string>();
             int index = 0;
