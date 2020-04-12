@@ -447,14 +447,17 @@ namespace LudoGameEngine
                     //    diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");
                     //}
 
-
+                    //Winner
                     var allPiecesFinished = GamePlayers[i].Pieces.All(p => p.PieceInGoal == true && p.CurrentPos == p.GoalPos);
-                    if(allPiecesFinished == true)
+                    if (allPiecesFinished == true)
                     {
-                        winner = GamePlayers[i].Name;
+                        winner = GamePlayers[i].Name;                       
                     }
+
                 }
+
                 
+
                 //Save Game or skip
                 string[] saveOptions = { "Skip", "Save Game?" };
                 saveGame = CreateInteractable.OptionMenu(true, saveOptions, 40, gfxInfoPos);
@@ -464,6 +467,9 @@ namespace LudoGameEngine
                 }
 
             }
+
+            //SaveWinner();
+            DisplayWinner();
 
         }
 
@@ -486,8 +492,22 @@ namespace LudoGameEngine
 
         private void SaveWinner()
         {
-            gameData.UpdateWinner(SessionName, true, "winnername");
+            if(winner != "")
+            {
+                gameData.UpdateWinner(SessionName, true, "winnername");
+            }            
         }
+
+        /*------------------WINNINER-RELATED-----------------------*/
+        private void DisplayWinner()
+        {
+            Console.Clear();
+            DrawGFX.SetDrawPosition(50, 8);
+            Console.WriteLine("CONGRATULATIONS!!!!");
+            DrawGFX.SetDrawPosition(50, 8);
+            Console.WriteLine("Winner is: " + winner + "!");
+        }
+
 
 
         /*---------------DICE-RELATED-POSITIONING-------------------*/

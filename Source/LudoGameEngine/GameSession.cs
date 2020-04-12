@@ -21,19 +21,13 @@ namespace LudoGameEngine
     {
 
         public int PlayerAmount { get; set; } = 0;
-        public string PlayerName { get; set; }
+        public string PlayerName { get; set; } = "";
+        public string SessionName { get; set; } = "";
+
         public IList<string> PlayerNames = new List<string>();
         public IList<string> Colors = new List<string>();
 
         public IList<Tuple<int, string, string>> SessionPlayerData = new List<Tuple<int, string, string>>();
-
-        public enum Color
-        {
-            Red,
-            Blue,
-            Green,
-            Yellow
-        }
 
         public bool IsPlayerNameValid()
         {
@@ -53,16 +47,15 @@ namespace LudoGameEngine
 
             string[] avaliablePlayers = {"[   2   ]", "[   3   ]", "[   4   ]"};
             PlayerAmount = (2 + CreateInteractable.OptionMenu(true, avaliablePlayers, 0, 2));
-            //PlayerAmount =(2 + CreateInteractable.OptionMenu(true, avaliablePlayers, 0 , 1, 0, 0, "How many players will play?:"));
 
             return this;
         }
         public IGameSession SetSessionData()
         {
-            //GameData d = new GameData();
-            //Console.WriteLine("Please Enter a Session Name");
-            //string sessionName = Console.ReadLine();
-            //d.InsertSessionData(sessionName);  //creating new session, Name must be Unique
+            
+            Console.WriteLine("Please Enter a Session Name");
+            SessionName = Console.ReadLine();
+            
             
             Console.Clear();
 
@@ -101,25 +94,21 @@ namespace LudoGameEngine
 
             return this;
         }
-        ///*public IGameSession GetPlayerProfile() 
-        //{
-        //    //get from database, check names if exists, else create new
-        //    return this;
-        //}
-        //public IGameSession ChoosePlayerColor()
-        //{
 
-        //    return this;
-        //}
-        //public IGameSession SetPlayerPositions()
-        //{
-        //    return this;
-        //}
+        //Save SessionData to Database
         public IGameSession SaveState()
         {
-            //Save initial to database
+            GameData d = new GameData();
+            d.InsertSessionData(SessionName);  //creating new session, Name must be Unique
+
+            foreach(var spdItem in SessionPlayerData)
+            {                
+                d.InsertEachPlayerData(spdItem.Item1, spdItem.Item2, spdItem.Item3); //inserting player data to DB
+            }
+
             return this;
         }
+
         public  IGameSession StartGame()
         {
             //call a new board
