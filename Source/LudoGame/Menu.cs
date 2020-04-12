@@ -124,7 +124,7 @@ namespace LudoGame
 
                 index++;
             }
-            gb.GamePlayerAmount = playerAmount.Count;
+            gb.GamePlayerAmnt = playerAmount.Count;
             gb.GameLoop();
 
 

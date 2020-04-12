@@ -18,7 +18,7 @@ namespace XUnitTest
             GameBoard gameBoard = new GameBoard(new GameSession(),true);
 
             //Act
-            int actualValue = gameBoard.SetColorStartPosition(color);
+            int actualValue = gameBoard.SetColorStartPositon(color);
 
             //Assert
             Assert.Equal(expectedBoardPosition, actualValue);
@@ -85,32 +85,32 @@ namespace XUnitTest
                 new GamePlayer(4, "Johan", "Red")
             };
 
-            gamePlayers[0].Pieces[0].CurrentPosition = 12;
-            gamePlayers[0].Pieces[1].CurrentPosition = 1;
-            gamePlayers[0].Pieces[2].CurrentPosition = 0;
-            gamePlayers[0].Pieces[3].CurrentPosition = 24;
+            gamePlayers[0].Pieces[0].CurrentPos = 12;
+            gamePlayers[0].Pieces[1].CurrentPos = 1;
+            gamePlayers[0].Pieces[2].CurrentPos = 0;
+            gamePlayers[0].Pieces[3].CurrentPos = 24;
             
-            gamePlayers[1].Pieces[0].CurrentPosition = 28;
-            gamePlayers[1].Pieces[1].CurrentPosition = 45;
-            gamePlayers[1].Pieces[2].CurrentPosition = 5;
-            gamePlayers[1].Pieces[3].CurrentPosition = 31;
+            gamePlayers[1].Pieces[0].CurrentPos = 28;
+            gamePlayers[1].Pieces[1].CurrentPos = 45;
+            gamePlayers[1].Pieces[2].CurrentPos = 5;
+            gamePlayers[1].Pieces[3].CurrentPos = 31;
             
-            gamePlayers[2].Pieces[0].CurrentPosition = 0;
-            gamePlayers[2].Pieces[1].CurrentPosition = 30;
-            gamePlayers[2].Pieces[2].CurrentPosition = 21;
-            gamePlayers[2].Pieces[3].CurrentPosition = 45;
+            gamePlayers[2].Pieces[0].CurrentPos = 0;
+            gamePlayers[2].Pieces[1].CurrentPos = 30;
+            gamePlayers[2].Pieces[2].CurrentPos = 21;
+            gamePlayers[2].Pieces[3].CurrentPos = 45;
 
-            gamePlayers[3].Pieces[0].CurrentPosition = 29;
-            gamePlayers[3].Pieces[1].CurrentPosition = 16;
-            gamePlayers[3].Pieces[2].CurrentPosition = 45;
-            gamePlayers[3].Pieces[3].CurrentPosition = 0;
+            gamePlayers[3].Pieces[0].CurrentPos = 29;
+            gamePlayers[3].Pieces[1].CurrentPos = 16;
+            gamePlayers[3].Pieces[2].CurrentPos = 45;
+            gamePlayers[3].Pieces[3].CurrentPos = 0;
 
             IList<string> pieceOptions = new List<string>();
 
-            var pieces = gamePlayers[index].Pieces.Where(p => p.CurrentPosition != p.GoalPosition).Select(p => p.PieceID);
+            var pieces = gamePlayers[index].Pieces.Where(p => p.CurrentPos != p.GoalPos).Select(p => p.PieceID);
 
             if (displayInNest != true)
-                pieces = gamePlayers[index].Pieces.Where(p => p.CurrentPosition != p.LocalStartPosition || p.CurrentPosition != p.GoalPosition).Select(p => p.PieceID);
+                pieces = gamePlayers[index].Pieces.Where(p => p.CurrentPos != p.LocalStartPos || p.CurrentPos != p.GoalPos).Select(p => p.PieceID);
 
             foreach (var id in pieces)
             {
@@ -186,10 +186,10 @@ namespace XUnitTest
                 new GamePlayer(4, "Johan", "Yellow")
             };
 
-            gamePlayers[0].GlobalStartPosition = 0;
-            gamePlayers[1].GlobalStartPosition = 10;
-            gamePlayers[2].GlobalStartPosition = 20;
-            gamePlayers[3].GlobalStartPosition = 30;
+            gamePlayers[0].GlobalStartPos = 0;
+            gamePlayers[1].GlobalStartPos = 10;
+            gamePlayers[2].GlobalStartPos = 20;
+            gamePlayers[3].GlobalStartPos = 30;
 
             var gp1 = gamePlayers[0].Pieces[0];
             var gp2 = gamePlayers[0].Pieces[1];
@@ -198,17 +198,17 @@ namespace XUnitTest
 
             int expected = 22;
 
-            GameBoard gameBoard = new GameBoard(new GameSession(), true);
-            gameBoard.GamePlayers = gamePlayers;
+            GameBoard gb = new GameBoard(new GameSession(), true);
+            gb.GamePlayers = gamePlayers;
 
             for (int i = 0; i < 40; i++)
             {
-                gameBoard.CoordinateOuterPosition.Add(new BoardCoordinate());
+                gb.CoordinateOuterPosition.Add(new BoardCoordinate());
             }
 
 
 
-            int actual = gameBoard.GetNewGlobalPiecePosition(2, 43);
+            int actual = gb.GetNewGlobalPiecePosition(2, 43);
 
             Assert.Equal(expected, actual);
 
