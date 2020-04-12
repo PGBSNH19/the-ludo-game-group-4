@@ -1,10 +1,6 @@
 ﻿using LudoGameEngine.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
 namespace LudoGameEngine
 {
     public class DataContext : DbContext
