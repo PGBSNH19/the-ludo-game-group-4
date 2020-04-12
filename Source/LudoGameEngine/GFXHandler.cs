@@ -29,7 +29,7 @@ namespace LudoGameEngine
     {
         public static string GameBoardItem { get; } = "(x)";
         public static string PieceBoardItem { get; } = "(#)";
-        public static string GameBoardPieces { get; } = "  ";
+        public static string GameBoardPiecesItem { get; } = "   ";
         public static string PieceOnBoard { get; } = " ▲ ";
         public static string PieceInNest { get; } = "(▲)";
 
@@ -72,8 +72,8 @@ namespace LudoGameEngine
                 item = GameBoardItem;
             else if (boardGFXItem == BoardGFXItem.PieceBoardGFX)
                 item = PieceBoardItem;
-            else if (boardGFXItem == BoardGFXItem.PieceBoardGFX)
-                item = GameBoardPieces;
+            else if (boardGFXItem == BoardGFXItem.GameBoardPiecesGFX)
+                item = GameBoardPiecesItem;
 
             IList<string> tmp = new List<string>();
             for(int i = 0; i < boardLength; i++)
@@ -149,6 +149,41 @@ namespace LudoGameEngine
 
             return commonGameBoard;
         }
+
+        public static IList<string> RenderGameBoardPieces(IList<string> commonGameBoardPieces, List<Tuple<int,int,string>> tmp)
+        {
+            foreach (var item in tmp)
+            {
+                commonGameBoardPieces[item.Item1] = PieceOnBoard;
+                Console.ForegroundColor = BrushColor(item.Item3);
+            }
+
+            for (int i = 0; i < commonGameBoardPieces.Count; i++)
+            {
+                foreach(var item in tmp)
+                {
+                    if (item.Item1 == i)
+                        Console.ForegroundColor = BrushColor(item.Item3);
+                }
+
+                if (i == commonGameBoardPieces.Count - 1)
+                {
+                    Console.WriteLine(commonGameBoardPieces[i]);
+                    Console.ResetColor();
+                }                                               
+                else
+                {
+                    Console.Write(commonGameBoardPieces[i]);
+                    Console.ResetColor();
+                }
+            }
+
+            Console.ResetColor();
+
+            return commonGameBoardPieces;
+        }
+
+
 
         public static ConsoleColor BrushColor(string color)
         {

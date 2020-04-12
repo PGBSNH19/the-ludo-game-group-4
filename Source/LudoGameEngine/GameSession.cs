@@ -91,7 +91,7 @@ namespace LudoGameEngine
 
                 string choosenColor = colorOptions[colorID];
                 SessionPlayerData.Add(Tuple.Create(i, PlayerName, choosenColor));
-
+                
                 colorOptions.RemoveAt(colorID);
                 DrawGFX.ClearDrawContent(0, 3);
                 DrawGFX.ClearDrawContent(0, 1);
