@@ -43,9 +43,17 @@ namespace LudoGameEngine
 
         public IGameSession SetSessionName()
         {
+            
             Console.WriteLine("Please Enter a Session Name");
-            Console.WriteLine("Input Sessioname: ");
+            Console.Write("Input Sessioname: ");
             SessionName = Console.ReadLine();
+
+            while(SessionName == "")
+            {
+                Console.WriteLine("Sorry. You have to specify a Session Name");
+                Console.Write("Input Sessioname: ");
+                SessionName = Console.ReadLine();
+            }
 
             return this;
         }

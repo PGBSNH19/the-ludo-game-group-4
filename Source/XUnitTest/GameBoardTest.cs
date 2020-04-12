@@ -107,10 +107,10 @@ namespace XUnitTest
 
             IList<string> pieceOptions = new List<string>();
 
-            var pieces = gamePlayers[index].Pieces.Where(p => p.CurrentPos != p.GoalPos).Select(p => p.PieceID);
+            var pieces = gamePlayers[index].Pieces.Where(p => p.CurrentPos != p.GoalPosIndex).Select(p => p.PieceID);
 
             if (displayInNest != true)
-                pieces = gamePlayers[index].Pieces.Where(p => p.CurrentPos != p.LocalStartPos || p.CurrentPos != p.GoalPos).Select(p => p.PieceID);
+                pieces = gamePlayers[index].Pieces.Where(p => p.CurrentPos != p.LocalStartPos || p.CurrentPos != p.GoalPosIndex).Select(p => p.PieceID);
 
             foreach (var id in pieces)
             {
