@@ -494,7 +494,7 @@ namespace LudoGameEngine
         {
             if(winner != "")
             {
-                gameData.UpdateWinner(SessionName, true, "winnername");
+                gameData.UpdateWinner(SessionName, true, winner.ToLower());
             }            
         }
 
