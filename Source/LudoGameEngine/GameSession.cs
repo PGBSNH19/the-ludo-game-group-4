@@ -10,6 +10,7 @@ namespace LudoGameEngine
     public interface IGameSession
     {
         IGameSession InintializeSession();
+        IGameSession SetSessionName();
         IGameSession SetPlayerAmount();
         IGameSession SetSessionData();
         IGameSession SaveState();
@@ -40,6 +41,15 @@ namespace LudoGameEngine
             return this;
         }
 
+        public IGameSession SetSessionName()
+        {
+            Console.WriteLine("Please Enter a Session Name");
+            Console.WriteLine("Input Sessioname: ");
+            SessionName = Console.ReadLine();
+
+            return this;
+        }
+
         public IGameSession SetPlayerAmount()
         {
             Console.Clear();
@@ -52,11 +62,6 @@ namespace LudoGameEngine
         }
         public IGameSession SetSessionData()
         {
-            
-            Console.WriteLine("Please Enter a Session Name");
-            SessionName = Console.ReadLine();
-            
-            
             Console.Clear();
 
             string[] tmpOptions = Enum.GetNames(typeof(GameColors));
