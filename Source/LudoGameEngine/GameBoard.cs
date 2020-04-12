@@ -65,7 +65,10 @@ namespace LudoGameEngine
         //this loop runs the game
         public void GameLoop()
         {
-            if(NewGame == true)
+            Console.OutputEncoding = System.Text.Encoding.UTF8;
+
+
+            if (NewGame == true)
             {
                 Console.Clear();
                 Console.OutputEncoding = System.Text.Encoding.UTF8;
@@ -104,7 +107,11 @@ namespace LudoGameEngine
                 Console.ReadKey();
 
                 Console.Clear();
-            }           
+            }
+            else
+            {
+                InitializeBoardCoordinates();
+            }
 
             //continue gameloop until winner
             while (winner == "")
@@ -140,16 +147,7 @@ namespace LudoGameEngine
                     DrawGFX.SetDrawPosition(0, gfxGameBoardPiecePos);
                     var commonGameBoardPieces = DrawGFX.CreateBoard(40, BoardGFXItem.GameBoardPiecesGFX);
 
-                    //List<int> tmp = new List<int>();
-                    //for(int y = 0; y < CoordinateOuterPosition.Count; y++)
-                    //{
-                    //    if(CoordinateOuterPosition[y].IsOccupied == true)
-                    //    {
-                    //        tmp.Add(y);
-                    //    }
-                    //}
                     List<Tuple<int, int, string>> tmp = new List<Tuple<int, int, string>>();
-                    //Dictionary<int, int> tmp = new Dictionary<int, int>();
                     for (int y = 0; y < CoordinateOuterPosition.Count; y++)
                     {
                         if (CoordinateOuterPosition[y].IsOccupied == true)
@@ -157,42 +155,8 @@ namespace LudoGameEngine
                             var color = GamePlayers.Where(c => c.GamePlayerID == CoordinateOuterPosition[y].OccupiedPlayerID).Select(c => c.Color).FirstOrDefault();
                             tmp.Add(Tuple.Create(y, CoordinateOuterPosition[y].OccupiedPlayerID, color));
                         }
-                    }
-
-                    //foreach (var item in tmp)
-                    //{
-                    //    commonGameBoardPieces[item.Key] = DrawGFX.PieceOnBoard;
-                    //}
-                    
+                    }                    
                     commonGameBoardPieces = DrawGFX.RenderGameBoardPieces(commonGameBoardPieces, tmp);
-
-                    Dictionary<int, int> commonPiecesPos = new Dictionary<int, int>();
-                    //for (int y = 0; y < CoordinateOuterPosition.Count; y++)
-                    //{
-                    //    if (CoordinateOuterPosition[y].IsOccupied == true)
-                    //    {
-                    //        commonPiecesPos.Add(y, CoordinateOuterPosition[y].OccupiedPlayerID);
-                    //    }
-                    //}
-                    //if (commonPiecesPos.Count != 0)
-                    //{
-                    //    foreach (var item in commonPiecesPos)
-                    //    {
-                    //        commonGameBoardPieces[item.Key] = DrawGFX.PieceOnBoard;
-                    //    }
-                    //}
-                    //commonGameBoardPieces = DrawGFX.RenderGameBoardPieces(commonGameBoardPieces);
-
-                    //DrawGFX.SetDrawPosition(0, 40);
-
-
-                    //    commonGameBoardPieces = DrawGFX.RenderGameBoardPieces(commonGameBoardPieces, commonPiecesPos);
-
-
-
-                    //var occupied = CoordinateOuterPosition.Select((item, index) => new { Item = item, Index = index }).Where(o => o.Item == false)).Select(o => o.Index);
-
-
 
                     //position for Game Board
                     DrawGFX.SetDrawPosition(0, gfxGameBoardPos);
