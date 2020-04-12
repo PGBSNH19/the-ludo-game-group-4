@@ -290,23 +290,16 @@ namespace LudoGameEngine
                                 int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, diceValue);
                                 int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
 
+                                //CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+
                                 MoveLocalPiece(i, pieceIndex, previousLocalPiecePosition, newLocalPiecePosition);
                                 MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
-
-
-                                //int currentGlobalPosition = GetCurrentGlobalPiecePosition(i, pieceIndex);
-                                //int newCurrentPosition = UpdateLocalPiecePosition(i, pieceIndex, diceValue);
-                                //int newGlobalPosition = GetNewGlobalPiecePosition(i, newCurrentPosition);
-
-                                //CheckCollision(newGlobalPosition, newCurrentPosition, i, pieceIndex);
-                                //UpdateGlobalPiecePosition(i, currentGlobalPosition, newGlobalPosition);
 
                                 //print positions to screen
                                 DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
                                 Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {pieceToMove.PieceID} moved from position {previousGlobalPosition} to position {newGlobalPosition} in Game Board" +
                                     $" and to position {newLocalPiecePosition} in Player Board");
                             }
-
                             break;
 
                         //case 6:
@@ -382,23 +375,15 @@ namespace LudoGameEngine
                                 int pieceIndex = GetPieceIndex(i, pieceToMove);
 
 
-                                //ConvertLocalToGlobalPiecePosition(i, pieceIndex);
-                                //GetPreviousPieceGlobalPosition(int playerIndex, int pieceIndex)
-
                                 int previousGlobalPosition = GetGlobalPosition(i, pieceIndex);
                                 int previousLocalPiecePosition = GetPreviousPieceLocalPosition(i, pieceIndex);
                                 int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, diceValue);
                                 int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
 
+                                CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+
                                 MoveLocalPiece(i, pieceIndex, previousLocalPiecePosition, newLocalPiecePosition);
                                 MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
-
-                                //int currentGlobalPosition = GetCurrentGlobalPiecePosition(i, pieceIndex);
-                                //int newCurrentPosition = UpdateLocalPiecePosition(i, pieceIndex, diceValue);
-                                //int newGlobalPosition = GetNewGlobalPiecePosition(i, newCurrentPosition);
-
-                                //CheckCollision(newGlobalPosition, newCurrentPosition, i, pieceIndex);
-                                //UpdateGlobalPiecePosition(i, currentGlobalPosition, newGlobalPosition);
 
                                 //print positions to screen
                                 DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
@@ -527,11 +512,15 @@ namespace LudoGameEngine
 
         /*------------------Collission-RELATED-----------------------*/
 
-        private void CheckCollision(int newGlobalPosition, int newCurrentPosition, int playerIndex, int pieceIndex)
+        private void CheckCollision(int playerIndex, int pieceIndex, int previousGlobalPosition, int newGlobalPosition)
         {
-            
+            int globalMaxPosition = CoordinateOuterPosition.Count - 1;
 
-            if(CoordinateOuterPosition[newGlobalPosition].IsOccupied == true)
+            if (newGlobalPosition >= globalMaxPosition)
+                newGlobalPosition = (newGlobalPosition - globalMaxPosition);
+
+            if (CoordinateOuterPosition[newGlobalPosition].IsOccupied == true)
+
             {               
                 var currentPlayerID = GamePlayers[playerIndex].GamePlayerID;
                 var otherPlayerID = CoordinateOuterPosition[newGlobalPosition].OccupiedPlayerID;
@@ -539,15 +528,16 @@ namespace LudoGameEngine
                 //måste ha metod som hanterar om piece tex gul piece är 0
                 if (currentPlayerID != otherPlayerID)
                 {
-                    //KnockOut(otherPlayerID, globalPosition);
-                    //CoordinateOuterPosition[newGlobalPosition].IsOccupied = true;
-                    //CoordinateOuterPosition[newGlobalPosition].OccupiedPlayerID = currentPlayerID;
-
-                    
-                    //KnockOut(otherPlayerID, newGlobalPosition);
+                    CoordinateOuterPosition[newGlobalPosition].IsOccupied = true;
+                    CoordinateOuterPosition[newGlobalPosition].OccupiedPlayerID = currentPlayerID;
 
                     DrawGFX.SetDrawPosition(50, 8);
                     Console.WriteLine("==KNOCK OUT!==");
+                    KnockOut(otherPlayerID, newGlobalPosition);
+
+
+
+                    
 
                 }
                 //fixa
@@ -561,12 +551,12 @@ namespace LudoGameEngine
         }
 
         //KnockOut other player
-        private void KnockOut(int otherplayerID, int globalPositon)
+        private void KnockOut(int otherplayerID, int newGlobalPosition)
         {
             var otherPlayer = GamePlayers.Where(p => p.GamePlayerID == otherplayerID).FirstOrDefault();
             int otherplayerIndex = GamePlayers.IndexOf(otherPlayer);
 
-            var opponentPiece = GamePlayers[otherplayerIndex].Pieces.Where(p => p.CurrentGlobalPos == globalPositon).FirstOrDefault();
+            var opponentPiece = GamePlayers[otherplayerIndex].Pieces.Where(p => p.CurrentGlobalPos == newGlobalPosition).FirstOrDefault();
             int opponentPieceIndex = GetPieceIndex(otherplayerIndex, opponentPiece);
 
             GamePlayers[otherplayerIndex].Pieces[opponentPieceIndex].CurrentPos = 0;
