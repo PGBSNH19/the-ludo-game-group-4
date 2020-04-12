@@ -9,7 +9,6 @@ namespace LudoGameEngine.Data
         DataContext Context = new DataContext();
         public int SessionId { get; set; } //holding sessiond id for foreign key in PlayerSession table
         public int PlayerId { get; set; }   // holding player id for foreign key in playerSession table
-        //creating new session
         public int CheckSessionCreated { get; set; }
         //create new session and save it to database
         public void InsertSessionData(string SessionName, bool finished = false, string winner = "")
@@ -204,7 +203,7 @@ namespace LudoGameEngine.Data
                 foreach (var item in score)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Player {0} \t Wone {1}", item.winner.ToUpper(), item.Count);
+                    Console.WriteLine("Player {0} \t won {1}", item.winner.ToUpper(), item.Count);
                     Console.ResetColor();
                 }
             }
@@ -423,7 +422,7 @@ namespace LudoGameEngine.Data
             {   //creating a list of object
                 List<MyGameData> myData = new List<MyGameData>();
 
-                //joining all tables to geting game data that are available for playing
+                //joining all tables to getting game data that are available for playing
                 var data = (from pl in Context.Player
                             join ps in Context.PlayerSession
                             on pl.PlayerID equals ps.PlayerId
