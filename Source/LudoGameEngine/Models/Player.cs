@@ -14,10 +14,5 @@ namespace LudoGameEngine
         public string Name { get; set; }
         public IList<PlayerPiece> PlayerPiece { get; set; }
         public IList<PlayerSession> PlayerSession { get; set; }
-
-
-        //public int WinCount { get; set; }
-        //public int SessionId { get; set; }
-        // public Session SessionRef { get; set; }
     }
 }

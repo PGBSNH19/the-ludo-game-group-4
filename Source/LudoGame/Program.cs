@@ -11,11 +11,11 @@ namespace LudoGame
     {
         static void Main(string[] args)
         {
-            Console.SetWindowSize(200, 50);
+            //Console.SetWindowSize(200, 50);
             Console.SetBufferSize(200, 50);
 
             //NYASTE GAMEDATAN
-            //GameData d = new GameData();
+            GameData d = new GameData();
             //foreach (var item in d.ShowAllSession())
             //{
             //    Console.WriteLine(item);
@@ -35,12 +35,11 @@ namespace LudoGame
             ////Update position of piece (sessionName, playerName, pieceID(1-4), new position)
             ////d.UpdatePiecePosition("session2", "samir", 2, 22);
 
-                      
             ////create session (name,GameFinished? WinnerName?. method must calls before inserteachPlayer()
-             //d.InsertSessionData("session10", false, "");
+            //d.InsertSessionData("session17", false, "");
 
 
-            //code bellow create player with their piece and color. 
+            //code bellow create player with their piece and color.
             //Console.WriteLine("Enter amount of player");
             //int amountPlayer = int.Parse(Console.ReadLine());
             //for (int i = 1; i <= amountPlayer; i++)
