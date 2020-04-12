@@ -9,7 +9,7 @@ namespace LudoGameEngine
         public int GamePlayerID { get; set; }       
         public string Name { get; set; }
         public string Color { get; set; }
-        public int GlobalStartPos { get; set; }
+        public int GlobalStartPosition { get; set; }
 
         public IList<GamePiece> Pieces = new List<GamePiece>();
 
