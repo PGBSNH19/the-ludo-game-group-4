@@ -183,7 +183,17 @@ namespace LudoGameEngine
             return commonGameBoardPieces;
         }
 
+        //Update gfx element for player when moved
+        public static string UpdatePlayerPieceGFXByPosition(int position)
+        {
+            string pieceGFX = DrawGFX.PieceInNest;
+            if (position != 0)
+            {
+                pieceGFX = DrawGFX.PieceOnBoard;
+            }
 
+            return pieceGFX;
+        }
 
         public static ConsoleColor BrushColor(string color)
         {
