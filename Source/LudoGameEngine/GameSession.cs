@@ -15,6 +15,7 @@ namespace LudoGameEngine
         IGameSession SetSessionData();
         IGameSession SaveState();
         IGameSession StartGame();
+        string GetSessionName();
         int GetPlayerAmount();
         IList<Tuple<int, string, string>> GetSessionData();
     }
@@ -131,6 +132,11 @@ namespace LudoGameEngine
         public int GetPlayerAmount()
         {
             return PlayerAmount;
+        }
+
+        public string GetSessionName()
+        {
+            return SessionName;
         }
 
         public IList<Tuple<int, string, string>> GetSessionData()

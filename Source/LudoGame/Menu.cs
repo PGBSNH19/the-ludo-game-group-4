@@ -37,7 +37,7 @@ namespace LudoGame
                          SetSessionName().
                          SetPlayerAmount().
                          SetSessionData().
-                         //SaveState().
+                         SaveState().
                          StartGame();
 
                     GameBoard gb = new GameBoard(gs, true);
@@ -85,6 +85,7 @@ namespace LudoGame
         }
         static void LoadSavedGames()
         {
+            DrawGFX.SetDrawPosition(0, 0);
             Console.WriteLine("Load Game");
             List<string> sessionOption = Data.ShowAllSession();
             int loadOption = CreateInteractable.OptionMenu(false, sessionOption, 0, 2);
@@ -92,6 +93,8 @@ namespace LudoGame
             var SessionData = Data.LoadGame(sessionName);
 
             GameBoard gb = new GameBoard(new GameSession(), false);
+            gb.SessionName = sessionName;
+
             List<string> playerAmount = new List<string>();
             int index = 0;
             foreach (var i in SessionData)

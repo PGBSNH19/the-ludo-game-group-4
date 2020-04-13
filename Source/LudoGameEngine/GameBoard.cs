@@ -116,7 +116,7 @@ namespace LudoGameEngine
             }
             else
             {
-                InitializeBoardCoordinates();
+                InitializeBoardCoordinates();              
             }
 
             
@@ -471,7 +471,7 @@ namespace LudoGameEngine
 
             }
 
-            //SaveWinner();
+            SaveWinner();
             DisplayWinner();
 
         }
@@ -616,32 +616,6 @@ namespace LudoGameEngine
             //DrawGFX.ClearDrawContent(0, 5, 8);
             return newGlobalPosition;
         }
-
-        //KnockOut other player
-        private void KnockOut(int otherplayerID, int newGlobalPosition)
-        {
-            var otherPlayer = GamePlayers.Where(p => p.GamePlayerID == otherplayerID).FirstOrDefault();
-            int otherplayerIndex = GamePlayers.IndexOf(otherPlayer);
-
-            //var opponentPiece = GamePlayers[otherplayerIndex].Pieces.Where(p => p.CurrentGlobalPos == newGlobalPosition || p.).FirstOrDefault();
-            //int opponentPieceIndex = GetPieceIndex(otherplayerIndex, opponentPiece);
-
-            //DrawGFX.SetDrawPosition(50, 8);
-            //Console.WriteLine("Current local pos: " +GamePlayers[otherplayerIndex].Pieces[opponentPieceIndex].CurrentPos);
-            //DrawGFX.SetDrawPosition(50, 9);
-            //Console.WriteLine("Current global pos: " + GamePlayers[otherplayerIndex].Pieces[opponentPieceIndex].CurrentGlobalPos);
-            //GamePlayers[otherplayerIndex].Pieces[opponentPieceIndex].CurrentPos = 0;
-            //GamePlayers[otherplayerIndex].Pieces[opponentPieceIndex].CurrentGlobalPos = 0;
-        }
-
-        //Move behind same player
-        private void MoveBehind(int playerIndex, int pieceIndex)
-        {        
-            GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos--;
-            GamePlayers[playerIndex].Pieces[pieceIndex].CurrentGlobalPos--;
-        }
-
-
 
         /*------------------GAMEPIECE-RELATED-----------------------*/
 
@@ -860,6 +834,9 @@ namespace LudoGameEngine
         ===========================================================*/
         public void InitializeGame()
         {
+            //sessionname
+            SessionName = gs.GetSessionName();
+
             //players
             GamePlayerAmnt = gs.GetPlayerAmount();
             IList<Tuple<int, string, string>> sessionData = gs.GetSessionData();
