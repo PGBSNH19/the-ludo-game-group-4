@@ -291,7 +291,7 @@ namespace LudoGameEngine
                                 int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, diceValue);
                                 int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
 
-                                //CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+                                CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
 
                                 MoveLocalPiece(i, pieceIndex, previousLocalPiecePosition, newLocalPiecePosition);
                                 MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
@@ -359,7 +359,8 @@ namespace LudoGameEngine
                         //        }                             
                         //    }
                         //    break;
-     
+                        case 6:
+                            break;
                         
                         default:
                             DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
@@ -526,34 +527,60 @@ namespace LudoGameEngine
                 var currentPlayerID = GamePlayers[playerIndex].GamePlayerID;
                 var currentPlayerColor = GamePlayers[playerIndex].Color;
                 var currentPlayerName = GamePlayers[playerIndex].Name;
+                var currentPlayerPieceID = GamePlayers[playerIndex].Pieces[pieceIndex].PieceID;
 
                 var otherPlayerID = CoordinateOuterPosition[newGlobalPosition].OccupiedPlayerID;
                 var otherPlayerName = GamePlayers.Where(n => n.GamePlayerID == otherPlayerID).Select(n => n.Name).FirstOrDefault();
                 var otherPlayerColor = GamePlayers.Where(n => n.GamePlayerID == otherPlayerID).Select(n => n.Color).FirstOrDefault();
                 var otherPlayerPieceID = CoordinateOuterPosition[newGlobalPosition].OccupiedPlayerPieceID;
+                var otherPlayerObject = GamePlayers.Where(n => n.GamePlayerID == otherPlayerID).FirstOrDefault();
+
+                int otherPlayerIndex = GetPlayerIndex(otherPlayerObject);
+                var otherPlayerPiece = GetPieceByID(otherPlayerIndex, otherPlayerPieceID);
+                int otherPlayerPieceIndex = GetPieceIndex(otherPlayerIndex, otherPlayerPiece);
+
 
                 //måste ha metod som hanterar om piece tex gul piece är 0
                 if (currentPlayerID != otherPlayerID)
                 {
                     //CoordinateOuterPosition[newGlobalPosition].IsOccupied = true;
                     //CoordinateOuterPosition[newGlobalPosition].OccupiedPlayerID = currentPlayerID;
-
-                    DrawGFX.SetDrawPosition(50, 7);
+                    
+                    
+                    DrawGFX.ClearDrawContent(0, 6, 8);
+                    DrawGFX.SetDrawPosition(50, 5);
                     Console.WriteLine("==KNOCK OUT!==");
-                    DrawGFX.SetDrawPosition(50, 9);
-                    Console.WriteLine($"{currentPlayerColor} Player {currentPlayerID}: {currentPlayerName} knocked out");
-                    DrawGFX.SetDrawPosition(50, 10);
-                    Console.WriteLine($"{otherPlayerColor} Player {otherPlayerID}: {otherPlayerName}, piece {otherPlayerPieceID}");
+                    DrawGFX.SetDrawPosition(50, 6);
+                    Console.WriteLine($"{currentPlayerColor} Player {currentPlayerID}: {currentPlayerName}, {currentPlayerPieceID} knocked out:");
+                    DrawGFX.SetDrawPosition(50, 7);
+                    Console.WriteLine($"{otherPlayerColor} Player {otherPlayerID}, (gameplayer index {otherPlayerIndex}): {otherPlayerName}, piece {otherPlayerPieceID}, (piece index {otherPlayerIndex})");
+
                     // KnockOut(otherPlayerID, newGlobalPosition);
 
+                    //clear occupational boardindex
+                    CoordinateOuterPosition[newGlobalPosition].IsOccupied = false;
+                    CoordinateOuterPosition[newGlobalPosition].OccupiedPlayerID = 0;
+                    CoordinateOuterPosition[newGlobalPosition].OccupiedPlayerPieceID = 0;
 
 
+                    //clear other players poistions
+                    int otherPlayerPieceLocalPos = GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].CurrentPos;
 
+                    GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].LocalCoordinatePositions[otherPlayerPieceLocalPos] = false;
+                    GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].CurrentPos = 0;
+                    GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].CurrentGlobalPos = 0;
+                    GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].LocalCoordinatePositions[otherPlayerPieceLocalPos] = true;
+
+                    otherPlayerPieceLocalPos = GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].CurrentGlobalPos;
+
+                    DrawGFX.SetDrawPosition(50, 8);
+                    Console.WriteLine($"{otherPlayerColor} Player {otherPlayerID}: {otherPlayerName}, piece {otherPlayerPieceID} moved to position {otherPlayerPieceLocalPos}");
 
                 }
                 //fixa
                 else if(otherPlayerID == currentPlayerID)
                 {
+                    DrawGFX.ClearDrawContent(0, 6, 8);
                     //MoveBehind(playerIndex, pieceIndex);
                     DrawGFX.SetDrawPosition(50, 8);
                     Console.WriteLine("==MOVE BEHIND==");
@@ -616,6 +643,18 @@ namespace LudoGameEngine
             }
 
             return pieceOptions;
+        }
+
+        //get index of a specific player by playerID
+        private int GetPlayerIndex(int playerID)
+        {
+            return GamePlayers.IndexOf(GamePlayers.Single(p => p.GamePlayerID == playerID));
+        }
+
+        //get index of a specific player by player Object
+        private int GetPlayerIndex(GamePlayer gamePlayer)
+        {
+            return GamePlayers.IndexOf(gamePlayer);
         }
 
         //Get index of a specific piece
