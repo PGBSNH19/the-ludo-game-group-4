@@ -37,7 +37,7 @@ namespace LudoGame
                          SetSessionName().
                          SetPlayerAmount().
                          SetSessionData().
-                         SaveState().
+                         //SaveState().
                          StartGame();
 
                     GameBoard gb = new GameBoard(gs, true);

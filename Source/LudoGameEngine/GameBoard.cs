@@ -71,13 +71,13 @@ namespace LudoGameEngine
         //this loop runs the game
         public void GameLoop()
         {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
+            Console.OutputEncoding = Encoding.UTF8;
 
 
             if (NewGame == true)
             {
                 Console.Clear();
-                Console.OutputEncoding = System.Text.Encoding.UTF8;
+                Console.OutputEncoding = Encoding.UTF8;
 
                 InitializeGame();
 
@@ -303,64 +303,103 @@ namespace LudoGameEngine
                             }
                             break;
 
-                        //case 6:
-                        //    DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
-                        //    Console.WriteLine("You rolled 6. Please make a choice:");
-
-
-
-                        //    //List<string> moveOptions = new List<string>();
-                        //    //var piecesInNest = GamePlayers[i].Pieces.Where(p => p.CurrentPos == p.LocalStartPos);
-                        //    //if (piecesInNest.Count() >= 2)
-                        //    //{
-                        //    //    moveOptions.Add("Move 1 piece 6 steps?");
-                        //    //    moveOptions.Add("Move 2 pieces 1 step?");
-                        //    //}
-                        //    //else 
-                        //    //    moveOptions.Add("Move 1 piece 6 steps?");
-
-                        //    List<string> moveOptions = new List<string>() { "Move 1 piece 6 steps ?", "Move 2 pieces 1 step ?" };
-                        //    int selectMoveOption = CreateInteractable.OptionMenu(true, moveOptions, 0, gfxInteractablePos);
-
-                        //    DrawGFX.ClearDrawContent(0, gfxInteractableInfoPos);
-
-                        //    if (selectMoveOption == 0)
-                        //    {                               
-                        //        DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
-                        //        Console.WriteLine("Choose a piece to move");
-
-                        //        options = CreatePieceBtnOptions(true, i);
-                        //        MovePiece(selectedPiece, options, diceValue, i);
-
-                        //        //if (options.Count() != 0)
-                        //        //{
-                        //        //    var selectedPieceToMove = GetSelectedPieceToMove(selectedPiece, options, i);
-                        //        //    MovePiece(selectedPieceToMove, diceValue, i);
-                        //        //}
-
-                        //    }
-                        //    else
-                        //    {                                
-                        //        for (int y = 0; y < 2; y++)
-                        //        {
-                        //            DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
-                        //            Console.WriteLine("Choose a piece to move");
-
-                        //            options = CreatePieceBtnOptions(true, i);
-                        //            MovePiece(selectedPiece, options, 1, i);
-
-                        //            //options = CreatePieceBtnOptions(true, i);
-                        //            //if (options.Count() != 0)
-                        //            //{
-                        //            //    var selectedPieceToMove = GetSelectedPieceToMove(selectedPiece, options, i);
-                        //            //    MovePiece(selectedPieceToMove, 1, i);
-                        //            //}
-
-                        //        }                             
-                        //    }
-                        //    break;
                         case 6:
+                            DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
+                            Console.WriteLine("You rolled 6. Please make a choice:");
+
+
+                            //fixa på onsdag
+                            List<string> moveOptions = new List<string>();
+                            var piecesInNest = GamePlayers[i].Pieces.Where(p => p.CurrentPos == p.LocalStartPos);
+                            if (piecesInNest.Count() >= 2)
+                            {
+                                moveOptions.Add("Move 1 piece 6 steps?");
+                                moveOptions.Add("Move 2 pieces 1 step?");
+                            }
+                            else
+                                moveOptions.Add("Move 1 piece 6 steps?");
+
+                            //List<string> moveOptions = new List<string>() { "Move 1 piece 6 steps ?"};
+                            int selectMoveOption = CreateInteractable.OptionMenu(true, moveOptions, 0, gfxInteractablePos);
+
+                            DrawGFX.ClearDrawContent(0, gfxInteractableInfoPos);
+
+                            if (selectMoveOption == 0)
+                            {
+                                DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
+                                Console.WriteLine("Choose a piece to move");
+
+                                options = CreatePieceBtnOptions(true, i);
+                                if (options.Count() != 0)
+                                {
+                                    selectedPiece = (CreateInteractable.OptionMenu(true, options, 0, gfxInteractablePos));
+                                    string pieceName = options[selectedPiece];
+                                    int pieceID = int.Parse(pieceName.Last().ToString());
+
+                                    var pieceToMove = GetPieceByID(i, pieceID);
+                                    int pieceIndex = GetPieceIndex(i, pieceToMove);
+
+                                    int previousGlobalPosition = GetGlobalPosition(i, pieceIndex);
+                                    int previousLocalPiecePosition = GetPreviousPieceLocalPosition(i, pieceIndex);
+                                    int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, diceValue);
+                                    int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
+
+                                    newGlobalPosition = CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+
+                                    MoveLocalPiece(i, pieceIndex, newLocalPiecePosition, newLocalPiecePosition);
+                                    MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+
+                                    //print positions to screen
+                                    DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
+                                    Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {pieceToMove.PieceID} moved from position {previousGlobalPosition} to position {newGlobalPosition} in Game Board" +
+                                        $" and to position {newLocalPiecePosition} in Player Board");
+                                }
+
+                            }
+                            else
+                            {
+                                //List<string> pieceOptions = CreatePieceButtonOptionsInNest(i);
+                                //var piecesToChooseFrom = GamePlayers[i].Pieces.Where(p => p.CurrentPos == p.LocalStartPos);
+
+                                for (int y = 1; y <=2; y++)
+                                {
+                                    DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
+                                    Console.WriteLine($"Choose piece {i} to move");
+
+                                    IList<string> pieceOptions = CreatePieceButtonOptionsInNest(i);
+                                    if (pieceOptions.Count() != 0)
+                                    {
+                                        selectedPiece = (CreateInteractable.OptionMenu(true, pieceOptions, 0, gfxInteractablePos));
+                                        string pieceName = pieceOptions[selectedPiece];
+                                        int pieceID = int.Parse(pieceName.Last().ToString());
+
+                                        var pieceToMove = GetPieceByID(i, pieceID);
+                                        int pieceIndex = GetPieceIndex(i, pieceToMove);
+
+                                        int previousGlobalPosition = GetGlobalPosition(i, pieceIndex);
+                                        int previousLocalPiecePosition = GetPreviousPieceLocalPosition(i, pieceIndex);
+                                        int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, 1);
+                                        int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
+
+                                        newGlobalPosition = CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+
+                                        MoveLocalPiece(i, pieceIndex, newLocalPiecePosition, newLocalPiecePosition);
+                                        MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+
+                                        //print positions to screen
+                                        DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
+                                        Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {pieceToMove.PieceID} moved from position {previousGlobalPosition} to position {newGlobalPosition} in Game Board" +
+                                            $" and to position {newLocalPiecePosition} in Player Board");
+
+                                       // DrawGFX.ClearDrawContent(0, gfxInteractableInfoPos);
+                                    }
+
+                                    
+                                }
+                            }
                             break;
+                        //case 6:
+                        //    break;
                         
                         default:
                             DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
@@ -375,7 +414,6 @@ namespace LudoGameEngine
 
                                 var pieceToMove = GetPieceByID(i, pieceID);
                                 int pieceIndex = GetPieceIndex(i, pieceToMove);
-
 
                                 int previousGlobalPosition = GetGlobalPosition(i, pieceIndex);
                                 int previousLocalPiecePosition = GetPreviousPieceLocalPosition(i, pieceIndex);
@@ -442,14 +480,7 @@ namespace LudoGameEngine
                     DrawGFX.ClearDrawContent(0, gfxSubInfoPos);
                     DrawGFX.ClearDrawContent(0, gfxInteractableInfoPos);
                     DrawGFX.ClearDrawContent(0, gfxResultPos);
-
-
-                    //while (diceValue == 6)
-                    //{
-                    //    DrawGFX.SetDrawPosition(0, 8);
-                    //    diceValue = CreateInteractable.SingleButton(dice.Roll, "Roll");
-                    //}
-
+                 
                     //Winner
                     var allPiecesFinished = GamePlayers[i].Pieces.All(p => p.PieceInGoal == true && p.CurrentPos == p.GoalPosIndex);
                     if (allPiecesFinished == true)
@@ -471,13 +502,13 @@ namespace LudoGameEngine
 
             }
 
-            SaveWinner();
+            //SaveWinner();
             DisplayWinner();
 
         }
 
         /*===========================================================
-                        GAMEPLAY-METHODS
+        ////////////////////// GAMEPLAY /////////////////////////////
         ===========================================================*/       
 
 
@@ -511,7 +542,247 @@ namespace LudoGameEngine
             Console.WriteLine("Winner is: " + winner + "!");
         }
 
+        /*===========================================================
+                                DICE-LOGIC
+        ===========================================================*/
+        
+        private void DiceRollResult(int diceValue)
+        {
 
+        }
+
+
+
+        private void RollSix(int stepsToMove, int playerIndex)
+        {
+            //var moveTwoPieces = GamePlayers[playerIndex].Pieces.Where(s => s.CurrentPos == 0);
+            //if(moveTwoPieces.Count() >= 2)
+            //{
+
+            //    //Visa meny istället
+            //    Console.WriteLine("Please Choose to move 1 piece 6 steps, or two pieces out from nest");
+            //    Console.Write("To choose one piece type: 1, to choose two pieces type: 2 ");
+
+            //    int choice = int.Parse(Console.ReadLine());
+
+            //    if(choice == 2)
+            //    {
+            //        for (int i = 0; i < moveTwoPieces.Count(); i++)
+            //        {
+            //            Console.Write($"Avaliable pieces to move:");
+            //            foreach (var p in moveTwoPieces)
+            //            {
+            //                Console.Write($"{p.PieceID} ");
+
+            //            }
+            //            Console.WriteLine(" ");
+
+            //            Console.WriteLine($"Please enter ID for pice{i+1}:");
+            //            int id = int.Parse(Console.ReadLine());
+            //            stepsToMove = 1;
+
+            //            var piece = GamePlayers[playerIndex].Pieces.Where(s => s.PieceID == id).FirstOrDefault();
+            //            int pieceIndex = GamePlayers[playerIndex].Pieces.IndexOf(piece);
+            //            int currentPos = GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos;
+            //            GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentPos] = false;
+            //            GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos += MovePiece(stepsToMove);
+            //            GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentPos] = true;
+            //            int convertToGlobalPosIndex = (GamePlayers[playerIndex].GlobalStartPos) + (GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos--);
+            //            CoordinateOuterPosition[convertToGlobalPosIndex].IsOccupied = true;
+            //            CoordinateOuterPosition[convertToGlobalPosIndex].OccupiedPlayerID = GamePlayers[playerIndex].GamePlayerID;
+            //        }
+            //    }         
+            //    else if(choice == 1)
+            //    {
+            //        Console.WriteLine("Choose a piece to move");
+            //        foreach (var p in moveTwoPieces)
+            //        {
+            //            Console.Write($"{p.PieceID} ");
+            //        }
+            //        int id = int.Parse(Console.ReadLine());
+
+            //        var piece = GamePlayers[playerIndex].Pieces.Where(s => s.PieceID == id).FirstOrDefault();
+            //        int pieceIndex = GamePlayers[playerIndex].Pieces.IndexOf(piece);
+            //        int currentPos = GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos;
+            //        GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentPos] = false;
+            //        GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos += MovePiece(stepsToMove);
+            //        GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentPos] = true;
+
+            //        int convertToGlobalPosIndex = (GamePlayers[playerIndex].GlobalStartPos) + (GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos--);
+            //        if (convertToGlobalPosIndex > CoordinateOuterPosition.Count)
+            //            convertToGlobalPosIndex -= (1 - CoordinateOuterPosition.Count);
+            //        CoordinateOuterPosition[convertToGlobalPosIndex].IsOccupied = true;
+            //        CoordinateOuterPosition[convertToGlobalPosIndex].OccupiedPlayerID = GamePlayers[playerIndex].GamePlayerID;
+            //    }
+
+            //}
+
+
+        }
+
+
+
+        /*===========================================================
+                                MOVEMENT
+        ===========================================================*/
+
+
+        /*------------------GAMEPLAYER & PIECE - RELATED------------------*/
+
+        //Return a list of avaliable pieces to move, excluding pieces in goal position
+        private IList<string> CreatePieceBtnOptions(bool displayInNest, int playerIndex)
+        {
+            IList<string> pieceOptions = new List<string>();
+
+            if (displayInNest == true)
+            {
+                var piecesTrue = GamePlayers[playerIndex].Pieces.Where(p => p.CurrentPos != p.GoalPosIndex);
+
+                foreach (var id in piecesTrue)
+                {
+                    pieceOptions.Add($"Piece {id.PieceID}");
+                }
+            }
+            else if (displayInNest == false)
+            {
+                var piecesFalse = GamePlayers[playerIndex].Pieces.Where(p => p.CurrentPos != p.LocalStartPos && p.CurrentPos != p.GoalPosIndex);
+                if (piecesFalse.Count() != 0)
+                {
+                    foreach (var id in piecesFalse)
+                    {
+                        pieceOptions.Add($"Piece {id.PieceID}");
+                    }
+                }
+            }
+
+            return pieceOptions;
+        }
+
+        private IList<string> CreatePieceButtonOptionsInNest(int playerIndex)
+        {
+            IList<string> pieceOptions = new List<string>();
+
+                var pieces = GamePlayers[playerIndex].Pieces.Where(p => p.CurrentPos == p.LocalStartPos && p.CurrentPos != p.GoalPosIndex);
+
+                foreach (var id in pieces)
+                {
+                    pieceOptions.Add($"Piece {id.PieceID}");
+                }
+
+            return pieceOptions;
+        }
+
+        //get index of a specific player by playerID
+        private int GetPlayerIndex(int playerID)
+        {
+            return GamePlayers.IndexOf(GamePlayers.Single(p => p.GamePlayerID == playerID));
+        }
+
+        //get index of a specific player by player Object
+        private int GetPlayerIndex(GamePlayer gamePlayer)
+        {
+            return GamePlayers.IndexOf(gamePlayer);
+        }
+
+        //Get index of a specific piece
+        private int GetPieceIndex(int playerIndex, GamePiece piece)
+        {
+            return GamePlayers[playerIndex].Pieces.IndexOf(GamePlayers[playerIndex].Pieces.Single(p => p.PieceID == piece.PieceID));
+        }
+
+        //Get a specific piece by ID
+        private GamePiece GetPieceByID(int playerIndex, int pieceID)
+        {
+            return GamePlayers[playerIndex].Pieces.Where(s => s.PieceID == pieceID).FirstOrDefault();
+        }
+
+
+        /*------------------MOVEMENT-RELATED-----------------------*/
+
+        //Call this before update to new local movement position (old position) AND after local movement (new position)
+        private int GetGlobalPosition(int playerIndex, int pieceIndex)
+        {
+            GamePlayers[playerIndex].Pieces[pieceIndex].CurrentGlobalPos = GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos;
+
+            return GamePlayers[playerIndex].GlobalStartPos + (GamePlayers[playerIndex].Pieces[pieceIndex].CurrentGlobalPos - 1);
+        }
+
+        //Call this before update to new local movement position
+        private int GetPreviousPieceLocalPosition(int playerIndex, int pieceIndex)
+        {
+            return GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos;
+        }
+
+        //Call this to get the new local position for piece to move to
+        private int GetNewLocalPiecePosition(int playerIndex, int pieceIndex, int diceValue)
+        {
+            return GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos += diceValue;
+        }
+
+        //Call this method last, to move piece on local board
+        private void MoveLocalPiece(int playerIndex, int pieceIndex, int previousPosition, int newPosition)
+        {
+            int goalposition = GamePlayers[playerIndex].Pieces[pieceIndex].GoalPosIndex;
+
+            if (previousPosition >= goalposition)
+            {
+                previousPosition = goalposition;
+                GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[previousPosition] = true;
+            }
+            else
+            {
+                GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[previousPosition] = false;
+            }
+
+
+            if (newPosition >= goalposition)
+            {
+                GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos = goalposition;
+                GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[goalposition] = true;
+                GamePlayers[playerIndex].Pieces[pieceIndex].PieceInGoal = true;
+            }
+            else if (newPosition < goalposition)
+            {
+                GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[previousPosition] = false;
+                GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos = newPosition;
+                GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[newPosition] = true;
+            }
+        }
+
+        //Call this method last, to move piece on global board
+        private void MoveGlobalPiece(int playerIndex, int pieceIndex, int previousGlobalPosition, int newGlobalPosition)
+        {
+            int globalMaxPosition = CoordinateOuterPosition.Count - 1;
+
+            if (newGlobalPosition >= globalMaxPosition)
+                newGlobalPosition = (newGlobalPosition - globalMaxPosition);
+
+            if (previousGlobalPosition >= globalMaxPosition)
+                previousGlobalPosition = (previousGlobalPosition - globalMaxPosition);
+
+            if (previousGlobalPosition < 0)
+            {
+                previousGlobalPosition = 0;
+            }
+
+            CoordinateOuterPosition[previousGlobalPosition].IsOccupied = false;
+            CoordinateOuterPosition[previousGlobalPosition].OccupiedPlayerID = 0;
+            CoordinateOuterPosition[previousGlobalPosition].OccupiedPlayerPieceID = 0;
+
+            if (GamePlayers[playerIndex].Pieces[pieceIndex].CurrentGlobalPos > 40)
+            {
+                CoordinateOuterPosition[newGlobalPosition].IsOccupied = false;
+                CoordinateOuterPosition[newGlobalPosition].OccupiedPlayerID = 0;
+            }
+            else
+            {
+                CoordinateOuterPosition[newGlobalPosition].IsOccupied = true;
+                CoordinateOuterPosition[newGlobalPosition].OccupiedPlayerID = GamePlayers[playerIndex].GamePlayerID;
+                CoordinateOuterPosition[newGlobalPosition].OccupiedPlayerPieceID = GamePlayers[playerIndex].Pieces[pieceIndex].PieceID;
+            }
+        }
+
+       
         /*------------------Collission-RELATED-----------------------*/
 
         private int CheckCollision(int playerIndex, int pieceIndex, int newLocalPosition, int newGlobalPosition)
@@ -574,7 +845,6 @@ namespace LudoGameEngine
                     Console.WriteLine($"{otherPlayerColor} Player {otherPlayerID}: {otherPlayerName}, piece {otherPlayerPieceID} moved to position {otherPlayerPieceLocalPos}");
 
                 }
-                //fixa
                 else if(currentPlayerID == otherPlayerID)
                 {
                     if(newGlobalPosition != GamePlayers[otherPlayerIndex].GlobalStartPos)
@@ -612,225 +882,12 @@ namespace LudoGameEngine
                 }                   
             }
 
-
-            //DrawGFX.ClearDrawContent(0, 5, 8);
             return newGlobalPosition;
         }
 
-        /*------------------GAMEPIECE-RELATED-----------------------*/
-
-        //Return a list of avaliable pieces to move, excluding pieces in goal position
-        private IList<string> CreatePieceBtnOptions(bool displayInNest, int index)
-        {
-            IList<string> pieceOptions = new List<string>();
-
-            if (displayInNest == true)
-            {
-                var piecesTrue = GamePlayers[index].Pieces.Where(p => p.CurrentPos != p.GoalPosIndex);
-
-                foreach (var id in piecesTrue)
-                {
-                    pieceOptions.Add($"Piece {id.PieceID}");
-                }
-            }
-            else if (displayInNest == false)
-            {
-                var piecesFalse = GamePlayers[index].Pieces.Where(p => p.CurrentPos != p.LocalStartPos && p.CurrentPos != p.GoalPosIndex);
-                if (piecesFalse.Count() != 0)
-                {
-                    foreach (var id in piecesFalse)
-                    {
-                        pieceOptions.Add($"Piece {id.PieceID}");
-                    }
-                }
-            }
-
-            return pieceOptions;
-        }
-
-        //get index of a specific player by playerID
-        private int GetPlayerIndex(int playerID)
-        {
-            return GamePlayers.IndexOf(GamePlayers.Single(p => p.GamePlayerID == playerID));
-        }
-
-        //get index of a specific player by player Object
-        private int GetPlayerIndex(GamePlayer gamePlayer)
-        {
-            return GamePlayers.IndexOf(gamePlayer);
-        }
-
-        //Get index of a specific piece
-        private int GetPieceIndex(int playerIndex, GamePiece piece)
-        {
-            return GamePlayers[playerIndex].Pieces.IndexOf(GamePlayers[playerIndex].Pieces.Single( p => p.PieceID == piece.PieceID));
-        }
-
-        //Get a specific piece by ID
-        private GamePiece GetPieceByID(int playerIndex, int pieceID)
-        {
-            return GamePlayers[playerIndex].Pieces.Where(s => s.PieceID == pieceID).FirstOrDefault();
-        }
-
-
-        
-        /*------------------MOVEMENT-RELATED-----------------------*/
-
-        //Call this before update to new local movement position (old position) AND after local movement (new position)
-        private int GetGlobalPosition(int playerIndex, int pieceIndex)
-        {
-            GamePlayers[playerIndex].Pieces[pieceIndex].CurrentGlobalPos = GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos;
-
-            return GamePlayers[playerIndex].GlobalStartPos + (GamePlayers[playerIndex].Pieces[pieceIndex].CurrentGlobalPos -1);
-        }
-
-        //Call this before update to new local movement position
-        private int GetPreviousPieceLocalPosition(int playerIndex, int pieceIndex)
-        {
-            return GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos;
-        }
-
-        //Call this to get the new local position for piece to move to
-        private int GetNewLocalPiecePosition (int playerIndex, int pieceIndex, int diceValue)
-        {
-            return GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos += diceValue;
-        }
-
-        //Call this method last, to move piece on local board
-        private void MoveLocalPiece(int playerIndex, int pieceIndex, int previousPosition, int newPosition)
-        {
-            int goalposition = GamePlayers[playerIndex].Pieces[pieceIndex].GoalPosIndex;
-
-            if (previousPosition >= goalposition)
-            {
-                previousPosition = goalposition;
-                GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[previousPosition] = true;
-            }
-            else
-            {
-                GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[previousPosition] = false;
-            }
-
-
-            if (newPosition >= goalposition)
-            {
-                GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos = goalposition;
-                GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[goalposition] = true;
-                GamePlayers[playerIndex].Pieces[pieceIndex].PieceInGoal = true; 
-            }
-            else if(newPosition < goalposition)
-            {
-                GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[previousPosition] = false;
-                GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos = newPosition;
-                GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[newPosition] = true;
-            }            
-        }
-
-        //Call this method last, to move piece on global board
-        private void MoveGlobalPiece (int playerIndex, int pieceIndex, int previousGlobalPosition, int newGlobalPosition)
-        {
-            int globalMaxPosition = CoordinateOuterPosition.Count-1;
-
-            if (newGlobalPosition >= globalMaxPosition)
-                newGlobalPosition = (newGlobalPosition - globalMaxPosition);
-
-            if(previousGlobalPosition >= globalMaxPosition)
-                previousGlobalPosition = (previousGlobalPosition - globalMaxPosition);
-
-            if(previousGlobalPosition < 0)
-            {
-                previousGlobalPosition = 0;
-            }
-
-            CoordinateOuterPosition[previousGlobalPosition].IsOccupied = false;
-            CoordinateOuterPosition[previousGlobalPosition].OccupiedPlayerID = 0;
-            CoordinateOuterPosition[previousGlobalPosition].OccupiedPlayerPieceID = 0;
-
-            if (GamePlayers[playerIndex].Pieces[pieceIndex].CurrentGlobalPos > 40)
-            {
-                CoordinateOuterPosition[newGlobalPosition].IsOccupied = false;
-                CoordinateOuterPosition[newGlobalPosition].OccupiedPlayerID = 0;
-                //CoordinateOuterPosition[newGlobalPosition].
-            }
-            else
-            {
-                CoordinateOuterPosition[newGlobalPosition].IsOccupied = true;
-                CoordinateOuterPosition[newGlobalPosition].OccupiedPlayerID = GamePlayers[playerIndex].GamePlayerID;
-                CoordinateOuterPosition[newGlobalPosition].OccupiedPlayerPieceID = GamePlayers[playerIndex].Pieces[pieceIndex].PieceID;
-            }           
-        }
-
-        private void RollSix(int stepsToMove, int playerIndex)
-        {
-            //var moveTwoPieces = GamePlayers[playerIndex].Pieces.Where(s => s.CurrentPos == 0);
-            //if(moveTwoPieces.Count() >= 2)
-            //{
-
-            //    //Visa meny istället
-            //    Console.WriteLine("Please Choose to move 1 piece 6 steps, or two pieces out from nest");
-            //    Console.Write("To choose one piece type: 1, to choose two pieces type: 2 ");
-                
-            //    int choice = int.Parse(Console.ReadLine());
-
-            //    if(choice == 2)
-            //    {
-            //        for (int i = 0; i < moveTwoPieces.Count(); i++)
-            //        {
-            //            Console.Write($"Avaliable pieces to move:");
-            //            foreach (var p in moveTwoPieces)
-            //            {
-            //                Console.Write($"{p.PieceID} ");
-                           
-            //            }
-            //            Console.WriteLine(" ");
-
-            //            Console.WriteLine($"Please enter ID for pice{i+1}:");
-            //            int id = int.Parse(Console.ReadLine());
-            //            stepsToMove = 1;
-                        
-            //            var piece = GamePlayers[playerIndex].Pieces.Where(s => s.PieceID == id).FirstOrDefault();
-            //            int pieceIndex = GamePlayers[playerIndex].Pieces.IndexOf(piece);
-            //            int currentPos = GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos;
-            //            GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentPos] = false;
-            //            GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos += MovePiece(stepsToMove);
-            //            GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentPos] = true;
-            //            int convertToGlobalPosIndex = (GamePlayers[playerIndex].GlobalStartPos) + (GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos--);
-            //            CoordinateOuterPosition[convertToGlobalPosIndex].IsOccupied = true;
-            //            CoordinateOuterPosition[convertToGlobalPosIndex].OccupiedPlayerID = GamePlayers[playerIndex].GamePlayerID;
-            //        }
-            //    }         
-            //    else if(choice == 1)
-            //    {
-            //        Console.WriteLine("Choose a piece to move");
-            //        foreach (var p in moveTwoPieces)
-            //        {
-            //            Console.Write($"{p.PieceID} ");
-            //        }
-            //        int id = int.Parse(Console.ReadLine());
-
-            //        var piece = GamePlayers[playerIndex].Pieces.Where(s => s.PieceID == id).FirstOrDefault();
-            //        int pieceIndex = GamePlayers[playerIndex].Pieces.IndexOf(piece);
-            //        int currentPos = GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos;
-            //        GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentPos] = false;
-            //        GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos += MovePiece(stepsToMove);
-            //        GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentPos] = true;
-
-            //        int convertToGlobalPosIndex = (GamePlayers[playerIndex].GlobalStartPos) + (GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos--);
-            //        if (convertToGlobalPosIndex > CoordinateOuterPosition.Count)
-            //            convertToGlobalPosIndex -= (1 - CoordinateOuterPosition.Count);
-            //        CoordinateOuterPosition[convertToGlobalPosIndex].IsOccupied = true;
-            //        CoordinateOuterPosition[convertToGlobalPosIndex].OccupiedPlayerID = GamePlayers[playerIndex].GamePlayerID;
-            //    }
-                
-            //}
-
-
-        }
-
        
-
         /*===========================================================
-                        INITIALIZE-METHODS
+        //////////////////// INITIALIZE /////////////////////////////
         ===========================================================*/
         public void InitializeGame()
         {
