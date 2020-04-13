@@ -1,5 +1,7 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using LudoGameEngine;
@@ -96,67 +98,131 @@ namespace LudoGame
             gb.SessionName = sessionName;
 
             List<string> playerAmount = new List<string>();
-            int index = 0;
-            foreach (var i in SessionData)
+
+            List<GameData.MyGameData> data = SessionData.Distinct().ToList();
+
+            var playerData = SessionData
+                .GroupBy(x => new { x.PlayerName, x.PlayerID,x.Color })
+                .Select(x => x.ToList()).ToList();
+
+            for (int i = 0; i < playerData.Count; i++)
             {
-                playerAmount.Add(i.PlayerName);
-                gb.GamePlayers.Add(new GamePlayer(id: i.PlayerID,name: i.PlayerName, color:i.Color ));
+                playerAmount.Add(SessionData[i].PlayerName);
+                gb.GamePlayers.Add(new GamePlayer(id: SessionData[i].PlayerID, name: SessionData[i].PlayerName, color: SessionData[i].Color));
 
-
-                //for (int j = 0; j <= 4; j++)
-                //{
-                //    gb.GamePlayers[index].Pieces[j].CurrentPos = i.Position;
-                //}
-
-
-                //if (index==0)
-                //{
-                //    for (int j = 1; j <= 4; j++)
-                //    {
-                //        gb.GamePlayers[index].Pieces.Add(new GamePiece(id: j) {CurrentPos=i.Position });
-                //    }
-                //}
-                //else if (index == 1)
-                //{
-                //    for (int j = 1; j <= 4; j++)
-                //    {
-                //        gb.GamePlayers[index].Pieces.Add(new GamePiece(id: j) { CurrentPos = i.Position });
-                //    }
-                //}
-
-
-                index++;
+                for (int j = 0; j < 4; j++)
+                {
+                    gb.GamePlayers[i].Pieces[j].CurrentPos = SessionData[j].Position;
+                }
             }
-            gb.GamePlayerAmnt = playerAmount.Count;
             gb.GameLoop();
 
-
-            //Console.WriteLine("Load");
-            //Console.WriteLine("Please Enter the session name");
-            //string sessionName = Console.ReadLine();
-            //string sessionN = "";
-
-
             //int index = 0;
-            //foreach (var i in Data.LoadGame(sessionName))
+            //foreach (var i in playerData)
             //{
-            //    playerAmount.Add(i.PlayerName);
-            //    sessionN = i.SessionName;
+            //    playerAmount.Add(i[0].PlayerName);
+            //    gb.GamePlayers.Add(new GamePlayer(id: i[0].PlayerID, name: i[0].PlayerName, color: i[0].Color));
 
-            //    game.GamePlayers[index].GamePlayerID = 0;
-            //    game.GamePlayers[index].Name = i.PlayerName;
-            //    game.GamePlayers[index].Color = i.Color;
-            //    game.GamePlayers[index].GlobalStartPos = i.Position;
-
-
-            //    Console.WriteLine($"Player ID: {i.PlayerID} Session Name: {i.SessionName}\tPlayerName: {i.PlayerName}\t" +
-            //        $"Color: {i.Color}\tPiece ID: {i.PieceID}\tPosition {i.Position}");
+            //    for (int j = 0; j <= 4; j++)
+            //    {
+            //        gb.GamePlayers[index].Pieces[j].CurrentPos = SessionData[j].Position;
+            //    }
             //    index++;
             //}
 
-            /*game.gamePlayerAmnt = playerAmount.Count;
-            game.SessionName = sessionN;
-            game.GameLoop();*/
+
+
+
+
+            //int index = 1;
+            //foreach (var e in SessionData)
+            //{
+            //    gb.GamePlayers[index].Pieces.Add(new GamePiece(id: e.PieceID) { CurrentPos = e.Position });
+            //    gb.GamePlayers.p
+            //    index++;
+            //}
+
+
+            /*
+
+                        //foreach (var i in SessionData)
+                        //{
+                        //    playerAmount.Add(i.PlayerName);
+                        //    gb.GamePlayers.Add(new GamePlayer(id: i.PlayerID, name: i.PlayerName, color: i.Color));
+
+                        //    GameData.MyGameData d = new GameData.MyGameData {PlayerID=i.PlayerID, PlayerName=i.PlayerName,Color=i.Color };
+                        //    data.Add(d);
+                        //}
+
+                        foreach (var e in data)
+                        {
+                            Console.WriteLine("Player ID: {0} PlayerName: {1} Color: {2}", e.PlayerID, e.PlayerName,e.Color);
+
+
+
+                            //var distinct = e.PlayerName.Distinct().ToList();
+                            //foreach (var item in distinct)
+                            //{
+                            //    Console.WriteLine("Distinc" + item);
+                            //}
+
+                        }
+
+
+                            //for (int j = 0; j <= 4; j++)
+                            //{
+                            //    gb.GamePlayers[index].Pieces[j].CurrentPos = i.Position;
+                            //}
+
+
+                            //if (index==0)
+                            //{
+                            //    for (int j = 1; j <= 4; j++)
+                            //    {
+                            //        gb.GamePlayers[index].Pieces.Add(new GamePiece(id: j) {CurrentPos=i.Position });
+                            //    }
+                            //}
+                            //else if (index == 1)
+                            //{
+                            //    for (int j = 1; j <= 4; j++)
+                            //    {
+                            //        gb.GamePlayers[index].Pieces.Add(new GamePiece(id: j) { CurrentPos = i.Position });
+                            //    }
+                            //}
+
+
+                           // index++;
+                       // }
+                        gb.GamePlayerAmnt = playerAmount.Count;
+                        //gb.GameLoop();
+
+
+                        //Console.WriteLine("Load");
+                        //Console.WriteLine("Please Enter the session name");
+                        //string sessionName = Console.ReadLine();
+                        //string sessionN = "";
+
+
+                        //int index = 0;
+                        //foreach (var i in Data.LoadGame(sessionName))
+                        //{
+                        //    playerAmount.Add(i.PlayerName);
+                        //    sessionN = i.SessionName;
+
+                        //    game.GamePlayers[index].GamePlayerID = 0;
+                        //    game.GamePlayers[index].Name = i.PlayerName;
+                        //    game.GamePlayers[index].Color = i.Color;
+                        //    game.GamePlayers[index].GlobalStartPos = i.Position;
+
+
+                        //    Console.WriteLine($"Player ID: {i.PlayerID} Session Name: {i.SessionName}\tPlayerName: {i.PlayerName}\t" +
+                        //        $"Color: {i.Color}\tPiece ID: {i.PieceID}\tPosition {i.Position}");
+                        //    index++;
+                        //}
+
+                        /*game.gamePlayerAmnt = playerAmount.Count;
+                        game.SessionName = sessionN;
+                        game.GameLoop();*/
 
 
             BackButton();
