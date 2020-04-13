@@ -291,7 +291,7 @@ namespace LudoGameEngine
                                 int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, diceValue);
                                 int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
 
-                                CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+                                newGlobalPosition = CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
 
                                 MoveLocalPiece(i, pieceIndex, previousLocalPiecePosition, newLocalPiecePosition);
                                 MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
@@ -382,9 +382,9 @@ namespace LudoGameEngine
                                 int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, diceValue);
                                 int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
 
-                                CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+                                newGlobalPosition = CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
 
-                                MoveLocalPiece(i, pieceIndex, previousLocalPiecePosition, newLocalPiecePosition);
+                                MoveLocalPiece(i, pieceIndex, newLocalPiecePosition, newLocalPiecePosition);
                                 MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
 
                                 //print positions to screen
@@ -514,8 +514,10 @@ namespace LudoGameEngine
 
         /*------------------Collission-RELATED-----------------------*/
 
-        private void CheckCollision(int playerIndex, int pieceIndex, int previousGlobalPosition, int newGlobalPosition)
+        private int CheckCollision(int playerIndex, int pieceIndex, int newLocalPosition, int newGlobalPosition)
         {
+            DrawGFX.ClearDrawContent(0, 5, 8);
+
             int globalMaxPosition = CoordinateOuterPosition.Count - 1;
 
             if (newGlobalPosition >= globalMaxPosition)
@@ -542,12 +544,9 @@ namespace LudoGameEngine
 
                 //måste ha metod som hanterar om piece tex gul piece är 0
                 if (currentPlayerID != otherPlayerID)
-                {
-                    //CoordinateOuterPosition[newGlobalPosition].IsOccupied = true;
-                    //CoordinateOuterPosition[newGlobalPosition].OccupiedPlayerID = currentPlayerID;
-                    
-                    
-                    DrawGFX.ClearDrawContent(0, 6, 8);
+                {                    
+                    //print knockout-data to console
+                    DrawGFX.ClearDrawContent(0, 5, 8);
                     DrawGFX.SetDrawPosition(50, 5);
                     Console.WriteLine("==KNOCK OUT!==");
                     DrawGFX.SetDrawPosition(50, 6);
@@ -555,15 +554,12 @@ namespace LudoGameEngine
                     DrawGFX.SetDrawPosition(50, 7);
                     Console.WriteLine($"{otherPlayerColor} Player {otherPlayerID}, (gameplayer index {otherPlayerIndex}): {otherPlayerName}, piece {otherPlayerPieceID}, (piece index {otherPlayerIndex})");
 
-                    // KnockOut(otherPlayerID, newGlobalPosition);
-
                     //clear occupational boardindex
                     CoordinateOuterPosition[newGlobalPosition].IsOccupied = false;
                     CoordinateOuterPosition[newGlobalPosition].OccupiedPlayerID = 0;
                     CoordinateOuterPosition[newGlobalPosition].OccupiedPlayerPieceID = 0;
 
-
-                    //clear other players poistions
+                    //clear other player picepositions
                     int otherPlayerPieceLocalPos = GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].CurrentPos;
 
                     GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].LocalCoordinatePositions[otherPlayerPieceLocalPos] = false;
@@ -573,19 +569,48 @@ namespace LudoGameEngine
 
                     otherPlayerPieceLocalPos = GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].CurrentGlobalPos;
 
+                    //print other player pice position after knockout
                     DrawGFX.SetDrawPosition(50, 8);
                     Console.WriteLine($"{otherPlayerColor} Player {otherPlayerID}: {otherPlayerName}, piece {otherPlayerPieceID} moved to position {otherPlayerPieceLocalPos}");
 
                 }
                 //fixa
-                else if(otherPlayerID == currentPlayerID)
+                else if(currentPlayerID == otherPlayerID)
                 {
-                    DrawGFX.ClearDrawContent(0, 6, 8);
-                    //MoveBehind(playerIndex, pieceIndex);
-                    DrawGFX.SetDrawPosition(50, 8);
-                    Console.WriteLine("==MOVE BEHIND==");
+                    if(newGlobalPosition != GamePlayers[otherPlayerIndex].GlobalStartPos)
+                    {
+                        //print move behind-data to console
+                        DrawGFX.ClearDrawContent(0, 5, 8);
+                        DrawGFX.SetDrawPosition(50, 5);
+                        Console.WriteLine("==MOVE BEHIND==");
+                        DrawGFX.SetDrawPosition(50, 6);
+                        Console.WriteLine($"{currentPlayerColor} Player {currentPlayerID}: {currentPlayerName}, {currentPlayerPieceID} same position as self:");
+                        DrawGFX.SetDrawPosition(50, 7);
+                        Console.WriteLine($"{otherPlayerColor} Player {otherPlayerID}, (gameplayer index {otherPlayerIndex}): {otherPlayerName}, piece {otherPlayerPieceID}, (piece index {otherPlayerIndex})");
+
+
+                        newGlobalPosition -=1;
+                        //newLocalPosition -= 1;
+                        int otherPlayerPieceLocalPos = GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].CurrentPos;
+                        int currentplayerLocalPos = GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos;
+
+                        GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos = (otherPlayerPieceLocalPos - 1);
+                        GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentplayerLocalPos] = true;
+ 
+                        //otherPlayerPieceLocalPos = GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].CurrentPos;
+                        int otherPlayerPieceGlobalPos = GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].CurrentGlobalPos--;                                              
+
+                        DrawGFX.SetDrawPosition(50, 8);
+                        Console.WriteLine($"{otherPlayerColor} Player {otherPlayerID}: {otherPlayerName}, piece {otherPlayerPieceID} moved 1 step behind to global position {otherPlayerPieceGlobalPos} and local position {currentplayerLocalPos}");
+                    }
+
+                    
                 }                   
             }
+
+
+            //DrawGFX.ClearDrawContent(0, 5, 8);
+            return newGlobalPosition;
         }
 
         //KnockOut other player
@@ -717,6 +742,7 @@ namespace LudoGameEngine
             }
             else if(newPosition < goalposition)
             {
+                GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[previousPosition] = false;
                 GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos = newPosition;
                 GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[newPosition] = true;
             }            
