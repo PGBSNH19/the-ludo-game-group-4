@@ -87,7 +87,7 @@ namespace LudoGame
         }
         static void LoadSavedGames()
         {
-            DrawGFX.SetDrawPosition(0, 0);
+            DrawGFX.SetDrawPosition(0, 1);
             Console.WriteLine("Load Game");
             List<string> sessionOption = Data.ShowAllSession();
             int loadOption = CreateInteractable.OptionMenu(false, sessionOption, 0, 2);
@@ -230,6 +230,7 @@ namespace LudoGame
                         game.GameLoop();*/
 
 
+            
             BackButton();
             ReturnToMenu();
         }
