@@ -432,7 +432,7 @@ namespace LudoGameEngine.Data
                             on pl.PlayerID equals pp.PlayerId
                             join p in Context.Piece
                             on pp.PieceId equals p.PieceID
-                            where s.GameFinished == false && p.PlayerPieceID == 4 && s.SessionName == sName
+                            where s.GameFinished == false && s.SessionName == sName
                             select new
                             {
                                 playerId = pl.PlayerID,
