@@ -105,17 +105,22 @@ namespace LudoGame
                 .GroupBy(x => new { x.PlayerName, x.PlayerID,x.Color })
                 .Select(x => x.ToList()).ToList();
 
-            for (int i = 0; i < playerData.Count; i++)
+            for (int i = 0; i < playerData.Count; i++) 
             {
-                playerAmount.Add(SessionData[i].PlayerName);
-                gb.GamePlayers.Add(new GamePlayer(id: SessionData[i].PlayerID, name: SessionData[i].PlayerName, color: SessionData[i].Color));
+                Console.WriteLine("ID: {0} Name: {1} Color: {2}",playerData[i][i].PlayerID, playerData[i][i].PlayerName,playerData[i][i].Color);
+                playerAmount.Add(playerData[i][i].PlayerName);
+                gb.GamePlayers.Add(new GamePlayer(id: playerData[i][i].PlayerID, name: playerData[i][i].PlayerName, color: playerData[i][i].Color));
 
                 for (int j = 0; j < 4; j++)
                 {
                     gb.GamePlayers[i].Pieces[j].CurrentPos = SessionData[j].Position;
+                    Console.WriteLine("Piece ID: {0} Position: {1} ", SessionData[j].PieceID, SessionData[j].Position);
                 }
             }
             gb.GameLoop();
+
+
+
 
             //int index = 0;
             //foreach (var i in playerData)
