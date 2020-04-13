@@ -594,8 +594,13 @@ namespace LudoGameEngine
                         int otherPlayerPieceLocalPos = GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].CurrentPos;
                         int currentplayerLocalPos = GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos;
 
-                        GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos = (otherPlayerPieceLocalPos - 1);
-                        GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentplayerLocalPos] = true;
+                        GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[otherPlayerPieceLocalPos] = false;
+                        GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos--;
+                        GamePlayers[playerIndex].Pieces[pieceIndex].CurrentGlobalPos--;
+
+                        int currentLocalPos = GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos--;
+
+                        GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentLocalPos] = true;
  
                         //otherPlayerPieceLocalPos = GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].CurrentPos;
                         int otherPlayerPieceGlobalPos = GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].CurrentGlobalPos--;                                              
@@ -603,7 +608,6 @@ namespace LudoGameEngine
                         DrawGFX.SetDrawPosition(50, 8);
                         Console.WriteLine($"{otherPlayerColor} Player {otherPlayerID}: {otherPlayerName}, piece {otherPlayerPieceID} moved 1 step behind to global position {otherPlayerPieceGlobalPos} and local position {currentplayerLocalPos}");
                     }
-
                     
                 }                   
             }
