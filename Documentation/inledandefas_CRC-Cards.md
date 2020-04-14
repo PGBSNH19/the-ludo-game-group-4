@@ -17,7 +17,7 @@
 
 
 
-|                                                            |
+| GameSession                                                |
 | ---------------------------------------------------------- |
 | InintializeSession();                                      |
 | SetSessionName();                                          |
