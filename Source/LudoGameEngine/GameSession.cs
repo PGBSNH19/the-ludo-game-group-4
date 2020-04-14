@@ -111,9 +111,9 @@ namespace LudoGameEngine
         //Save SessionData to Database
         public IGameSession SaveState()
         {
+            Console.Clear();
             GameData d = new GameData();
             d.InsertSessionData(SessionName);  //creating new session, Name must be Unique
-
             foreach(var spdItem in SessionPlayerData)
             {                
                 d.InsertEachPlayerData(spdItem.Item1, spdItem.Item2.ToLower(), spdItem.Item3); //inserting player data to DB

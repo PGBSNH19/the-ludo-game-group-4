@@ -23,9 +23,9 @@ namespace LudoGameEngine.Data
                 {
                     Session session = new Session
                     {
-                        SessionName = SessionName,
+                        SessionName = SessionName.ToUpper(),
                         GameFinished = finished,
-                        Winner = winner,
+                        Winner = winner.ToUpper(),
                     };
 
                     Context.Session.Add(session);
@@ -128,7 +128,7 @@ namespace LudoGameEngine.Data
             {
                 Player player = new Player
                 {
-                    Name = name,
+                    Name = name.ToUpper(),
                 };
                 Context.Player.Add(player);
                 Context.SaveChanges();
@@ -137,7 +137,7 @@ namespace LudoGameEngine.Data
                 {
                     PlayerId = player.PlayerID, //giving foreign key same player ID
                     SessionId = SessionId,  //giving all players in same session same session id 
-                    Color = color
+                    Color = color.ToUpper()
                 };
                 Context.PlayerSession.Add(ps);
                 Context.SaveChanges();
@@ -203,7 +203,7 @@ namespace LudoGameEngine.Data
                 foreach (var item in score)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Player {0} \t Won {1}", item.winner.ToUpper(), item.Count);
+                    Console.WriteLine("Player: {0} \t Won: {1}", item.winner.ToUpper(), item.Count);
                     Console.ResetColor();
                 }
             }
@@ -345,7 +345,7 @@ namespace LudoGameEngine.Data
             try
             {   //Finding the Session name that user want
                 var gameF = Context.Session
-                       .Where(c => c.SessionName == sessionName)
+                       .Where(c => c.SessionName == sessionName.ToUpper())
                        .FirstOrDefault();
 
                 if (gameF != null)  //update gameFinished row in session Table
@@ -360,16 +360,16 @@ namespace LudoGameEngine.Data
                               on s.SessionID equals ps.SessionId
                               join p in Context.Player
                               on ps.PlayerId equals p.PlayerID
-                              where s.SessionID == ps.SessionId && s.SessionName == sessionName && p.Name == winnerName
+                              where s.SessionID == ps.SessionId && s.SessionName == sessionName.ToUpper() && p.Name == winnerName.ToUpper()
                               select new { s.Winner, p.Name }).FirstOrDefault();
 
                 var setWinner = Context.Session  //checking if Game has finished
-                    .Where(x => x.GameFinished == true)
+                    .Where(x => x.GameFinished == true && sessionName.ToUpper()== x.SessionName)
                     .FirstOrDefault();
 
                 if (player.Name != null)
                 {
-                    setWinner.Winner = winnerName; //updating winner only if game has finished
+                    setWinner.Winner = winnerName.ToUpper(); //updating winner only if game has finished
                     Context.SaveChanges();
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"Congratulation your wining {winnerName.ToUpper()}\nData successfully saved in database");
