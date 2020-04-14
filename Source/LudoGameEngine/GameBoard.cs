@@ -292,20 +292,22 @@ namespace LudoGameEngine
                                 var pieceToMove = GetPieceByID(i, pieceID);
                                 int pieceIndex = GetPieceIndex(i, pieceToMove);
 
-                                int previousGlobalPosition = GetGlobalPosition(i, pieceIndex);
-                                int previousLocalPiecePosition = GetPreviousPieceLocalPosition(i, pieceIndex);
-                                int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, diceValue);
-                                int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
+                                MovePiece(i, pieceIndex, pieceToMove, diceValue);
 
-                                newGlobalPosition = CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+                                //int previousGlobalPosition = GetGlobalPosition(i, pieceIndex);
+                                //int previousLocalPiecePosition = GetPreviousPieceLocalPosition(i, pieceIndex);
+                                //int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, diceValue);
+                                //int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
 
-                                MoveLocalPiece(i, pieceIndex, previousLocalPiecePosition, newLocalPiecePosition);
-                                MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+                                //newGlobalPosition = CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
 
-                                //print positions to screen
-                                DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
-                                Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {pieceToMove.PieceID} moved from position {previousGlobalPosition} to position {newGlobalPosition} in Game Board" +
-                                    $" and to position {newLocalPiecePosition} in Player Board");
+                                //MoveLocalPiece(i, pieceIndex, previousLocalPiecePosition, newLocalPiecePosition);
+                                //MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+
+                                ////print positions to screen
+                                //DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
+                                //Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {pieceToMove.PieceID} moved from position {previousGlobalPosition} to position {newGlobalPosition} in Game Board" +
+                                //    $" and to position {newLocalPiecePosition} in Player Board");
                             }
                             break;
 
@@ -345,20 +347,22 @@ namespace LudoGameEngine
                                     var pieceToMove = GetPieceByID(i, pieceID);
                                     int pieceIndex = GetPieceIndex(i, pieceToMove);
 
-                                    int previousGlobalPosition = GetGlobalPosition(i, pieceIndex);
-                                    int previousLocalPiecePosition = GetPreviousPieceLocalPosition(i, pieceIndex);
-                                    int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, diceValue);
-                                    int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
+                                    MovePiece(i, pieceIndex, pieceToMove, 6);
 
-                                    newGlobalPosition = CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+                                    //int previousGlobalPosition = GetGlobalPosition(i, pieceIndex);
+                                    //int previousLocalPiecePosition = GetPreviousPieceLocalPosition(i, pieceIndex);
+                                    //int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, diceValue);
+                                    //int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
 
-                                    MoveLocalPiece(i, pieceIndex, newLocalPiecePosition, newLocalPiecePosition);
-                                    MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+                                    //newGlobalPosition = CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
 
-                                    //print positions to screen
-                                    DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
-                                    Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {pieceToMove.PieceID} moved from position {previousGlobalPosition} to position {newGlobalPosition} in Game Board" +
-                                        $" and to position {newLocalPiecePosition} in Player Board");
+                                    //MoveLocalPiece(i, pieceIndex, newLocalPiecePosition, newLocalPiecePosition);
+                                    //MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+
+                                    ////print positions to screen
+                                    //DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
+                                    //Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {pieceToMove.PieceID} moved from position {previousGlobalPosition} to position {newGlobalPosition} in Game Board" +
+                                    //    $" and to position {newLocalPiecePosition} in Player Board");
                                 }
 
                             }
@@ -382,22 +386,24 @@ namespace LudoGameEngine
                                         var pieceToMove = GetPieceByID(i, pieceID);
                                         int pieceIndex = GetPieceIndex(i, pieceToMove);
 
-                                        int previousGlobalPosition = GetGlobalPosition(i, pieceIndex);
-                                        int previousLocalPiecePosition = GetPreviousPieceLocalPosition(i, pieceIndex);
-                                        int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, 1);
-                                        int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
+                                        MovePiece(i, pieceIndex, pieceToMove, 1);
 
-                                        newGlobalPosition = CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+                                        //int previousGlobalPosition = GetGlobalPosition(i, pieceIndex);
+                                        //int previousLocalPiecePosition = GetPreviousPieceLocalPosition(i, pieceIndex);
+                                        //int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, 1);
+                                        //int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
 
-                                        MoveLocalPiece(i, pieceIndex, newLocalPiecePosition, newLocalPiecePosition);
-                                        MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+                                        //newGlobalPosition = CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
 
-                                        //print positions to screen
-                                        DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
-                                        Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {pieceToMove.PieceID} moved from position {previousGlobalPosition} to position {newGlobalPosition} in Game Board" +
-                                            $" and to position {newLocalPiecePosition} in Player Board");
+                                        //MoveLocalPiece(i, pieceIndex, newLocalPiecePosition, newLocalPiecePosition);
+                                        //MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
 
-                                       // DrawGFX.ClearDrawContent(0, gfxInteractableInfoPos);
+                                        ////print positions to screen
+                                        //DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
+                                        //Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {pieceToMove.PieceID} moved from position {previousGlobalPosition} to position {newGlobalPosition} in Game Board" +
+                                        //    $" and to position {newLocalPiecePosition} in Player Board");
+
+                                        // DrawGFX.ClearDrawContent(0, gfxInteractableInfoPos);
                                     }
 
                                     
@@ -418,20 +424,22 @@ namespace LudoGameEngine
                                 var pieceToMove = GetPieceByID(i, pieceID);
                                 int pieceIndex = GetPieceIndex(i, pieceToMove);
 
-                                int previousGlobalPosition = GetGlobalPosition(i, pieceIndex);
-                                int previousLocalPiecePosition = GetPreviousPieceLocalPosition(i, pieceIndex);
-                                int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, diceValue);
-                                int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
+                                MovePiece(i, pieceIndex, pieceToMove, diceValue);
 
-                                newGlobalPosition = CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+                                //int previousGlobalPosition = GetGlobalPosition(i, pieceIndex);
+                                //int previousLocalPiecePosition = GetPreviousPieceLocalPosition(i, pieceIndex);
+                                //int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, diceValue);
+                                //int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
 
-                                MoveLocalPiece(i, pieceIndex, newLocalPiecePosition, newLocalPiecePosition);
-                                MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+                                //newGlobalPosition = CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
 
-                                //print positions to screen
-                                DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
-                                Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {pieceToMove.PieceID} moved from position {previousGlobalPosition} to position {newGlobalPosition} in Game Board" +
-                                    $" and to position {newLocalPiecePosition} in Player Board");
+                                //MoveLocalPiece(i, pieceIndex, newLocalPiecePosition, newLocalPiecePosition);
+                                //MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+
+                                ////print positions to screen
+                                //DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
+                                //Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {pieceToMove.PieceID} moved from position {previousGlobalPosition} to position {newGlobalPosition} in Game Board" +
+                                //    $" and to position {newLocalPiecePosition} in Player Board");
                             }
                             break;
                     }
@@ -555,7 +563,7 @@ namespace LudoGameEngine
         /*===========================================================
                                 DICE-LOGIC
         ===========================================================*/
-        
+
         //private void DiceRollResult(IList<string> options, int selectedPiece, int diceValue)
         //{
         //    switch (diceValue)
@@ -682,7 +690,7 @@ namespace LudoGameEngine
         //                               // DrawGFX.ClearDrawContent(0, gfxInteractableInfoPos);
         //                            }
 
-                                    
+
         //                        }
         //                    }
         //            break;                       
@@ -726,6 +734,27 @@ namespace LudoGameEngine
 
 
         /*------------------GAMEPLAYER & PIECE - RELATED------------------*/
+
+        //Move the piece on the board
+        private void MovePiece(int playerIndex, int pieceIndex, GamePiece pieceToMove, int diceValue)
+        {
+            int previousGlobalPosition = GetGlobalPosition(playerIndex, pieceIndex);
+            int previousLocalPiecePosition = GetPreviousPieceLocalPosition(playerIndex, pieceIndex);
+            int newLocalPiecePosition = GetNewLocalPiecePosition(playerIndex, pieceIndex, diceValue);
+            int newGlobalPosition = GetGlobalPosition(playerIndex, pieceIndex);
+
+            newGlobalPosition = CheckCollision(playerIndex, pieceIndex, previousGlobalPosition, newGlobalPosition);
+
+            MoveLocalPiece(playerIndex, pieceIndex, previousLocalPiecePosition, newLocalPiecePosition);
+            MoveGlobalPiece(playerIndex, pieceIndex, previousGlobalPosition, newGlobalPosition);
+
+            //print positions to screen
+            DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
+            Console.WriteLine($"Player {GamePlayers[playerIndex].GamePlayerID}, Piece {pieceToMove.PieceID} moved from position {previousGlobalPosition} to position {newGlobalPosition} in Game Board" +
+                $" and to position {newLocalPiecePosition} in Player Board");
+        }
+
+
 
         //Return a list of avaliable pieces to move, excluding pieces in goal position
         private IList<string> CreatePieceBtnOptions(bool displayInNest, int playerIndex)
@@ -819,7 +848,7 @@ namespace LudoGameEngine
         }
 
         //Call this method last, to move piece on local board
-        private void MoveLocalPiece(int playerIndex, int pieceIndex, int previousPosition, int newPosition)
+        private void MoveLocalPiece(int playerIndex, int pieceIndex, int previousPosition, int newLocalPosition)
         {
             int goalposition = GamePlayers[playerIndex].Pieces[pieceIndex].GoalPosIndex;
 
@@ -834,17 +863,17 @@ namespace LudoGameEngine
             }
 
 
-            if (newPosition >= goalposition)
+            if (newLocalPosition >= goalposition)
             {
                 GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos = goalposition;
                 GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[goalposition] = true;
                 GamePlayers[playerIndex].Pieces[pieceIndex].PieceInGoal = true;
             }
-            else if (newPosition < goalposition)
+            else if (newLocalPosition < goalposition)
             {
                 GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[previousPosition] = false;
-                GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos = newPosition;
-                GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[newPosition] = true;
+                GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos = newLocalPosition;
+                GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[newLocalPosition] = true;
             }
         }
 
