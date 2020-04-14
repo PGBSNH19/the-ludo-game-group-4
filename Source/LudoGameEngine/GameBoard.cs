@@ -32,7 +32,7 @@ namespace LudoGameEngine
 
         public string winner = "";
 
-        public int saveGame = 0;
+        public int saveOrSkip = 0;
 
         private ConsoleColor playerTextColor;
 
@@ -434,8 +434,8 @@ namespace LudoGameEngine
 
                 //Save Game or skip
                 string[] saveOptions = { "Skip", "Save Game?" };
-                saveGame = CreateInteractable.OptionMenu(true, saveOptions, 40, gfxInfoPos);
-                if (saveGame == 1)
+                saveOrSkip = CreateInteractable.OptionMenu(true, saveOptions, 40, gfxInfoPos);
+                if (saveOrSkip == 1)
                 {
                     Console.Clear();
                     DrawGFX.SetDrawPosition(0, 0);
@@ -729,11 +729,7 @@ namespace LudoGameEngine
             return pieceOptions;
         }
 
-        //get index of a specific player by playerID
-        private int GetPlayerIndex(int playerID)
-        {
-            return GamePlayers.IndexOf(GamePlayers.Single(p => p.GamePlayerID == playerID));
-        }
+  
 
         //get index of a specific player by player Object
         private int GetPlayerIndex(GamePlayer gamePlayer)
