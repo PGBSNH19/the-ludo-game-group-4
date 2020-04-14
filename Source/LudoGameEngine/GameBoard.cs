@@ -102,8 +102,6 @@ namespace LudoGameEngine
                 }
             }
 
-
-
             //continue gameloop until winner
             while (winner == "")
             {
@@ -146,6 +144,7 @@ namespace LudoGameEngine
                     DrawGFX.SetDrawPosition(0, ConsolePosition.GameBoardPiecePos);
                     var commonGameBoardPieces = DrawGFX.CreateBoard(40, BoardGFXItem.GameBoardPiecesGFX);
 
+                    //get gameboardpieces position from CoordinateOuterPosition
                     List<Tuple<int, int, string>> tmp = new List<Tuple<int, int, string>>();
                     for (int y = 0; y < CoordinateOuterPosition.Count; y++)
                     {
@@ -154,7 +153,7 @@ namespace LudoGameEngine
                             var color = GamePlayers.Where(c => c.GamePlayerID == CoordinateOuterPosition[y].OccupiedPlayerID).Select(c => c.Color).FirstOrDefault();
                             tmp.Add(Tuple.Create(y, CoordinateOuterPosition[y].OccupiedPlayerID, color));
                         }
-                    }                    
+                    }                   
                     commonGameBoardPieces = DrawGFX.RenderGameBoardPieces(commonGameBoardPieces, tmp);
 
                     //position for Game Board
@@ -166,11 +165,6 @@ namespace LudoGameEngine
                    /********************************************
                             GFX-POSITIONING PLAYER-RELATED
                    ********************************************/
-
-                    //REFACTORING NEEDED
-
-                    //playerPieceBoards and playerpieces                                        
-                    //IList<IList<string>> playerBoards = new List<IList<string>>();
 
                     //player pieces
                     var piece1 = GamePlayers[i].Pieces.Where(s => s.PieceID == 1).FirstOrDefault();
@@ -226,19 +220,6 @@ namespace LudoGameEngine
                     playerBoard4[piece4.CurrentPos] = DrawGFX.UpdatePlayerPieceGFXByPosition(piece4.CurrentPos);
                     playerBoard4 = DrawGFX.RenderPieceBoard(GamePlayers[i].Color, playerBoard4);
 
-
-
-                    //int newPosition = 17;
-                    //for (int y = 0; y < 4; y++)
-                    //{
-                    //    newPosition += 3;
-                    //    DrawGFX.SetDrawPosition(0, newPosition);
-                    //    playerBoards.Add(DrawGFX.PlayerPieceBoard(GamePlayers[i].Color));                        
-                    //}
-
-                    ////position out pieces in the playerboards
-                    //playerBoards[0].IndexOf(piece1.CurrentPos);
-
                     
                     /********************************************
                                     DICE-RELATED
@@ -258,9 +239,7 @@ namespace LudoGameEngine
 
                     //move a playerpiece based on dice value, method containing other methods
                     MovePieceOnDiceResult(i,  options, selectedPiece, diceValue);
-
-                    
-
+                   
 
                     /********************************************
                                     RE-RENDER GFX
@@ -290,10 +269,6 @@ namespace LudoGameEngine
                     playerBoard4 = DrawGFX.RenderPieceBoard(GamePlayers[i].Color, playerBoard4);
 
 
-                    //re-render GameBoard
-
-                    //re-render GameBoard Piece
-
                     //input to player to press enter
                     DrawGFX.SetDrawPosition(0, ConsolePosition.InteractableInfoPos);
                     Console.WriteLine("Please press [ENTER] to continue");
@@ -319,7 +294,6 @@ namespace LudoGameEngine
                 }
 
                 
-
                 //Save Game or skip
                 string[] saveOptions = { "Skip", "Save Game?" };
                 saveOrSkip = CreateInteractable.OptionMenu(true, saveOptions, 40, ConsolePosition.InfoPos);
