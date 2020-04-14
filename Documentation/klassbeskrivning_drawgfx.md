@@ -1,33 +1,50 @@
 # Klassbeskrivning
 
+## BoardGFXItem
+
+| Enum                    | Beskrivning                                                  |
+| ----------------------- | ------------------------------------------------------------ |
+| enum BoardGFXItem       | //enkapsulerar typ av grafik för gemensamt spelbräde som parameter när man anropar CreateBoard() |
+| enum PieceGFXItem       | //enkapsulerar typ av grafik för spelpjäsbräde som parameter när man anropar CreateBoard() |
+| enum GameBoardPiecesGFX | //enkapsulerar typ av grafik för gemensamt spelbräde för alla spelares spelpjäser som parameter när man anropar CreateBoard() |
+
+**Klassbeskrivning:** Används för enkapsulering av parameter i CreateBoard()
+
+
+
+## PieceGFXItem
+
+| Enum               | Beskrivning                                                  |
+| ------------------ | ------------------------------------------------------------ |
+| enum PieceOnBBoard | //enkapsulerar typ av grafik för spelpjäs mitt på något spelbräde |
+| enum PieceInNest   | //enkapsulerar typ av grafik för spelpjäs i sitt bo          |
+
+**Klassbeskrivning:** Används för grafik i UpdatePlayerPieceGFXByPosition()
+
+
+
+## GameColors
+
+| Enum        | Beskrivning                    |
+| ----------- | ------------------------------ |
+| enum Red    | //enkapsulerar spelfärgen röd  |
+| enum Blue   | //enkapsulerar spelfärgen blå  |
+| enum Green  | //enkapsulerar spelfärgen grön |
+| enum Yellow | //enkapsulerar spelfärgen gul  |
+
+**Klassbeskrivning:** Används  i olika delar av programmet
+
 
 
 ## DrawGFX
 
-| Variabler                                | Beskrivning                                                  |
-| ---------------------------------------- | ------------------------------------------------------------ |
-| public enum BoardGFXItem                 | //enkapsulerar vad för grafik som man får lägga in som parameter när man skapar en boarditem |
-| public enum PieceGFXItem                 | //enkapsulerar vad för grafik som man får lägga in som parameter när man skapar en boarditem |
-| public enum GameColors                   | //enkapsulerar vad för grafik som man får lägga in som parameter när man skapar en boarditem |
-| public static string GameBoardItem       | //grafik för GameBoard                                       |
-| public static string PieceBoardItem      | //grafik för PieceBoard                                      |
-| public static string GameBoardPiecesItem | //grafik för spelarpjäser                                    |
-| public static string PieceOnBoard        | //grafik för spelarpjäser på GameBoard                       |
-| public static string PieceInNest         | //grafik för spelarpjäsen då den befinner sig i sitt bo      |
-| Enum                     | Beskrivning |
-| ------------------------ | ----------- |
-| public enum BoardGFXItem |             |
-| public enum PieceGFXItem |             |
-| public enum GameColors   |             |
-
-| Variabler                                | Beskrivning |
-| ---------------------------------------- | ----------- |
-| public static string GameBoardItem       |             |
-| public static string PieceBoardItem      |             |
-| public static string GameBoardPiecesItem |             |
-| public static string PieceOnBoard        |             |
-| public static string PieceInNest         |             |
->>>>>>> 95b94db7d511c8b22ff4b514a9ba46aa3e2f5bad
+| Variabler                                | Beskrivning                                             |
+| ---------------------------------------- | ------------------------------------------------------- |
+| public static string GameBoardItem       | //grafik för GameBoard                                  |
+| public static string PieceBoardItem      | //grafik för PieceBoard                                 |
+| public static string GameBoardPiecesItem | //grafik för spelarpjäser                               |
+| public static string PieceOnBoard        | //grafik för spelarpjäser på GameBoard                  |
+| public static string PieceInNest         | //grafik för spelarpjäsen då den befinner sig i sitt bo |
 
 | Metoder                                               | Beskrivning                               |
 | ----------------------------------------------------- | ----------------------------------------- |
