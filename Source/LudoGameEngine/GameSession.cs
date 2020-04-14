@@ -122,7 +122,7 @@ namespace LudoGameEngine
             return this;
         }
 
-        public  IGameSession StartGame()
+        public IGameSession StartGame()
         {
             //call a new board
             return this;
