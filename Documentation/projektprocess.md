@@ -57,4 +57,4 @@ Jag själv, projektledare/författare: Micael Wollter, fastnade sedan i fredags 
 
 För filmen skapade vi en egen powerpointmall och alla fick spela in sina egna delar, så sattes alla småfilmer ihop, tillsammans med en trailer i Adobe Premiere. Tyvärr blev det strul med uppladdningen, men har fått tillåtelse att ladda upp en ny film med bättre kvalité.
 
-Sisda dagen för koden, så nu sker främst buggtestning samt refakturera så mkt av koden som möjligt innan deadline. Dokumentationen uppdateras  även så det skall spegla slutresultatet.
+Sista dagen för koden, så nu sker främst buggtestning samt refakturera så mycket av koden som möjligt innan deadline. Dokumentationen uppdateras även så det skall spegla slutresultatet.
