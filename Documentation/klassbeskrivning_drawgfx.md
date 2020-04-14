@@ -4,7 +4,6 @@
 
 ## DrawGFX
 
-<<<<<<< HEAD
 | Variabler                                | Beskrivning                                                  |
 | ---------------------------------------- | ------------------------------------------------------------ |
 | public enum BoardGFXItem                 | //enkapsulerar vad för grafik som man får lägga in som parameter när man skapar en boarditem |
@@ -15,7 +14,6 @@
 | public static string GameBoardPiecesItem | //grafik för spelarpjäser                                    |
 | public static string PieceOnBoard        | //grafik för spelarpjäser på GameBoard                       |
 | public static string PieceInNest         | //grafik för spelarpjäsen då den befinner sig i sitt bo      |
-=======
 | Enum                     | Beskrivning |
 | ------------------------ | ----------- |
 | public enum BoardGFXItem |             |
