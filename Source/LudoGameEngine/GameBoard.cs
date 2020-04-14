@@ -30,9 +30,9 @@ namespace LudoGameEngine
 
         public Dice dice = new Dice();
 
-        private string winner { get; set; } = "";
+        public string winner = "";
 
-        private int saveGame { get; set; } = 0;
+        public int saveGame = 0;
 
         private ConsoleColor playerTextColor;
 
