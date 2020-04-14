@@ -90,7 +90,7 @@ namespace LudoGameEngine
 
             for (int i = 0; i < playerPieceBoard.Count; i++)
             {
-                if (i == 0 || i >= 40 && i <= 44)
+                if (i == 0 || i >= 41 && i <= 44)
                 {
                     Console.ForegroundColor = boardColor;
                     Console.Write(playerPieceBoard[i]);
