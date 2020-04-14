@@ -200,7 +200,7 @@ namespace LudoGameEngine.Data
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine("Data for high score players are ready\n");
                     Console.ResetColor();
-                    Console.Beep(500, 20);
+                    Console.Beep(500, 70);
                 }
                 foreach (var item in score)
                 {
