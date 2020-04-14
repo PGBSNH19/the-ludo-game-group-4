@@ -10,52 +10,56 @@ namespace XUnitTest
         [InlineData(2)]
         [InlineData(3)]
         [InlineData(4)]
-        public void SetPlayerAmount_ValidAmount_True(int input)
+        public void NoLogic_Input_InRange1to5(int input)
         {
             GameSession gameSession = new GameSession
             {
                 PlayerAmount = input
             };
 
-            Assert.True(gameSession.PlayerAmount > 1 && gameSession.PlayerAmount < 5);
+            Assert.InRange<int>(gameSession.PlayerAmount, 1, 5);
         }
 
         [Theory]
         [InlineData(1)]
         [InlineData(5)]
-        public void SetPlayerAmount_InvalidAmount_False(int input)
+        public void NoLogic_Input_OutsideOfRange2to4(int input)
         {
             GameSession gameSession = new GameSession
             {
                 PlayerAmount = input
             };
 
-            Assert.False(gameSession.PlayerAmount < 2 && gameSession.PlayerAmount > 4);
+            Assert.NotInRange(gameSession.PlayerAmount, 2, 4);
         }
 
         [Theory]
         [InlineData("Name")]
-        public void SetPlayerName_ValidName_IsValid(string input)
+        public void IsPlayerNameValid_ValidInput_PlayerNameIsValid(string input)
         {
             GameSession gameSession = new GameSession
             {
                 PlayerName = input
             };
 
-            Assert.False(string.IsNullOrWhiteSpace(gameSession.PlayerName));
+            bool result = gameSession.IsPlayerNameValid();
+
+            Assert.True(result);
         }
 
         [Theory]
         [InlineData("")]
         [InlineData(null)]
-        public void SetPlayerName_InvalidName_IsNotValid(string input)
+        public void IsPlayerNameValid_InvalidPlayerNameInput_PlayerNameIsInvalid(string input)
         {
             GameSession gameSession = new GameSession
             {
                 PlayerName = input
             };
 
-            Assert.True(string.IsNullOrWhiteSpace(gameSession.PlayerName));
+            bool result = gameSession.IsPlayerNameValid();
+
+            Assert.False(result);
         }
     }
 }

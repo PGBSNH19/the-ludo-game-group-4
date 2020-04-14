@@ -1,122 +1,64 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using LudoGameEngine;
-
+using LudoGameEngine.Data;
 
 namespace LudoGame
 {
     class Menu
     {
-        private static readonly string[] options = 
+        private static readonly string[] options =
         {
             "NEW GAME",
-            "CONTINUE (Last saved game)",
             "HIGHSCORE",
             "LOAD GAME",
             "QUIT"
         };
 
-        private static IDictionary<string, int> playerProfiles = new Dictionary<string, int>();
-
+        public static GameData Data = new GameData();
         public static void Display()
         {
-            playerProfiles = LoadHighScoreAsync().Result;
+            DrawGFX.SetDrawPosition(0, 0);
+            Console.WriteLine("Welcome to LudoFrenzy".ToUpper());
 
-            int selected = MenuOptions(options);
+            int selected = CreateInteractable.OptionMenu(false, options, 0, 2);
+
             switch (selected)
             {
                 case 0:
                     IGameSession gs = new GameSession().
                          InintializeSession().
+                         SetSessionName().
                          SetPlayerAmount().
                          SetSessionData().
-                         //.GetPlayerProfile().
-                         //ChoosePlayerColor().
-                         //SetPlayerPositions().
                          SaveState().
                          StartGame();
 
-                    GameBoard gb = new GameBoard(gs);
+                    GameBoard gb = new GameBoard(gs, true);
                     gb.GameLoop();
 
                     break;
                 case 1:
-                    ContinueLastSavedGame();
+                    DisplayHighScore();
                     break;
                 case 2:
-                    DisplayHighScore(playerProfiles);
-                    break;
-                case 3:
                     LoadSavedGames();
                     break;
-                case 4:
+                case 3:
                     Environment.Exit(0);
                     break;
             }
         }
 
-        static int MenuOptions(string[] option)
+        static void DisplayHighScore()
         {
-            int selectedIndex = 0;
-
-            Console.CursorVisible = false;
-
-            ConsoleKey? key = null;
-
-            while (key != ConsoleKey.Enter)
-            {
-                for(int i = 0; i < option.Length; i++)
-                {
-                    
-                    if(i == selectedIndex)
-                    {
-                        Console.BackgroundColor = ConsoleColor.DarkBlue;
-                        Console.ForegroundColor = ConsoleColor.White;
-                    }
-
-                    Console.WriteLine(option[i]);
-                    Console.ResetColor();
-                }
-
-                key = Console.ReadKey().Key;
-
-                if (key == ConsoleKey.DownArrow)
-                {
-                    selectedIndex++;
-                    if (selectedIndex == option.Length)
-                        selectedIndex = 0;
-                }
-                else if(key == ConsoleKey.UpArrow)
-                {
-                    selectedIndex--;
-                    if (selectedIndex == -1)
-                        selectedIndex = option.Length - 1;
-                }
-
-                Console.Clear();
-            }
-            return selectedIndex;
-        }
-
-        static void ContinueLastSavedGame()
-        {
-            Console.WriteLine("Continue last saved game");
-            ReturnToMenu();
-        }
-
-        static async Task<IDictionary<string, int>> LoadHighScoreAsync()
-        {
-            IDictionary<string, int> tmpProfiles = new Dictionary<string, int>();
-            //tmpProfiles = await database.GetPlayerProfiles();
-
-            return tmpProfiles;
-        }
-
-        static void DisplayHighScore(IDictionary<string, int> dict)
-        {
-            Console.WriteLine("HighScore");
+            Console.WriteLine("HighScore ");
+            Data.ShowHighScore();
             Dictionary<string, int> topPlayers = new Dictionary<string, int>();
 
 
@@ -125,7 +67,57 @@ namespace LudoGame
         }
         static void LoadSavedGames()
         {
-            Console.WriteLine("Load");
+            DrawGFX.SetDrawPosition(0, 1);
+            Console.WriteLine("Load Game");
+            if (Data.ShowAllSession().Count() == 0)
+            {
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("OBS, There is no game session available \n");
+                Console.ResetColor();
+            }
+            else
+            {
+                DrawGFX.ClearDrawContent(0, 1);
+
+                List<string> sessionOption = Data.ShowAllSession();
+                int loadOption = CreateInteractable.OptionMenu(false, sessionOption, 0, 2);
+                string sessionName = sessionOption[loadOption];
+                var SessionData = Data.LoadGame(sessionName);
+
+                GameBoard gb = new GameBoard(new GameSession(), false);
+                gb.SessionName = sessionName;
+                List<string> playerAmount = new List<string>();
+
+                var playerData = SessionData
+                    .GroupBy(x => new { x.PlayerName, x.PlayerID, x.Color })
+                    .Select(x => x.ToList()).ToList();
+
+                DrawGFX.SetDrawPosition(0, 4);
+                for (int i = 0; i < playerData.Count; i++)
+                {
+                    Console.ForegroundColor = ConsoleColor.Green;
+                    Console.WriteLine("ID: {0} Name: {1} Color: {2}", playerData[i][i].PlayerID, playerData[i][i].PlayerName, playerData[i][i].Color);
+                    Console.ResetColor();
+                    playerAmount.Add(playerData[i][i].PlayerName);
+                    gb.GamePlayers.Add(new GamePlayer(id: playerData[i][i].PlayerID, name: playerData[i][i].PlayerName, color: playerData[i][i].Color));
+
+                    for (int j = 0; j < 4; j++)
+                    {
+                        gb.GamePlayers[i].Pieces[j].CurrentPos = SessionData[j].Position;
+                        Console.ForegroundColor = ConsoleColor.Blue;
+                        Console.WriteLine("Piece ID: {0} Position: {1} ", SessionData[j].PieceID, SessionData[j].Position);
+                        Console.ResetColor();
+                    }
+                }
+
+                DrawGFX.SetDrawPosition(0, 2);
+                Console.WriteLine("Show loaded gamedata. Game Starts soon. Be ready");
+                Thread.Sleep(5000);               
+                Console.Clear();
+                gb.GamePlayerAmnt = playerAmount.Count();
+                gb.GameLoop();
+            }
+       
             BackButton();
             ReturnToMenu();
         }

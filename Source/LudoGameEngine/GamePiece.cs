@@ -8,7 +8,9 @@ namespace LudoGameEngine
     {
         public int PieceID { get; set; }
         public int CurrentPos { get; set; } = 0;
-        public int LocalStartPos { get; set; } = 0;
+        public int CurrentGlobalPos { get; set; } = 0;
+        public int LocalStartPos { get; } = 0;
+        public int GoalPosIndex { get; } = 45;
         public bool PieceInGoal { get; set; } = false;
 
         public IList<bool> LocalCoordinatePositions = new List<bool>();
@@ -21,10 +23,16 @@ namespace LudoGameEngine
 
         private void InitializeLocalPositions()
         {
-            for(int i = 0; i <= 45; i++)
+            for(int i = 0; i < 46; i++)
             {
-                if(i !=0)
+                if(i == 0)
+                {
+                    LocalCoordinatePositions.Add(true);
+                }
+                else
+                {
                     LocalCoordinatePositions.Add(false);
+                }
             }
         }
     }
