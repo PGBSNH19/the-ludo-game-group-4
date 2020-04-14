@@ -276,108 +276,16 @@ namespace LudoGameEngine
                     //dice-roll
                     IList<string> options = new List<string>();
                     int selectedPiece = 0;
-                    switch (diceValue)
-                    {
-                        case 1:
-                            DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
-                            Console.WriteLine("Choose a piece to move");
 
-                            options = CreatePieceBtnOptions(true, i);
-                            if (options.Count() != 0)
-                            {
-                                selectedPiece = (CreateInteractable.OptionMenu(true, options, 0, gfxInteractablePos));
-                                string pieceName = options[selectedPiece];
-                                int pieceID = int.Parse(pieceName.Last().ToString());
-
-                                var pieceToMove = GetPieceByID(i, pieceID);
-                                int pieceIndex = GetPieceIndex(i, pieceToMove);
-
-                                MovePiece(i, pieceIndex, pieceToMove, diceValue);
-                            }
-                            break;
-
-                        case 6:
-                            DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
-                            Console.WriteLine("You rolled 6. Please make a choice:");
-
-                            List<string> moveOptions = new List<string>();
-                            var piecesInNest = GamePlayers[i].Pieces.Where(p => p.CurrentPos == p.LocalStartPos);
-                            if (piecesInNest.Count() >= 2)
-                            {
-                                moveOptions.Add("Move 1 piece 6 steps?");
-                                moveOptions.Add("Move 2 pieces 1 step?");
-                            }
-                            else
-                                moveOptions.Add("Move 1 piece 6 steps?");
-
-                            int selectMoveOption = CreateInteractable.OptionMenu(true, moveOptions, 0, gfxInteractablePos);
-
-                            DrawGFX.ClearDrawContent(0, gfxInteractableInfoPos);
-
-                            if (selectMoveOption == 0)
-                            {
-                                DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
-                                Console.WriteLine("Choose a piece to move");
-
-                                options = CreatePieceBtnOptions(true, i);
-                                if (options.Count() != 0)
-                                {
-                                    selectedPiece = (CreateInteractable.OptionMenu(true, options, 0, gfxInteractablePos));
-                                    string pieceName = options[selectedPiece];
-                                    int pieceID = int.Parse(pieceName.Last().ToString());
-
-                                    var pieceToMove = GetPieceByID(i, pieceID);
-                                    int pieceIndex = GetPieceIndex(i, pieceToMove);
-
-                                    MovePiece(i, pieceIndex, pieceToMove, 6);
-                                }
-                            }
-                            else
-                            {
-                                for (int y = 1; y <=2; y++)
-                                {
-                                    DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
-                                    Console.WriteLine($"Choose piece {i} to move");
-
-                                    IList<string> pieceOptions = CreatePieceButtonOptionsInNest(i);
-                                    if (pieceOptions.Count() != 0)
-                                    {
-                                        selectedPiece = (CreateInteractable.OptionMenu(true, pieceOptions, 0, gfxInteractablePos));
-                                        string pieceName = pieceOptions[selectedPiece];
-                                        int pieceID = int.Parse(pieceName.Last().ToString());
-
-                                        var pieceToMove = GetPieceByID(i, pieceID);
-                                        int pieceIndex = GetPieceIndex(i, pieceToMove);
-
-                                        MovePiece(i, pieceIndex, pieceToMove, 1);
-                                    }                                   
-                                }
-                            }
-                            break;                       
-                        default:
-                            DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
-                            Console.WriteLine("Choose a piece to move");
-
-                            options = CreatePieceBtnOptions(false, i);
-                            if (options.Count() != 0)
-                            {
-                                selectedPiece = (CreateInteractable.OptionMenu(true, options, 0, gfxInteractablePos));
-                                string pieceName = options[selectedPiece];
-                                int pieceID = int.Parse(pieceName.Last().ToString());
-
-                                var pieceToMove = GetPieceByID(i, pieceID);
-                                int pieceIndex = GetPieceIndex(i, pieceToMove);
-
-                                MovePiece(i, pieceIndex, pieceToMove, diceValue);                                
-                            }
-                            break;
-                    }
+                    MovePieceOnDiceResult(i,  options, selectedPiece, diceValue);
 
                     
+
+
                     /********************************************
                                     RE-RENDER GFX
                     ********************************************/
-                    
+
                     ////update piece gfx new position after movement
                     playerBoard1[piece1.CurrentPos] = DrawGFX.UpdatePlayerPieceGFXByPosition(piece1.CurrentPos);
                     playerBoard2[piece2.CurrentPos] = DrawGFX.UpdatePlayerPieceGFXByPosition(piece2.CurrentPos);
@@ -464,8 +372,11 @@ namespace LudoGameEngine
             {
                 for(int y= 0; y < GamePlayers[i].Pieces.Count; y++)
                 {
+                    Console.WriteLine($"{SessionName}, {GamePlayers[i].Name}, {GamePlayers[i].Pieces[y].PieceID}, {GamePlayers[i].Pieces[y].CurrentPos}");
                     gameData.UpdatePiecePosition(SessionName, GamePlayers[i].Name, GamePlayers[i].Pieces[y].PieceID, GamePlayers[i].Pieces[y].CurrentPos);
                 }
+
+
             }
 
             return;
@@ -493,168 +404,105 @@ namespace LudoGameEngine
                                 DICE-LOGIC
         ===========================================================*/
 
-        //private void DiceRollResult(IList<string> options, int selectedPiece, int diceValue)
-        //{
-        //    switch (diceValue)
-        //            {
-        //                case 1:
-        //                    DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
-        //                    Console.WriteLine("Choose a piece to move");
+        private void MovePieceOnDiceResult(int playerIndex, IList<string> options, int selectedPiece, int diceValue)
+        {
+            switch (diceValue)
+            {
+                case 1:
+                    DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
+                    Console.WriteLine("Choose a piece to move");
 
-        //                    options = CreatePieceBtnOptions(true, i);
-        //                    if (options.Count() != 0)
-        //                    {
-        //                        selectedPiece = (CreateInteractable.OptionMenu(true, options, 0, gfxInteractablePos));
-        //                        string pieceName = options[selectedPiece];
-        //                        int pieceID = int.Parse(pieceName.Last().ToString());
+                    options = CreatePieceBtnOptions(true, playerIndex);
+                    if (options.Count() != 0)
+                    {
+                        selectedPiece = (CreateInteractable.OptionMenu(true, options, 0, gfxInteractablePos));
+                        string pieceName = options[selectedPiece];
+                        int pieceID = int.Parse(pieceName.Last().ToString());
 
-        //                        var pieceToMove = GetPieceByID(i, pieceID);
-        //                        int pieceIndex = GetPieceIndex(i, pieceToMove);
+                        var pieceToMove = GetPieceByID(playerIndex, pieceID);
+                        int pieceIndex = GetPieceIndex(playerIndex, pieceToMove);
 
-        //                        int previousGlobalPosition = GetGlobalPosition(i, pieceIndex);
-        //                        int previousLocalPiecePosition = GetPreviousPieceLocalPosition(i, pieceIndex);
-        //                        int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, diceValue);
-        //                        int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
+                        MovePiece(playerIndex, pieceIndex, pieceToMove, diceValue);
+                    }
+                    break;
 
-        //                        newGlobalPosition = CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+                case 6:
+                    DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
+                    Console.WriteLine("You rolled 6. Please make a choice:");
 
-        //                        MoveLocalPiece(i, pieceIndex, previousLocalPiecePosition, newLocalPiecePosition);
-        //                        MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+                    List<string> moveOptions = new List<string>();
+                    var piecesInNest = GamePlayers[playerIndex].Pieces.Where(p => p.CurrentPos == p.LocalStartPos);
+                    if (piecesInNest.Count() >= 2)
+                    {
+                        moveOptions.Add("Move 1 piece 6 steps?");
+                        moveOptions.Add("Move 2 pieces 1 step?");
+                    }
+                    else
+                        moveOptions.Add("Move 1 piece 6 steps?");
 
-        //                        //print positions to screen
-        //                        DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
-        //                        Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {pieceToMove.PieceID} moved from position {previousGlobalPosition} to position {newGlobalPosition} in Game Board" +
-        //                            $" and to position {newLocalPiecePosition} in Player Board");
-        //                    }
-        //                    break;
+                    int selectMoveOption = CreateInteractable.OptionMenu(true, moveOptions, 0, gfxInteractablePos);
 
-        //                case 6:
-        //                    DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
-        //                    Console.WriteLine("You rolled 6. Please make a choice:");
+                    DrawGFX.ClearDrawContent(0, gfxInteractableInfoPos);
 
+                    if (selectMoveOption == 0)
+                    {
+                        DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
+                        Console.WriteLine("Choose a piece to move");
 
-        //                    //fixa på onsdag
-        //                    List<string> moveOptions = new List<string>();
-        //                    var piecesInNest = GamePlayers[i].Pieces.Where(p => p.CurrentPos == p.LocalStartPos);
-        //                    if (piecesInNest.Count() >= 2)
-        //                    {
-        //                        moveOptions.Add("Move 1 piece 6 steps?");
-        //                        moveOptions.Add("Move 2 pieces 1 step?");
-        //                    }
-        //                    else
-        //                        moveOptions.Add("Move 1 piece 6 steps?");
+                        options = CreatePieceBtnOptions(true, playerIndex);
+                        if (options.Count() != 0)
+                        {
+                            selectedPiece = (CreateInteractable.OptionMenu(true, options, 0, gfxInteractablePos));
+                            string pieceName = options[selectedPiece];
+                            int pieceID = int.Parse(pieceName.Last().ToString());
 
-        //                    //List<string> moveOptions = new List<string>() { "Move 1 piece 6 steps ?"};
-        //                    int selectMoveOption = CreateInteractable.OptionMenu(true, moveOptions, 0, gfxInteractablePos);
+                            var pieceToMove = GetPieceByID(playerIndex, pieceID);
+                            int pieceIndex = GetPieceIndex(playerIndex, pieceToMove);
 
-        //                    DrawGFX.ClearDrawContent(0, gfxInteractableInfoPos);
+                            MovePiece(playerIndex, pieceIndex, pieceToMove, 6);
+                        }
+                    }
+                    else
+                    {
+                        for (int y = 1; y <= 2; y++)
+                        {
+                            DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
+                            Console.WriteLine($"Choose piece {playerIndex} to move");
 
-        //                    if (selectMoveOption == 0)
-        //                    {
-        //                        DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
-        //                        Console.WriteLine("Choose a piece to move");
+                            IList<string> pieceOptions = CreatePieceButtonOptionsInNest(playerIndex);
+                            if (pieceOptions.Count() != 0)
+                            {
+                                selectedPiece = (CreateInteractable.OptionMenu(true, pieceOptions, 0, gfxInteractablePos));
+                                string pieceName = pieceOptions[selectedPiece];
+                                int pieceID = int.Parse(pieceName.Last().ToString());
 
-        //                        options = CreatePieceBtnOptions(true, i);
-        //                        if (options.Count() != 0)
-        //                        {
-        //                            selectedPiece = (CreateInteractable.OptionMenu(true, options, 0, gfxInteractablePos));
-        //                            string pieceName = options[selectedPiece];
-        //                            int pieceID = int.Parse(pieceName.Last().ToString());
+                                var pieceToMove = GetPieceByID(playerIndex, pieceID);
+                                int pieceIndex = GetPieceIndex(playerIndex, pieceToMove);
 
-        //                            var pieceToMove = GetPieceByID(i, pieceID);
-        //                            int pieceIndex = GetPieceIndex(i, pieceToMove);
+                                MovePiece(playerIndex, pieceIndex, pieceToMove, 1);
+                            }
+                        }
+                    }
+                    break;
+                default:
+                    DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
+                    Console.WriteLine("Choose a piece to move");
 
-        //                            int previousGlobalPosition = GetGlobalPosition(i, pieceIndex);
-        //                            int previousLocalPiecePosition = GetPreviousPieceLocalPosition(i, pieceIndex);
-        //                            int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, diceValue);
-        //                            int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
+                    options = CreatePieceBtnOptions(false, playerIndex);
+                    if (options.Count() != 0)
+                    {
+                        selectedPiece = (CreateInteractable.OptionMenu(true, options, 0, gfxInteractablePos));
+                        string pieceName = options[selectedPiece];
+                        int pieceID = int.Parse(pieceName.Last().ToString());
 
-        //                            newGlobalPosition = CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
+                        var pieceToMove = GetPieceByID(playerIndex, pieceID);
+                        int pieceIndex = GetPieceIndex(playerIndex, pieceToMove);
 
-        //                            MoveLocalPiece(i, pieceIndex, newLocalPiecePosition, newLocalPiecePosition);
-        //                            MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
-
-        //                            //print positions to screen
-        //                            DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
-        //                            Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {pieceToMove.PieceID} moved from position {previousGlobalPosition} to position {newGlobalPosition} in Game Board" +
-        //                                $" and to position {newLocalPiecePosition} in Player Board");
-        //                        }
-
-        //                    }
-        //                    else
-        //                    {
-        //                        //List<string> pieceOptions = CreatePieceButtonOptionsInNest(i);
-        //                        //var piecesToChooseFrom = GamePlayers[i].Pieces.Where(p => p.CurrentPos == p.LocalStartPos);
-
-        //                        for (int y = 1; y <=2; y++)
-        //                        {
-        //                            DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
-        //                            Console.WriteLine($"Choose piece {i} to move");
-
-        //                            IList<string> pieceOptions = CreatePieceButtonOptionsInNest(i);
-        //                            if (pieceOptions.Count() != 0)
-        //                            {
-        //                                selectedPiece = (CreateInteractable.OptionMenu(true, pieceOptions, 0, gfxInteractablePos));
-        //                                string pieceName = pieceOptions[selectedPiece];
-        //                                int pieceID = int.Parse(pieceName.Last().ToString());
-
-        //                                var pieceToMove = GetPieceByID(i, pieceID);
-        //                                int pieceIndex = GetPieceIndex(i, pieceToMove);
-
-        //                                int previousGlobalPosition = GetGlobalPosition(i, pieceIndex);
-        //                                int previousLocalPiecePosition = GetPreviousPieceLocalPosition(i, pieceIndex);
-        //                                int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, 1);
-        //                                int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
-
-        //                                newGlobalPosition = CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
-
-        //                                MoveLocalPiece(i, pieceIndex, newLocalPiecePosition, newLocalPiecePosition);
-        //                                MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
-
-        //                                //print positions to screen
-        //                                DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
-        //                                Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {pieceToMove.PieceID} moved from position {previousGlobalPosition} to position {newGlobalPosition} in Game Board" +
-        //                                    $" and to position {newLocalPiecePosition} in Player Board");
-
-        //                               // DrawGFX.ClearDrawContent(0, gfxInteractableInfoPos);
-        //                            }
-
-
-        //                        }
-        //                    }
-        //            break;                       
-        //                default:
-        //                    DrawGFX.SetDrawPosition(0, gfxInteractableInfoPos);
-        //                    Console.WriteLine("Choose a piece to move");
-
-        //                    options = CreatePieceBtnOptions(false, i);
-        //                    if (options.Count() != 0)
-        //                    {
-        //                        selectedPiece = (CreateInteractable.OptionMenu(true, options, 0, gfxInteractablePos));
-        //                        string pieceName = options[selectedPiece];
-        //                        int pieceID = int.Parse(pieceName.Last().ToString());
-
-        //                        var pieceToMove = GetPieceByID(i, pieceID);
-        //                        int pieceIndex = GetPieceIndex(i, pieceToMove);
-
-        //                        int previousGlobalPosition = GetGlobalPosition(i, pieceIndex);
-        //                        int previousLocalPiecePosition = GetPreviousPieceLocalPosition(i, pieceIndex);
-        //                        int newLocalPiecePosition = GetNewLocalPiecePosition(i, pieceIndex, diceValue);
-        //                        int newGlobalPosition = GetGlobalPosition(i, pieceIndex);
-
-        //                        newGlobalPosition = CheckCollision(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
-
-        //                        MoveLocalPiece(i, pieceIndex, newLocalPiecePosition, newLocalPiecePosition);
-        //                        MoveGlobalPiece(i, pieceIndex, previousGlobalPosition, newGlobalPosition);
-
-        //                        //print positions to screen
-        //                        DrawGFX.SetDrawPosition(0, gfxSubInfoPos);
-        //                        Console.WriteLine($"Player {GamePlayers[i].GamePlayerID}, Piece {pieceToMove.PieceID} moved from position {previousGlobalPosition} to position {newGlobalPosition} in Game Board" +
-        //                            $" and to position {newLocalPiecePosition} in Player Board");
-        //                    }
-        //                    break;
-        //            }
-        //}
+                        MovePiece(playerIndex, pieceIndex, pieceToMove, diceValue);
+                    }
+                    break;
+            }
+        }
 
 
         /*===========================================================
