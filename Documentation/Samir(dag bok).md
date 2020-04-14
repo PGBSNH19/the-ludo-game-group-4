@@ -33,4 +33,15 @@ man jag har gjort ett försök i alla fall. om jag hade lyckats med den programmet
 
 
 2020-04-10
-har gått genom koden och kommenterat där det behövdes och även kopplat vissa metoder som kommer från databas klassen till menu klassen. 
+har gått genom koden och kommenterat där det behövdes och även kopplat vissa metoder som kommer från databas klassen till menu klassen.
+
+2020-04-12
+jobbade med att testa databasen i olika situationer. ett fel hittades. felet var att om man skrev ingen session namn då fick man nekades det att skapa ny session men sedan så lagrades player name och color i player tabellen. fick lösa det med en kontroll.
+
+2020-04-13
+jobbade med att lösa buggar och updatering av pjäs positioner. upptäckte fel att det hämtade 4 player name av samma spelare detta på grund av att en spelare har 4 pjäs.  fick lösa det genom att separera pjäsen och andra egeneskaper sedan så gjorde en group by och sedan så försvann problemet. 
+
+2020-04-14
+ska test köra spelet i olika situationer.till exempel skapa ny session , spela, spara, visa high score, mata in fel data,fel format, och ladda upp data från DB osv..
+
+ska prova generic host i projektet om tiden räcker annars låter vi det som det är.

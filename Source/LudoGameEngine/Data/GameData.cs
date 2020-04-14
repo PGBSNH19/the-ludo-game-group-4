@@ -203,7 +203,7 @@ namespace LudoGameEngine.Data
                 foreach (var item in score)
                 {
                     Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine("Player {0} \t won {1}", item.winner.ToUpper(), item.Count);
+                    Console.WriteLine("Player {0} \t Won {1}", item.winner.ToUpper(), item.Count);
                     Console.ResetColor();
                 }
             }
@@ -468,7 +468,6 @@ namespace LudoGameEngine.Data
             }
             catch (Exception)
             {
-                Console.ReadKey();
                 throw;
             }
         }

@@ -30,7 +30,7 @@ namespace LudoGame
             ////d.UpdateWinner("session1", true, "hamid");
 
             ////remove everything from all tables from database, we can remove this method,
-            ////.RemoveEverything();
+             //d.RemoveEverything();
 
             ////Update position of piece (sessionName, playerName, pieceID(1-4), new position)
             ////d.UpdatePiecePosition("session2", "samir", 2, 22);

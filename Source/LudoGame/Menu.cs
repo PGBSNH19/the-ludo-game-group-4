@@ -11,7 +11,7 @@ namespace LudoGame
 {
     class Menu
     {
-        private static readonly string[] options = 
+        private static readonly string[] options =
         {
             "NEW GAME",
             "CONTINUE (Last saved game)",
@@ -39,7 +39,7 @@ namespace LudoGame
                          SetSessionName().
                          SetPlayerAmount().
                          SetSessionData().
-                         //SaveState().
+                         SaveState().
                          StartGame();
 
                     GameBoard gb = new GameBoard(gs, true);
@@ -60,7 +60,7 @@ namespace LudoGame
                     break;
             }
         }
-      
+
         static void ContinueLastSavedGame()
         {
             Console.WriteLine("Continue last saved game");
@@ -89,37 +89,45 @@ namespace LudoGame
         {
             DrawGFX.SetDrawPosition(0, 0);
             Console.WriteLine("Load Game");
-            List<string> sessionOption = Data.ShowAllSession();
-            int loadOption = CreateInteractable.OptionMenu(false, sessionOption, 0, 2);
-            string sessionName = sessionOption[loadOption];
-            var SessionData = Data.LoadGame(sessionName);
-
-            GameBoard gb = new GameBoard(new GameSession(), false);
-            gb.SessionName = sessionName;
-
-            List<string> playerAmount = new List<string>();
-
-            List<GameData.MyGameData> data = SessionData.Distinct().ToList();
-
-            var playerData = SessionData
-                .GroupBy(x => new { x.PlayerName, x.PlayerID,x.Color })
-                .Select(x => x.ToList()).ToList();
-
-            for (int i = 0; i < playerData.Count; i++) 
+            if (Data.ShowAllSession().Count() == 0)
             {
-                Console.WriteLine("ID: {0} Name: {1} Color: {2}",playerData[i][i].PlayerID, playerData[i][i].PlayerName,playerData[i][i].Color);
-                playerAmount.Add(playerData[i][i].PlayerName);
-                gb.GamePlayers.Add(new GamePlayer(id: playerData[i][i].PlayerID, name: playerData[i][i].PlayerName, color: playerData[i][i].Color));
-
-                for (int j = 0; j < 4; j++)
-                {
-                    gb.GamePlayers[i].Pieces[j].CurrentPos = SessionData[j].Position;
-                    Console.WriteLine("Piece ID: {0} Position: {1} ", SessionData[j].PieceID, SessionData[j].Position);
-                }
+                Console.ForegroundColor = ConsoleColor.Red;
+                Console.WriteLine("OBS, There is no game session available \n");
+                Console.ResetColor();
             }
-            gb.GameLoop();
+            else
+            {
+                List<string> sessionOption = Data.ShowAllSession();
+                int loadOption = CreateInteractable.OptionMenu(false, sessionOption, 0, 2);
+                string sessionName = sessionOption[loadOption];
+                var SessionData = Data.LoadGame(sessionName);
 
+                GameBoard gb = new GameBoard(new GameSession(), false);
+                gb.SessionName = sessionName;
 
+                List<string> playerAmount = new List<string>();
+
+                List<GameData.MyGameData> data = SessionData.Distinct().ToList();
+
+                var playerData = SessionData
+                    .GroupBy(x => new { x.PlayerName, x.PlayerID, x.Color })
+                    .Select(x => x.ToList()).ToList();
+
+                for (int i = 0; i < playerData.Count; i++)
+                {
+                    Console.WriteLine("ID: {0} Name: {1} Color: {2}", playerData[i][i].PlayerID, playerData[i][i].PlayerName, playerData[i][i].Color);
+                    playerAmount.Add(playerData[i][i].PlayerName);
+                    gb.GamePlayers.Add(new GamePlayer(id: playerData[i][i].PlayerID, name: playerData[i][i].PlayerName, color: playerData[i][i].Color));
+
+                    for (int j = 0; j < 4; j++)
+                    {
+                        gb.GamePlayers[i].Pieces[j].CurrentPos = SessionData[j].Position;
+                        Console.WriteLine("Piece ID: {0} Position: {1} ", SessionData[j].PieceID, SessionData[j].Position);
+                    }
+                }
+                gb.GameLoop();
+
+            }
 
 
             //int index = 0;
