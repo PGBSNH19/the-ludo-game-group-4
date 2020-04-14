@@ -1,9 +1,9 @@
 using System;
 using Xunit;
 
-namespace XUnitTest
+namespace XFunctionalTest
 {
-    public class UnitTest
+    public class UnitTest1
     {
         [Fact]
         public void Test1()

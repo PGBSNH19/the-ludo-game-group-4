@@ -1,6 +1,9 @@
 ﻿using LudoGameEngine;
+using LudoGameEngine.Data;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 
 namespace LudoGame
 {
@@ -8,31 +11,105 @@ namespace LudoGame
     {
         static void Main(string[] args)
         {
-            Player p1 = new Player { Name = "Samir", Piece = 4, Score = 5 };
-            Player p2 = new Player { Name = "Micael", Piece = 4, Score = 6 };
-            Player p3 = new Player { Name = "Pontus", Piece = 4, Score = 4 };
-            Player p4 = new Player { Name = "Ahmad", Piece = 4, Score = 3 };
+            //Console.SetWindowSize(200, 50);
+            Console.SetBufferSize(200, 50);
 
-            List<Player> players = new List<Player>();
-            players.Add(p1);
-            players.Add(p2);
-            players.Add(p3);
-            players.Add(p4);
+            //NYASTE GAMEDATAN
+            GameData d = new GameData();
+            //foreach (var item in d.ShowAllSession())
+            //{
+            //    Console.WriteLine(item);
+            //}
+            ////metod return unfinished Game from database. session name must match
+            //foreach (var i in d.LoadGame("session2"))
+            //{
+            //    Console.WriteLine($"Session Name: {i.SessionName}\tPlayerName: {i.PlayerName}\tColor: {i.Color}\tPiece ID: {i.PieceID}\tPosition{i.Position}");
+            //}
 
-            // Detta är ett exampel på hur vi kan lösa uppgiften. vi skapar en klass med olika properties,
-            //sedan skapar vi instans av klassen med olika personer. därefter lägger vi det i en lista av typen klass. 
-            // varje index av listan kommer innehålla personer med olika poäng och pjässer
+            ////setting winner of session   (sessionName, gameFinished, WinnerName)
+            //d.UpdateWinner("session1", true, "Samir");
 
-            Console.WriteLine("Name \t" + players[0].Name + "\t Amount of Piece=\t" + players[0].Piece + "\tScore=\t" + players[0].Score);
+            ////remove everything from all tables from database, we can remove this method,
+             //d.RemoveEverything();
+
+            ////Update position of piece (sessionName, playerName, pieceID(1-4), new position)
+            //d.UpdatePiecePosition("Session6", "Bengt", 4, 25);
+/*
+            ////create session (name,GameFinished? WinnerName?. method must calls before inserteachPlayer()
+             d.InsertSessionData("session2", false, "");
 
 
-            foreach (var person in players)
+            ////code bellow create player with their piece and color.
+            Console.WriteLine("Enter amount of player");
+            int amountPlayer = int.Parse(Console.ReadLine());
+            for (int i = 1; i <= amountPlayer; i++)
             {
-                Console.WriteLine(person.Name);
-
+                Console.WriteLine($"Enter player {i} name");
+                string name = Console.ReadLine();
+                Console.WriteLine($"Enter player {i} color");
+                string color = Console.ReadLine();
+                //amount of player, name, color
+                d.InsertEachPlayerData(i, name, color);
             }
 
+            //shows the recent added players and session
+            //d.ShowData();
+
+            //    //this method show the high score players
+            //    //d.ShowHighScore();
+
+
+
+
+
+            //GameData d = new GameData();
+
+            ////metod return unfinished Game from database
+            //foreach (var i in d.LoadGame())
+            //{
+            //    //Console.WriteLine($"Session Name: {i.SessionName}\tPlayerName: {i.PlayerName}\tColor: {i.Color}\tPiece ID: {i.PieceID}\tPosition{i.Position}");
+            //}
+
+            ////setting winner of session   (sessionName, gameFinished, WinnerName)
+            ////d.updateWinner("session2", false, "Samir");
+
+            ////remove everything from all tables from database, we can remove this method,
+            ////d.RemoveEverything();
+
+            ////Update position of piece (sessionName, playerName, pieceID(1-4), new position)
+            ////d.UpdatePiecePosition("session2", "samir", 2, 22);
+
+
+            ////create session (name,GameFinished? WinnerName?. method must calls before inserteachPlayer()
+            //d.InsertSessionData("session2", true, "micael");
+
+
+            ////code bellow create player with their piece and color. 
+            //Console.WriteLine("Enter amount of player");
+            //int amountPlayer = int.Parse(Console.ReadLine());
+            //for (int i = 1; i <= amountPlayer; i++)
+            //{
+            //    Console.WriteLine($"Enter player {i} name");
+            //    string name = Console.ReadLine();
+            //    Console.WriteLine($"Enter player {i} color");
+            //    string color = Console.ReadLine();
+            //    //amount of player, name, color
+            //    d.InsertEachPlayerData(i, name, color);
+            //}
+
+
+            ////shows the recent added players and session
+            //d.ShowData();
+
+            ////this method show the high score players
+            ////d.ShowHighScore();   */
+
+            Menu.Display();
             Console.ReadKey();
+
+            //GameBoard gb = new GameBoard(new GameSession());    
+            
+            
         }
     }
 }

@@ -18,3 +18,43 @@ Vi kände att göra på det här viset och denna ordning, gav ett naturligt flö
 
 **<u>I korthet processen:</u>**
 *Flowchart (Highlevel) -> Userstories -> Flowchart (Lowlevel) -> CRC-Cards -> Koda -> Iterera dokumentation -> koda os*v.
+
+## Genomförandefasen
+
+** Nedan löper kontinuerliga uppdateringar för projektets status, samlat över en eller flera dagar. Datum indikerar då senaste uppdatering skett för att på så vis får spårbarhet i projektet.
+
+**[Update 1 - 2020-04-01]**
+
+Flowcaharts Lolevel är klara såväl som CRC-cards (första version) för samtliga delar såväl som databasdesign. Databasdesignen gjordes i MSSMS och utifrån den blir det lättare att bygga databasen mha Code First.
+
+Vi har initialt delat upp arbetet i olika ansvarsområden och påbörjat kodning. Micael generellt, gameplay och startmeny, Pontus Unit-test och Samir databashantering. Vi håller kontakt via discord med både ljud och video om så behövs, förutom text.
+
+**[Update 2 - 2020-04-06]**
+
+Mycket har hänt sedan senaste uppdateringen. Meny till större delen gjord, väntar på databashanteringen som skall bli klar innan resterande delar, såsom Highscore och Loadgame kan bli klara. Grovt gameplay (programmeringsmässigt) från början till slut är klart. En hel del debugging samt UnitTester av metoder och behövs, eftersom det fortfarande saknas något slags grafiskt gränssnitt (svårt att bara skriva ut olika positioner på skärmen och hålla reda på dem till fullo). 
+
+Det har även visat sig vara svårt att hitta på Unittester utifrån planeringen, då metoder på exakt funktionalitet att testa inte funnits tillgänglig. Nu finns dock de flesta metoderna, redo att kunna testas både med Unit-test, såväl som med Functional och Integrationtest även om det behöver refraktureras delar av koden.
+
+En hjälpklass (CreateInteractable) har skapats som abstraherar och simulerar optionmenyer och ensamma "knappar" för att få någon form av interaktivitet av spelaren utan att denne skall behöva skriva kommandon genom Console.Readline(). Ytterligare en klass: DrawUI kommer att skapas för att kunna få grafik till spelet. När denna också är implementerad kommer det lättare lättare att kunna följa spelflödet och hålla reda på vad som händer i spelet och att det fungerar korrekt.
+
+För övrigt har vi ungefär så gott som hållit och arbetat utefter våra flowcharts, CRC-cards samt Userstories även om viss funktionalitet och metoder kanske flyttats till andra klasser.
+
+Det ser dock ut att bli tight med presentationen och få klart spelet samt testerna i en tillfredställande kvalitet som följer projektbeskrivningen, så vi kommer troligtvis få gå in i varandras ansvarsområden och stötta upp. 
+
+**[Update 3 - 2020-04-10]**
+
+Databashanteringen är mer eller mindre klar. Måste bara implementera det i spelet, men avvaktar med detta tills gameplay är klart, så det går snabbt att komma in i spelet och debugga, utan att det skall skriva till databasen hela tiden. UI är på plats, även om det behövs en del justeringar. Massvis med refakturering av kod är gjort samt flera hjälpklasser och funktioner har lagts till. Behovet uppkom i samband med att det behövdes mer kontroll över hur det renderas ut UI element och text i consolfönstret. Det går numera även att flytta runt pjäserna visuellt på spelplan till viss del. Alla tärningsslag är inte gjorda helt ännu. 
+
+En del buggar har också upptäckts som vi försökt logga i vår backlogg och en del har rättats till direkt utan att hamna i backloggen. Viss felhantering har skett i form av att visuella menyer med fasta returvärden har ersatt Console.Readline. På så vis minskar chanserna att användaren skriver fel eller gör något oväntat.
+
+Fortsatt arbete behövs göras för att få allt på plats, men någon gång i helgen tror jag (micael) vi skall vara klara med allt.
+
+**[Update 4 - 2020-04-14]**
+
+Arbetet har för databashanteringen flutit på bra. Unit-testerna har dock varit svåra att testa pga komplexa metoder. Dessutom är många metoder privata, vilket gör att de inte går att testa. Här är ett dilemma. Man skall enkapsulera klasser,variablar metoder med olika åtkomstbehörigher, samtidigt skall man testa olika metoder med unit-test. Men man kommer inte åt metoderna om de inte sätts till publika?
+
+Jag själv, projektledare/författare: Micael Wollter, fastnade sedan i fredags och hade jätteproblem med out of index. Detta satte mig tillbaka runt 50timmar enbart för debuggtestning för att komma till rätta med felet. Det involverade att metoderna som felade gjordes om flera gånger i syfte att hitta och/eller eliminera problemet. Slutresultatet blev att förenkla metoderna avsevärt med olika returvärden, för att lättare kunna debugga. Två stora fel som funnits med från början och spökat hittades till slut och eliminerades, men tyvärr hamnade vi efter 50timmar, vilket kunnat användas till bättre finjustering och refakturering av overall codebase. Lärdomarna är flera, men den främsta lärdomen är att skriva **enkla metoder, som gör det lätt att debugga.**
+
+För filmen skapade vi en egen powerpointmall och alla fick spela in sina egna delar, så sattes alla småfilmer ihop, tillsammans med en trailer i Adobe Premiere. Tyvärr blev det strul med uppladdningen, men har fått tillåtelse att ladda upp en ny film med bättre kvalité.
+
+Sista dagen för koden, så nu sker främst buggtestning samt refakturera så mycket av koden som möjligt innan deadline. Dokumentationen uppdateras även så det skall spegla slutresultatet.
