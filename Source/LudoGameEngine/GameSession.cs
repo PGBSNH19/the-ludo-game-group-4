@@ -116,13 +116,13 @@ namespace LudoGameEngine
             d.InsertSessionData(SessionName);  //creating new session, Name must be Unique
             foreach(var spdItem in SessionPlayerData)
             {                
-                d.InsertEachPlayerData(spdItem.Item1, spdItem.Item2.ToLower(), spdItem.Item3); //inserting player data to DB
+                d.InsertEachPlayerData(spdItem.Item1, spdItem.Item2, spdItem.Item3); //inserting player data to DB
             }
 
             return this;
         }
 
-        public  IGameSession StartGame()
+        public IGameSession StartGame()
         {
             //call a new board
             return this;

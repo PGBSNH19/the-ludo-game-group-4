@@ -30,9 +30,9 @@ namespace LudoGameEngine
 
         public Dice dice = new Dice();
 
-        private string winner { get; set; } = "";
+        public string winner = "";
 
-        private int saveGame { get; set; } = 0;
+        public int saveOrSkip = 0;
 
         private ConsoleColor playerTextColor;
 
@@ -434,8 +434,8 @@ namespace LudoGameEngine
 
                 //Save Game or skip
                 string[] saveOptions = { "Skip", "Save Game?" };
-                saveGame = CreateInteractable.OptionMenu(true, saveOptions, 40, gfxInfoPos);
-                if (saveGame == 1)
+                saveOrSkip = CreateInteractable.OptionMenu(true, saveOptions, 40, gfxInfoPos);
+                if (saveOrSkip == 1)
                 {
                     Console.Clear();
                     DrawGFX.SetDrawPosition(0, 0);
@@ -464,7 +464,7 @@ namespace LudoGameEngine
             {
                 for(int y= 0; y < GamePlayers[i].Pieces.Count; y++)
                 {
-                    gameData.UpdatePiecePosition(SessionName, GamePlayers[i].Name.ToLower(), GamePlayers[i].Pieces[y].PieceID, GamePlayers[i].Pieces[y].CurrentPos);
+                    gameData.UpdatePiecePosition(SessionName, GamePlayers[i].Name, GamePlayers[i].Pieces[y].PieceID, GamePlayers[i].Pieces[y].CurrentPos);
                 }
             }
 
@@ -475,7 +475,7 @@ namespace LudoGameEngine
         {
             if(winner != "")
             {
-                gameData.UpdateWinner(SessionName, true, winner.ToLower());
+                gameData.UpdateWinner(SessionName, true, winner);
             }            
         }
 
@@ -729,11 +729,7 @@ namespace LudoGameEngine
             return pieceOptions;
         }
 
-        //get index of a specific player by playerID
-        private int GetPlayerIndex(int playerID)
-        {
-            return GamePlayers.IndexOf(GamePlayers.Single(p => p.GamePlayerID == playerID));
-        }
+  
 
         //get index of a specific player by player Object
         private int GetPlayerIndex(GamePlayer gamePlayer)
