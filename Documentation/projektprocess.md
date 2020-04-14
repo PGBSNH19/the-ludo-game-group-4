@@ -27,7 +27,7 @@ Vi kände att göra på det här viset och denna ordning, gav ett naturligt flö
 
 Flowcaharts Lolevel är klara såväl som CRC-cards (första version) för samtliga delar såväl som databasdesign. Databasdesignen gjordes i MSSMS och utifrån den blir det lättare att bygga databasen mha Code First.
 
-Vi har initialt delat upp arbetet i olika ansvarsområden och påbörjat kodning. Micael generellt, gameplay och startmeny, Pontus Unit-test och Samir databashantering.
+Vi har initialt delat upp arbetet i olika ansvarsområden och påbörjat kodning. Micael generellt, gameplay och startmeny, Pontus Unit-test och Samir databashantering. Vi håller kontakt via discord med både ljud och video om så behövs, förutom text.
 
 **[Update 2 - 2020-04-06]**
 
@@ -48,3 +48,13 @@ Databashanteringen är mer eller mindre klar. Måste bara implementera det i spe
 En del buggar har också upptäckts som vi försökt logga i vår backlogg och en del har rättats till direkt utan att hamna i backloggen. Viss felhantering har skett i form av att visuella menyer med fasta returvärden har ersatt Console.Readline. På så vis minskar chanserna att användaren skriver fel eller gör något oväntat.
 
 Fortsatt arbete behövs göras för att få allt på plats, men någon gång i helgen tror jag (micael) vi skall vara klara med allt.
+
+**[Update 4 - 2020-04-14]**
+
+Arbetet har för databashanteringen flutit på bra. Unit-testerna har dock varit svåra att testa pga komplexa metoder. Dessutom är många metoder privata, vilket gör att de inte går att testa. Här är ett dilemma. Man skall enkapsulera klasser,variablar metoder med olika åtkomstbehörigher, samtidigt skall man testa olika metoder med unit-test. Men man kommer inte åt metoderna om de inte sätts till publika?
+
+Jag själv, projektledare/författare: Micael Wollter, fastnade sedan i fredags och hade jätteproblem med out of index. Detta satte mig tillbaka runt 50timmar enbart för debuggtestning för att komma till rätta med felet. Det involverade att metoderna som felade gjordes om flera gånger i syfte att hitta och/eller eliminera problemet. Slutresultatet blev att förenkla metoderna avsevärt med olika returvärden, för att lättare kunna debugga. Två stora fel som funnits med från början och spökat hittades till slut och eliminerades, men tyvärr hamnade vi efter 50timmar, vilket kunnat användas till bättre finjustering och refakturering av overall codebase. Lärdomarna är flera, men den främsta lärdomen är att skriva **enkla metoder, som gör det lätt att debugga.**
+
+För filmen skapade vi en egen powerpointmall och alla fick spela in sina egna delar, så sattes alla småfilmer ihop, tillsammans med en trailer i Adobe Premiere. Tyvärr blev det strul med uppladdningen, men har fått tillåtelse att ladda upp en ny film med bättre kvalité.
+
+Sisda dagen för koden, så nu sker främst buggtestning samt refakturera så mkt av koden som möjligt innan deadline. Dokumentationen uppdateras  även så det skall spegla slutresultatet.

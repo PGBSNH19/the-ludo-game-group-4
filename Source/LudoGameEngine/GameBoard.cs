@@ -516,9 +516,11 @@ namespace LudoGameEngine
             {
                 for(int y= 0; y < GamePlayers[i].Pieces.Count; y++)
                 {
-                    gameData.UpdatePiecePosition(SessionName, GamePlayers[i].Name, GamePlayers[i].Pieces[y].PieceID, GamePlayers[i].Pieces[y].CurrentPos);
+                    gameData.UpdatePiecePosition(SessionName, GamePlayers[i].Name.ToLower(), GamePlayers[i].Pieces[y].PieceID, GamePlayers[i].Pieces[y].CurrentPos);
                 }
             }
+
+            return;
         }
 
         private void SaveWinner()

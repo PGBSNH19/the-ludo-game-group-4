@@ -14,18 +14,14 @@ namespace LudoGame
         private static readonly string[] options =
         {
             "NEW GAME",
-            "CONTINUE (Last saved game)",
             "HIGHSCORE",
             "LOAD GAME",
             "QUIT"
         };
 
-        private static IDictionary<string, int> playerProfiles = new Dictionary<string, int>();
         public static GameData Data = new GameData();
         public static void Display()
         {
-            playerProfiles = LoadHighScoreAsync().Result;
-
             DrawGFX.SetDrawPosition(0, 0);
             Console.WriteLine("Welcome to LudoFrenzy".ToUpper());
 
@@ -47,15 +43,12 @@ namespace LudoGame
 
                     break;
                 case 1:
-                    ContinueLastSavedGame();
+                    DisplayHighScore();
                     break;
                 case 2:
-                    DisplayHighScore(playerProfiles);
-                    break;
-                case 3:
                     LoadSavedGames();
                     break;
-                case 4:
+                case 3:
                     Environment.Exit(0);
                     break;
             }
@@ -75,7 +68,7 @@ namespace LudoGame
             return tmpProfiles;
         }
 
-        static void DisplayHighScore(IDictionary<string, int> dict)
+        static void DisplayHighScore()
         {
             Console.WriteLine("HighScore ");
             Data.ShowHighScore();
@@ -87,7 +80,7 @@ namespace LudoGame
         }
         static void LoadSavedGames()
         {
-            DrawGFX.SetDrawPosition(0, 0);
+            DrawGFX.SetDrawPosition(0, 1);
             Console.WriteLine("Load Game");
             if (Data.ShowAllSession().Count() == 0)
             {
@@ -238,6 +231,7 @@ namespace LudoGame
                         game.GameLoop();*/
 
 
+            
             BackButton();
             ReturnToMenu();
         }
