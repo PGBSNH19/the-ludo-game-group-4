@@ -33,7 +33,7 @@ namespace LudoGame
              //d.RemoveEverything();
 
             ////Update position of piece (sessionName, playerName, pieceID(1-4), new position)
-            ////d.UpdatePiecePosition("session2", "samir", 2, 22);
+            //d.UpdatePiecePosition("Session6", "Bengt", 4, 25);
 /*
             ////create session (name,GameFinished? WinnerName?. method must calls before inserteachPlayer()
              d.InsertSessionData("session2", false, "");

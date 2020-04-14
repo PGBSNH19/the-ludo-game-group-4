@@ -300,35 +300,31 @@ namespace LudoGameEngine.Data
         public void UpdatePiecePosition(string sessionName, string playerName, int pieceId, int position)
         {
             try
-            {      //Joining many tables to find the correct player and pieceID for updating it's position
-                var data = (from pl in Context.Player
-                            join ps in Context.PlayerSession
-                            on pl.PlayerID equals ps.PlayerId
-                            join s in Context.Session
-                            on ps.SessionId equals s.SessionID
-                            join pp in Context.PlayerPiece
-                            on pl.PlayerID equals pp.PlayerId
-                            join p in Context.Piece
-                            on pp.PieceId equals p.PieceID
-                            where pl.Name == playerName && s.SessionName == sessionName && p.PlayerPieceID == pieceId
-                            select new
-                            {
-                                p.PlayerPieceID,
-                                p.Position
-                            }).FirstOrDefault();
+            {
+                var pos = (from pl in Context.Player
+                          join pp in Context.PlayerPiece
+                          on pl.PlayerID equals pp.PlayerId
+                          join p in Context.Piece
+                          on pp.PieceId equals p.PieceID
+                          join ps in Context.PlayerSession
+                          on pl.PlayerID equals ps.PlayerId
+                          join s in Context.Session
+                          on ps.SessionId equals s.SessionID
+                          where pl.Name == playerName && pp.PlayerId == pl.PlayerID && p.PlayerPieceID== pieceId && s.SessionName == sessionName
+                           select p.PieceID).FirstOrDefault();
 
-                if (data.PlayerPieceID == pieceId)
+                if (pos!=0)
                 {
-                    var Pposition = Context.Piece  //fiding position for peiceID that we want
-                        .Where(x => x.PlayerPieceID == pieceId)
+                    var pPosition = Context.Piece
+                        .Where(x => x.PieceID == pos)
                         .FirstOrDefault();
-                    Pposition.Position = position;
-                    Context.SaveChanges();
 
+                    pPosition.Position = position;
+                    Context.SaveChanges();
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Position Updated Successfully\n");
                     Console.ResetColor();
-                    Console.Beep(500, 200);
+                    Console.Beep(500, 150);
                 }
             }
             catch (Exception)
