@@ -119,10 +119,12 @@ namespace LudoGameEngine
                 InitializeBoardCoordinates();              
             }
 
-            
+            Console.Clear();
+
             //continue gameloop until winner
             while (winner == "")
             {
+                
                 //all the gameplay here
                 for (int i = 0; i < GamePlayerAmnt; i++)
                 {
@@ -709,76 +711,6 @@ namespace LudoGameEngine
         //}
 
 
-
-        private void RollSix(int stepsToMove, int playerIndex)
-        {
-            //var moveTwoPieces = GamePlayers[playerIndex].Pieces.Where(s => s.CurrentPos == 0);
-            //if(moveTwoPieces.Count() >= 2)
-            //{
-
-            //    //Visa meny istället
-            //    Console.WriteLine("Please Choose to move 1 piece 6 steps, or two pieces out from nest");
-            //    Console.Write("To choose one piece type: 1, to choose two pieces type: 2 ");
-
-            //    int choice = int.Parse(Console.ReadLine());
-
-            //    if(choice == 2)
-            //    {
-            //        for (int i = 0; i < moveTwoPieces.Count(); i++)
-            //        {
-            //            Console.Write($"Avaliable pieces to move:");
-            //            foreach (var p in moveTwoPieces)
-            //            {
-            //                Console.Write($"{p.PieceID} ");
-
-            //            }
-            //            Console.WriteLine(" ");
-
-            //            Console.WriteLine($"Please enter ID for pice{i+1}:");
-            //            int id = int.Parse(Console.ReadLine());
-            //            stepsToMove = 1;
-
-            //            var piece = GamePlayers[playerIndex].Pieces.Where(s => s.PieceID == id).FirstOrDefault();
-            //            int pieceIndex = GamePlayers[playerIndex].Pieces.IndexOf(piece);
-            //            int currentPos = GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos;
-            //            GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentPos] = false;
-            //            GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos += MovePiece(stepsToMove);
-            //            GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentPos] = true;
-            //            int convertToGlobalPosIndex = (GamePlayers[playerIndex].GlobalStartPos) + (GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos--);
-            //            CoordinateOuterPosition[convertToGlobalPosIndex].IsOccupied = true;
-            //            CoordinateOuterPosition[convertToGlobalPosIndex].OccupiedPlayerID = GamePlayers[playerIndex].GamePlayerID;
-            //        }
-            //    }         
-            //    else if(choice == 1)
-            //    {
-            //        Console.WriteLine("Choose a piece to move");
-            //        foreach (var p in moveTwoPieces)
-            //        {
-            //            Console.Write($"{p.PieceID} ");
-            //        }
-            //        int id = int.Parse(Console.ReadLine());
-
-            //        var piece = GamePlayers[playerIndex].Pieces.Where(s => s.PieceID == id).FirstOrDefault();
-            //        int pieceIndex = GamePlayers[playerIndex].Pieces.IndexOf(piece);
-            //        int currentPos = GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos;
-            //        GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentPos] = false;
-            //        GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos += MovePiece(stepsToMove);
-            //        GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentPos] = true;
-
-            //        int convertToGlobalPosIndex = (GamePlayers[playerIndex].GlobalStartPos) + (GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos--);
-            //        if (convertToGlobalPosIndex > CoordinateOuterPosition.Count)
-            //            convertToGlobalPosIndex -= (1 - CoordinateOuterPosition.Count);
-            //        CoordinateOuterPosition[convertToGlobalPosIndex].IsOccupied = true;
-            //        CoordinateOuterPosition[convertToGlobalPosIndex].OccupiedPlayerID = GamePlayers[playerIndex].GamePlayerID;
-            //    }
-
-            //}
-
-
-        }
-
-
-
         /*===========================================================
                                 MOVEMENT
         ===========================================================*/
@@ -815,6 +747,7 @@ namespace LudoGameEngine
             return pieceOptions;
         }
 
+        //Return a list of only avaliable pieces to move
         private IList<string> CreatePieceButtonOptionsInNest(int playerIndex)
         {
             IList<string> pieceOptions = new List<string>();
@@ -1017,7 +950,7 @@ namespace LudoGameEngine
 
 
                         newGlobalPosition -=1;
-                        //newLocalPosition -= 1;
+
                         int otherPlayerPieceLocalPos = GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].CurrentPos;
                         int currentplayerLocalPos = GamePlayers[playerIndex].Pieces[pieceIndex].CurrentPos;
 
@@ -1029,7 +962,6 @@ namespace LudoGameEngine
 
                         GamePlayers[playerIndex].Pieces[pieceIndex].LocalCoordinatePositions[currentLocalPos] = true;
  
-                        //otherPlayerPieceLocalPos = GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].CurrentPos;
                         int otherPlayerPieceGlobalPos = GamePlayers[otherPlayerIndex].Pieces[otherPlayerPieceIndex].CurrentGlobalPos--;                                              
 
                         DrawGFX.SetDrawPosition(50, 8);

@@ -104,8 +104,8 @@ namespace LudoGame
                         Console.WriteLine("Piece ID: {0} Position: {1} ", SessionData[j].PieceID, SessionData[j].Position);
                     }
                 }
+                gb.GamePlayerAmnt = playerAmount.Count();
                 gb.GameLoop();
-
             }
        
             BackButton();
