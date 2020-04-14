@@ -36,6 +36,31 @@
 
 
 
+## ConsolePosition
+
+| Variabler                                            | Beskrivning               |
+| ---------------------------------------------------- | ------------------------- |
+| public static int InfoPos { get; } = 0;              | se klassbeskrivning nedan |
+| public static int SubInfoPos { get; } = 1;           | se klassbeskrivning nedan |
+| public static int StatusPos { get; } = 2;            | se klassbeskrivning nedan |
+| public static int ResultPos { get; } = 4;            | se klassbeskrivning nedan |
+| public static int InteractableInfoPos { get; } = 6;  | se klassbeskrivning nedan |
+| public static int InteractablePos { get; } = 8;      | se klassbeskrivning nedan |
+| public static int DividerPos { get; } = 10;          | se klassbeskrivning nedan |
+| public static int GameBoardTitlePos { get; } = 12;   | se klassbeskrivning nedan |
+| public static int GameBoardPiecePos { get; } = 14;   | se klassbeskrivning nedan |
+| public static int GameBoardPos { get; } = 15;        | se klassbeskrivning nedan |
+| public static int PlayerBoardTitlePos { get; } = 19; | se klassbeskrivning nedan |
+| public static int PlayerInfoPos { get; } = 20;       | se klassbeskrivning nedan |
+| public static int PieceBoard1Pos { get; } = 22;      | se klassbeskrivning nedan |
+| public static int PieceBoard2Pos { get; } = 25;      | se klassbeskrivning nedan |
+| public static int PieceBoard3Pos { get; } = 28;      | se klassbeskrivning nedan |
+| public static int PieceBoard4Pos { get; } = 31;      | se klassbeskrivning nedan |
+
+**Klassbeskrivning:** Hjälpklass till DrawGFX och används tillsammans med metoden DrawGFX.SetPosition(pos x, pos y). Positionsvariablar för att skriva text och positionera GFX-element till olika positioner på consolen.
+
+
+
 ## DrawGFX
 
 | Variabler                                | Beskrivning                                             |

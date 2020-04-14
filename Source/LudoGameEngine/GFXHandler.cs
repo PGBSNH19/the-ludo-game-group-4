@@ -25,7 +25,7 @@ namespace LudoGameEngine
         Yellow  //3
     }
 
-    public class GFXPosition
+    public class ConsolePosition
     {
         //ConsolePositions for positioning text and gfx-elements
         public static int InfoPos { get; } = 0;
