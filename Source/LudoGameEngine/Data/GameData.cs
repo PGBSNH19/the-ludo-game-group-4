@@ -2,6 +2,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
+
 namespace LudoGameEngine.Data
 {
     public class GameData
@@ -34,7 +36,7 @@ namespace LudoGameEngine.Data
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"New Session [ {SessionName} ] Created Successfully\n");
                     Console.ResetColor();
-                    Console.Beep(500, 200);
+                    Console.Beep(500, 70);
                 }
                 else
                 {
@@ -142,7 +144,7 @@ namespace LudoGameEngine.Data
                 Context.PlayerSession.Add(ps);
                 Context.SaveChanges();
                 PlayerId = player.PlayerID;
-                Console.Beep(500, 200);
+                Console.Beep(500, 70);
             }
             catch (Exception)
             {
@@ -172,7 +174,7 @@ namespace LudoGameEngine.Data
                 };
                 Context.PlayerPiece.Add(playerP);
                 Context.SaveChanges();
-                Console.Beep(500, 200);
+                Console.Beep(500, 70);
             }
             catch (Exception)
             {
@@ -198,7 +200,7 @@ namespace LudoGameEngine.Data
                     Console.ForegroundColor = ConsoleColor.Blue;
                     Console.WriteLine("Data for high score players are ready\n");
                     Console.ResetColor();
-                    Console.Beep(500, 200);
+                    Console.Beep(500, 20);
                 }
                 foreach (var item in score)
                 {
@@ -324,7 +326,7 @@ namespace LudoGameEngine.Data
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("Position Updated Successfully\n");
                     Console.ResetColor();
-                    Console.Beep(500, 150);
+                    Console.Beep(500, 70);
                 }
             }
             catch (Exception)
@@ -370,7 +372,7 @@ namespace LudoGameEngine.Data
                     Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine($"Congratulation your wining {winnerName.ToUpper()}\nData successfully saved in database");
                     Console.ResetColor();
-                    Console.Beep(500, 200);
+                    WiningMusic();
                 }
             }
             catch (Exception)
@@ -380,6 +382,61 @@ namespace LudoGameEngine.Data
                 Console.ResetColor();
                 Console.Beep(900, 900);
             }
+        }
+        public void WiningMusic()
+        {
+            Thread.Sleep(2000);
+            Console.Beep(264, 125);
+            Thread.Sleep(250);
+            Console.Beep(264, 125);
+            Thread.Sleep(125);
+            Console.Beep(297, 500);
+            Thread.Sleep(125);
+            Console.Beep(264, 500);
+            Thread.Sleep(125);
+            Console.Beep(352, 500);
+            Thread.Sleep(125);
+            Console.Beep(330, 1000);
+            Thread.Sleep(250);
+            Console.Beep(264, 125);
+            Thread.Sleep(250);
+            Console.Beep(264, 125);
+            Thread.Sleep(125);
+            Console.Beep(297, 500);
+            Thread.Sleep(125);
+            Console.Beep(264, 500);
+            Thread.Sleep(125);
+            Console.Beep(396, 500);
+            Thread.Sleep(125);
+            Console.Beep(352, 1000);
+            Thread.Sleep(250);
+            Console.Beep(264, 125);
+            Thread.Sleep(250);
+            Console.Beep(264, 125);
+            Thread.Sleep(125);
+            Console.Beep(2642, 500);
+            Thread.Sleep(125);
+            Console.Beep(440, 500);
+            Thread.Sleep(125);
+            Console.Beep(352, 250);
+            Thread.Sleep(125);
+            Console.Beep(352, 125);
+            Thread.Sleep(125);
+            Console.Beep(330, 500);
+            Thread.Sleep(125);
+            Console.Beep(297, 1000);
+            Thread.Sleep(250);
+            Console.Beep(466, 125);
+            Thread.Sleep(250);
+            Console.Beep(466, 125);
+            Thread.Sleep(125);
+            Console.Beep(440, 500);
+            Thread.Sleep(125);
+            Console.Beep(352, 500);
+            Thread.Sleep(125);
+            Console.Beep(396, 500);
+            Thread.Sleep(125);
+            Console.Beep(352, 1000);
         }
 
         public List<string> ShowAllSession()
