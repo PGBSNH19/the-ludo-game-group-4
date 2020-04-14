@@ -4,11 +4,14 @@
 
 ## DrawGFX
 
+| Enum                     | Beskrivning |
+| ------------------------ | ----------- |
+| public enum BoardGFXItem |             |
+| public enum PieceGFXItem |             |
+| public enum GameColors   |             |
+
 | Variabler                                | Beskrivning |
 | ---------------------------------------- | ----------- |
-| public enum BoardGFXItem                 |             |
-| public enum PieceGFXItem                 |             |
-| public enum GameColors                   |             |
 | public static string GameBoardItem       |             |
 | public static string PieceBoardItem      |             |
 | public static string GameBoardPiecesItem |             |
