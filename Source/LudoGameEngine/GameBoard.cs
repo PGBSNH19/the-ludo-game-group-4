@@ -116,15 +116,19 @@ namespace LudoGameEngine
             }
             else
             {
-                InitializeBoardCoordinates();              
+                InitializeBoardCoordinates();       
+                for(int i = 0; i < GamePlayerAmnt; i++)
+                {
+                    GamePlayers[i].GlobalStartPos = SetColorStartPositon(GamePlayers[i].Color);
+                }
             }
 
-            Console.Clear();
+
 
             //continue gameloop until winner
             while (winner == "")
             {
-                
+               
                 //all the gameplay here
                 for (int i = 0; i < GamePlayerAmnt; i++)
                 {
@@ -496,7 +500,12 @@ namespace LudoGameEngine
                 saveGame = CreateInteractable.OptionMenu(true, saveOptions, 40, gfxInfoPos);
                 if (saveGame == 1)
                 {
-                    SaveGame();
+                    Console.Clear();
+                    DrawGFX.SetDrawPosition(0, 0);
+                    Console.WriteLine("Saving data, please wait...");
+                    DrawGFX.SetDrawPosition(0, 2);
+                    SaveGame();                 
+                    Console.Clear();
                 }
 
             }

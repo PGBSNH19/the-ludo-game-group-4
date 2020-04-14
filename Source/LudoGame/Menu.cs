@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using LudoGameEngine;
 using LudoGameEngine.Data;
@@ -76,6 +77,8 @@ namespace LudoGame
             }
             else
             {
+                DrawGFX.ClearDrawContent(0, 1);
+
                 List<string> sessionOption = Data.ShowAllSession();
                 int loadOption = CreateInteractable.OptionMenu(false, sessionOption, 0, 2);
                 string sessionName = sessionOption[loadOption];
@@ -92,6 +95,7 @@ namespace LudoGame
                     .GroupBy(x => new { x.PlayerName, x.PlayerID, x.Color })
                     .Select(x => x.ToList()).ToList();
 
+                DrawGFX.SetDrawPosition(0, 4);
                 for (int i = 0; i < playerData.Count; i++)
                 {
                     Console.WriteLine("ID: {0} Name: {1} Color: {2}", playerData[i][i].PlayerID, playerData[i][i].PlayerName, playerData[i][i].Color);
@@ -104,6 +108,11 @@ namespace LudoGame
                         Console.WriteLine("Piece ID: {0} Position: {1} ", SessionData[j].PieceID, SessionData[j].Position);
                     }
                 }
+
+                DrawGFX.SetDrawPosition(0, 2);
+                Console.WriteLine("Show loaded gamedata. Game Starts soon. Be ready");
+                Thread.Sleep(5000);               
+                Console.Clear();
                 gb.GamePlayerAmnt = playerAmount.Count();
                 gb.GameLoop();
             }
