@@ -86,10 +86,7 @@ namespace LudoGame
 
                 GameBoard gb = new GameBoard(new GameSession(), false);
                 gb.SessionName = sessionName;
-
                 List<string> playerAmount = new List<string>();
-
-                List<GameData.MyGameData> data = SessionData.Distinct().ToList();
 
                 var playerData = SessionData
                     .GroupBy(x => new { x.PlayerName, x.PlayerID, x.Color })
@@ -98,14 +95,18 @@ namespace LudoGame
                 DrawGFX.SetDrawPosition(0, 4);
                 for (int i = 0; i < playerData.Count; i++)
                 {
+                    Console.ForegroundColor = ConsoleColor.Green;
                     Console.WriteLine("ID: {0} Name: {1} Color: {2}", playerData[i][i].PlayerID, playerData[i][i].PlayerName, playerData[i][i].Color);
+                    Console.ResetColor();
                     playerAmount.Add(playerData[i][i].PlayerName);
                     gb.GamePlayers.Add(new GamePlayer(id: playerData[i][i].PlayerID, name: playerData[i][i].PlayerName, color: playerData[i][i].Color));
 
                     for (int j = 0; j < 4; j++)
                     {
                         gb.GamePlayers[i].Pieces[j].CurrentPos = SessionData[j].Position;
+                        Console.ForegroundColor = ConsoleColor.Blue;
                         Console.WriteLine("Piece ID: {0} Position: {1} ", SessionData[j].PieceID, SessionData[j].Position);
+                        Console.ResetColor();
                     }
                 }
 
