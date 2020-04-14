@@ -103,7 +103,6 @@ namespace LudoGameEngine
                 DrawGFX.ClearDrawContent(0, 3);
                 DrawGFX.ClearDrawContent(0, 1);
 
-                //d.InsertEachPlayerData(i, PlayerName, choosenColor); //inserting player data to DB
             }
 
             return this;

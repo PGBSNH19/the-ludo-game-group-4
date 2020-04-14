@@ -14,18 +14,14 @@ namespace LudoGame
         private static readonly string[] options = 
         {
             "NEW GAME",
-            "CONTINUE (Last saved game)",
             "HIGHSCORE",
             "LOAD GAME",
             "QUIT"
         };
 
-        private static IDictionary<string, int> playerProfiles = new Dictionary<string, int>();
         public static GameData Data = new GameData();
         public static void Display()
         {
-            playerProfiles = LoadHighScoreAsync().Result;
-
             DrawGFX.SetDrawPosition(0, 0);
             Console.WriteLine("Welcome to LudoFrenzy".ToUpper());
 
@@ -47,35 +43,18 @@ namespace LudoGame
 
                     break;
                 case 1:
-                    ContinueLastSavedGame();
+                    DisplayHighScore();
                     break;
                 case 2:
-                    DisplayHighScore(playerProfiles);
-                    break;
-                case 3:
                     LoadSavedGames();
                     break;
-                case 4:
+                case 3:
                     Environment.Exit(0);
                     break;
             }
         }
-      
-        static void ContinueLastSavedGame()
-        {
-            Console.WriteLine("Continue last saved game");
-            ReturnToMenu();
-        }
 
-        static async Task<IDictionary<string, int>> LoadHighScoreAsync()
-        {
-            IDictionary<string, int> tmpProfiles = new Dictionary<string, int>();
-            //tmpProfiles = await database.GetPlayerProfiles();
-
-            return tmpProfiles;
-        }
-
-        static void DisplayHighScore(IDictionary<string, int> dict)
+        static void DisplayHighScore()
         {
             Console.WriteLine("HighScore ");
             Data.ShowHighScore();
