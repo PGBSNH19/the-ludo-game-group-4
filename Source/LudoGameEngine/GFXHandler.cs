@@ -25,13 +25,36 @@ namespace LudoGameEngine
         Yellow  //3
     }
 
+    public class GFXPosition
+    {
+        //ConsolePositions for positioning text and gfx-elements
+        public static int InfoPos { get; } = 0;
+        public static int SubInfoPos { get; } = 1;
+        public static int StatusPos { get; } = 2;
+        public static int ResultPos { get; } = 4;
+        public static int InteractableInfoPos { get; } = 6;
+        public static int InteractablePos { get; } = 8;
+        public static int DividerPos { get; } = 10;
+
+        public static int GameBoardTitlePos { get; } = 12;
+        public static int GameBoardPiecePos { get; } = 14;
+        public static int GameBoardPos { get; } = 15;
+        public static int PlayerBoardTitlePos { get; } = 19;
+        public static int PlayerInfoPos { get; } = 20;
+        public static int PieceBoard1Pos { get; } = 22;
+        public static int PieceBoard2Pos { get; } = 25;
+        public static int PieceBoard3Pos { get; } = 28;
+        public static int PieceBoard4Pos { get; } = 31;
+
+    }
+
     public class DrawGFX
     {
         public static string GameBoardItem { get; } = "(x)";
         public static string PieceBoardItem { get; } = "(#)";
         public static string GameBoardPiecesItem { get; } = "   ";
         public static string PieceOnBoard { get; } = " ▲ ";
-        public static string PieceInNest { get; } = "(▲)";
+        public static string PieceInNest { get; } = "(▲)";       
 
         public static void SetDrawPosition(int posX, int posY)
         {
